@@ -20,7 +20,7 @@ import clsx from 'clsx';
 export default function OrbitConsole() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: '/api/orbit',
-  });
+  }) as any;
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
