@@ -22,6 +22,7 @@ import {
   BarChart3,
   Clock,
   Circle,
+  Code2,
 } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════
@@ -29,19 +30,20 @@ import {
    ═══════════════════════════════════════════════════════════ */
 
 const projects = [
-  { name: "M2 VPN", icon: Shield, status: "live", statusLabel: "Deployed", description: "Sovereign Privacy & Security VPN", color: "#22c55e" },
-  { name: "MASS VWMS", icon: Car, status: "live", statusLabel: "Production", description: "Vehicle Workshop Management System", color: "#22c55e" },
-  { name: "Guurti Portal", icon: Landmark, status: "active", statusLabel: "Migration", description: "Parliamentary Portal — WP → Next.js", color: "#f59e0b" },
-  { name: "Gov Profiles", icon: Globe, status: "planned", statusLabel: "Scaffold", description: "Government Digital Profile Suite + QR", color: "#8b5cf6" },
-  { name: "Moving Ads", icon: Car, status: "ready", statusLabel: "PRD Complete", description: "Mobile Billboard + Creator Economy", color: "#3b82f6" },
-  { name: "Postal Ecosystem", icon: Stamp, status: "research", statusLabel: "Strategy", description: "Phygital Stamps — NFC + Blockchain", color: "#ec4899" },
+  { name: "Smart School SMS", icon: Shield, status: "live", statusLabel: "Active", description: "Next.js + Convex Student Management", color: "#22c55e" },
+  { name: "M2 Creative Machine", icon: Terminal, status: "live", statusLabel: "Deployed", description: "Sovereign AI Command Dashboard", color: "#22c55e" },
+  { name: "Guurti Portal", icon: Landmark, status: "active", statusLabel: "In Progress", description: "House of Elders Legislative Portal", color: "#f59e0b" },
+  { name: "M2 Website", icon: Globe, status: "active", statusLabel: "In Progress", description: "Main Agency Website (Next.js)", color: "#f59e0b" },
+  { name: "M2 NEXUS", icon: Activity, status: "live", statusLabel: "Deployed", description: "Sovereign AI Data Dashboard", color: "#22c55e" },
+  { name: "SNPA Print Intel", icon: FileText, status: "planned", statusLabel: "Scaffolded", description: "SNPA Research Portal Database", color: "#8b5cf6" },
+  { name: "Moving Ads", icon: Car, status: "ready", statusLabel: "Concept", description: "Creator Economy Platform", color: "#3b82f6" },
 ];
 
 const agents = [
-  { name: "Daily Cleanup", icon: Trash2, script: "clear_caches.sh", description: "Clear caches, temp files, log rotation", lastRun: "Jan 25" },
-  { name: "Storage Check", icon: HardDrive, script: "m2_mission_control.sh", description: "System health, disk space, CPU/RAM", lastRun: "Jan 22" },
-  { name: "Content Engine", icon: FileText, script: "m2_content_engine.py", description: "Generate 300 Stories content drafts", lastRun: "Never" },
-  { name: "Photo Organizer", icon: FolderSync, script: "m2_photo_organizer.sh", description: "Sort and organize imported photos", lastRun: "Jan 22" },
+  { name: "Antigravity IDE", icon: Code2, script: "default_api", description: "Maximum Capacity Build Agent", lastRun: "Now" },
+  { name: "DPIA Intel Unit", icon: Cpu, script: "m2_presence_analyzer.py", description: "Digital Presence Audits & Scoring", lastRun: "Feb 20" },
+  { name: "OpenClaw Gateway", icon: Terminal, script: "openclaw skills", description: "Terminal Multi-Agent Hub", lastRun: "Feb 20" },
+  { name: "Daily Systems Check", icon: Shield, script: "m2_daily_check.sh", description: "Clear clutter, check Git, check storage", lastRun: "Today" },
 ];
 
 const contentTiers = [
@@ -112,10 +114,10 @@ function Header() {
 
 function QuickStats() {
   const items = [
-    { label: "Active Projects", value: "6", icon: BarChart3, color: "var(--m2-gold)" },
+    { label: "Active Projects", value: "7", icon: BarChart3, color: "var(--m2-gold)" },
     { label: "Agents Ready", value: "4", icon: Terminal, color: "var(--m2-purple)" },
-    { label: "Content Done", value: "3/300", icon: FileText, color: "var(--m2-blue)" },
-    { label: "Revenue Streams", value: "7", icon: Zap, color: "var(--m2-green)" },
+    { label: "Workspaces", value: "2", icon: HardDrive, color: "var(--m2-blue)" },
+    { label: "Uptime", value: "99.9%", icon: Zap, color: "var(--m2-green)" },
   ];
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
