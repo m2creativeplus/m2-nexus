@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   Activity,
   Cpu,
@@ -96,6 +97,9 @@ function Header() {
         </div>
       </div>
       <div className="flex items-center gap-6">
+        <Link href="/orbit" className="px-4 py-1.5 rounded-full text-xs font-bold font-mono border border-[#EAB308]/30 text-[#EAB308] hover:bg-[#EAB308]/10 transition-colors shadow-[0_0_15px_rgba(234,179,8,0.1)]">
+          [ LAUNCH M2 ORBIT ]
+        </Link>
         <div className="flex items-center gap-2 text-sm" style={{ color: "var(--m2-text-secondary)" }}>
           <span className="w-2 h-2 rounded-full pulse-live" style={{ background: "var(--m2-green)" }} />
           System Online
