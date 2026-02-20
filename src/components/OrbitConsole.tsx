@@ -18,9 +18,7 @@ import {
 import clsx from 'clsx';
 
 export default function OrbitConsole() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/orbit',
-  }) as any;
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as any;
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -140,7 +138,7 @@ export default function OrbitConsole() {
                 </div>
               </motion.div>
             ) : (
-              messages.map((m) => (
+              messages.map((m: any) => (
                 <motion.div
                   initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -199,7 +197,7 @@ export default function OrbitConsole() {
                 />
                 <button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || !input?.trim()}
                 className="mr-2 p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-[#EAB308] transition-all"
                 >
                 <ChevronRight className="w-5 h-5" />
