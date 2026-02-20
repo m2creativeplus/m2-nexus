@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
+/* ===== M2 NEXUS — SOVEREIGN AI DESIGN SYSTEM ===== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core Palette */
+  --m2-void: #0a0e1a;
+  --m2-void-light: #0f172a;
+  --m2-surface: #131b2e;
+  --m2-surface-hover: #1a2540;
+  --m2-border: rgba(251, 191, 36, 0.12);
+  --m2-border-hover: rgba(251, 191, 36, 0.25);
+
+  /* Gold Accent System */
+  --m2-gold: #fbbf24;
+  --m2-gold-dim: rgba(251, 191, 36, 0.6);
+  --m2-gold-glow: rgba(251, 191, 36, 0.15);
+  --m2-gold-subtle: rgba(251, 191, 36, 0.08);
+
+  /* Purple AI Accent */
+  --m2-purple: #8b5cf6;
+  --m2-purple-glow: rgba(139, 92, 246, 0.15);
+
+  /* Status Colors */
+  --m2-green: #22c55e;
+  --m2-red: #ef4444;
+  --m2-blue: #3b82f6;
+  --m2-amber: #f59e0b;
+
+  /* Text */
+  --m2-text-primary: #f8fafc;
+  --m2-text-secondary: #94a3b8;
+  --m2-text-muted: #475569;
+
+  /* Glass */
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(251, 191, 36, 0.1);
+  --glass-blur: 16px;
+
+  /* Sizing */
+  --radius: 16px;
+  --radius-sm: 10px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--m2-void);
+  --color-foreground: var(--m2-text-primary);
+  --color-m2-gold: var(--m2-gold);
+  --color-m2-purple: var(--m2-purple);
+  --color-m2-surface: var(--m2-surface);
+  --color-m2-void: var(--m2-void);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== BASE ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--m2-void);
+  color: var(--m2-text-primary);
+  min-height: 100vh;
+}
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--m2-border-hover);
+  box-shadow: 0 0 30px var(--m2-gold-subtle);
+  transform: translateY(-2px);
+}
+
+/* ===== GOLD GLOW EFFECT ===== */
+.gold-glow {
+  box-shadow: 0 0 20px var(--m2-gold-glow), 0 0 60px var(--m2-gold-subtle);
+}
+
+.gold-text {
+  background: linear-gradient(135deg, var(--m2-gold) 0%, #f59e0b 50%, var(--m2-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== PULSE INDICATOR ===== */
+.pulse-live {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 4px var(--m2-green);
+  }
+
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 12px var(--m2-green);
+  }
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--m2-surface);
+  overflow: hidden;
+}
+
+.status-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease-out;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--m2-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--m2-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--m2-gold-dim);
 }
