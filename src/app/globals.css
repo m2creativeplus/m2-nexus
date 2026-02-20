@@ -4,10 +4,10 @@
 
 :root {
   /* Core Palette */
-  --m2-void: #0a0e1a;
-  --m2-void-light: #0f172a;
-  --m2-surface: #131b2e;
-  --m2-surface-hover: #1a2540;
+  --m2-void: #0f172a;
+  --m2-void-light: #1e293b;
+  --m2-surface: #1e293b;
+  --m2-surface-hover: #334155;
   --m2-border: rgba(251, 191, 36, 0.12);
   --m2-border-hover: rgba(251, 191, 36, 0.25);
 
