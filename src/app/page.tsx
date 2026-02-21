@@ -1,403 +1,44 @@
-"use client";
+import { Header } from "@/components/Header";
+import { QuickStats } from "@/components/QuickStats";
+import { SystemMonitor } from "@/components/SystemMonitor";
+import { ProjectHub } from "@/components/ProjectHub";
+import { AgentCenter } from "@/components/AgentCenter";
+import { ContentMatrix } from "@/components/ContentMatrix";
+import { AvatarSpeaker } from "@/components/AvatarSpeaker";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import {
-  Activity,
-  Cpu,
-  HardDrive,
-  MemoryStick,
-  Zap,
-  Globe,
-  Shield,
-  Car,
-  Landmark,
-  Monitor,
-  Terminal,
-  Play,
-  FileText,
-  BarChart3,
-  Clock,
-  Circle,
-  Code2,
-} from "lucide-react";
-
-/* ═══════════════════════════════════════════════════════════
-   DATA
-   ═══════════════════════════════════════════════════════════ */
-
-const projects = [
-  { name: "Smart School SMS", icon: Shield, status: "live", statusLabel: "Active", description: "Next.js + Convex Student Management", color: "#22c55e" },
-  { name: "M2 Creative Machine", icon: Terminal, status: "live", statusLabel: "Deployed", description: "Sovereign AI Command Dashboard", color: "#22c55e" },
-  { name: "Guurti Portal", icon: Landmark, status: "active", statusLabel: "In Progress", description: "House of Elders Legislative Portal", color: "#f59e0b" },
-  { name: "M2 Website", icon: Globe, status: "active", statusLabel: "In Progress", description: "Main Agency Website (Next.js)", color: "#f59e0b" },
-  { name: "M2 NEXUS", icon: Activity, status: "live", statusLabel: "Deployed", description: "Sovereign AI Data Dashboard", color: "#22c55e" },
-  { name: "SNPA Print Intel", icon: FileText, status: "planned", statusLabel: "Scaffolded", description: "SNPA Research Portal Database", color: "#8b5cf6" },
-  { name: "Moving Ads", icon: Car, status: "ready", statusLabel: "Concept", description: "Creator Economy Platform", color: "#3b82f6" },
-];
-
-const agents = [
-  { name: "Antigravity IDE", icon: Code2, script: "default_api", description: "Maximum Capacity Build Agent", lastRun: "Now" },
-  { name: "DPIA Intel Unit", icon: Cpu, script: "m2_presence_analyzer.py", description: "Digital Presence Audits & Scoring", lastRun: "Feb 20" },
-  { name: "OpenClaw Gateway", icon: Terminal, script: "openclaw skills", description: "Terminal Multi-Agent Hub", lastRun: "Feb 20" },
-  { name: "Daily Systems Check", icon: Shield, script: "m2_daily_check.sh", description: "Clear clutter, check Git, check storage", lastRun: "Today" },
-];
-
-const contentTiers = [
-  { label: "HERO", target: 15, done: 3, color: "#fbbf24" },
-  { label: "HUB", target: 50, done: 0, color: "#3b82f6" },
-  { label: "HYGIENE", target: 235, done: 0, color: "#8b5cf6" },
-];
-
-/* ═══════════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════════ */
-
-function Badge({ status, label, color }: { status: string; label: string; color: string }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
-      style={{ background: `${color}15`, color, border: `1px solid ${color}30` }}>
-      {status === "live"
-        ? <span className="w-1.5 h-1.5 rounded-full pulse-live" style={{ background: color }} />
-        : <Circle className="w-2.5 h-2.5" />}
-      {label}
-    </span>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════════════════════════ */
-
-function Header() {
-  const [time, setTime] = useState("");
-  useEffect(() => {
-    const tick = () => setTime(new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }));
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <header className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: "var(--m2-border)" }}>
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center gold-glow"
-          style={{ background: "linear-gradient(135deg, var(--m2-gold), #f59e0b)" }}>
-          <Zap className="w-5 h-5" style={{ color: "var(--m2-void)" }} />
-        </div>
-        <div>
-          <h1 className="text-xl font-bold tracking-tight gold-text" style={{ fontFamily: "var(--font-outfit), sans-serif" }}>
-            M2 NEXUS
-          </h1>
-          <p className="text-xs" style={{ color: "var(--m2-text-muted)" }}>Sovereign AI Dashboard</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-6">
-        <Link href="/orbit" className="px-4 py-1.5 rounded-full text-xs font-bold font-mono border border-[#EAB308]/30 text-[#EAB308] hover:bg-[#EAB308]/10 transition-colors shadow-[0_0_15px_rgba(234,179,8,0.1)]">
-          [ LAUNCH M2 ORBIT ]
-        </Link>
-        <div className="flex items-center gap-2 text-sm" style={{ color: "var(--m2-text-secondary)" }}>
-          <span className="w-2 h-2 rounded-full pulse-live" style={{ background: "var(--m2-green)" }} />
-          System Online
-        </div>
-        <div className="text-sm font-mono" style={{ color: "var(--m2-gold-dim)" }}>
-          <Clock className="w-3.5 h-3.5 inline mr-1.5" />{time}
-        </div>
-      </div>
-    </header>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   QUICK STATS
-   ═══════════════════════════════════════════════════════════ */
-
-function QuickStats() {
-  const items = [
-    { label: "Active Projects", value: "7", icon: BarChart3, color: "var(--m2-gold)" },
-    { label: "Agents Ready", value: "4", icon: Terminal, color: "var(--m2-purple)" },
-    { label: "Workspaces", value: "2", icon: HardDrive, color: "var(--m2-blue)" },
-    { label: "Uptime", value: "99.9%", icon: Zap, color: "var(--m2-green)" },
-  ];
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {items.map((s, i) => (
-        <motion.div key={s.label} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 * i }}
-          className="glass-card p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `color-mix(in srgb, ${s.color} 15%, transparent)` }}>
-            <s.icon className="w-5 h-5" style={{ color: s.color }} />
-          </div>
-          <div>
-            <div className="text-lg font-bold" style={{ color: s.color, fontFamily: "var(--font-outfit)" }}>{s.value}</div>
-            <div className="text-[10px] uppercase tracking-wider" style={{ color: "var(--m2-text-muted)" }}>{s.label}</div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   SYSTEM MONITOR
-   ═══════════════════════════════════════════════════════════ */
-
-function SystemMonitor() {
-  const [stats, setStats] = useState({ cpu: 0, ram: 0, storage: 0, uptime: "—" });
-  useEffect(() => {
-    const up = () => setStats({ cpu: Math.round(15 + Math.random() * 25), ram: Math.round(55 + Math.random() * 15), storage: 67, uptime: "14d 7h 23m" });
-    up(); const id = setInterval(up, 5000); return () => clearInterval(id);
-  }, []);
-
-  const metrics = [
-    { label: "CPU", value: stats.cpu, icon: Cpu, color: stats.cpu > 80 ? "#ef4444" : "#22c55e", unit: "%" },
-    { label: "RAM", value: stats.ram, icon: MemoryStick, color: stats.ram > 85 ? "#ef4444" : "#f59e0b", unit: "%" },
-    { label: "Storage", value: stats.storage, icon: HardDrive, color: stats.storage > 90 ? "#ef4444" : "#3b82f6", unit: "%" },
-  ];
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <Monitor className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>System Monitor</h2>
-        <span className="ml-auto text-xs" style={{ color: "var(--m2-text-muted)" }}>Uptime: {stats.uptime}</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        {metrics.map((m) => (
-          <div key={m.label} className="rounded-xl p-4" style={{ background: "var(--m2-surface)" }}>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <m.icon className="w-4 h-4" style={{ color: m.color }} />
-                <span className="text-xs font-medium" style={{ color: "var(--m2-text-secondary)" }}>{m.label}</span>
-              </div>
-              <span className="text-lg font-bold tabular-nums" style={{ color: m.color }}>{m.value}<span className="text-xs font-normal">{m.unit}</span></span>
-            </div>
-            <div className="status-bar">
-              <div className="status-bar-fill" style={{ width: `${m.value}%`, background: `linear-gradient(90deg, ${m.color}80, ${m.color})` }} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   PROJECT HUB
-   ═══════════════════════════════════════════════════════════ */
-
-function ProjectHub() {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <BarChart3 className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>Unified Project Hub</h2>
-        <span className="ml-auto text-xs" style={{ color: "var(--m2-text-muted)" }}>{projects.length} Projects</span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {projects.map((p) => (
-          <motion.div key={p.name} whileHover={{ scale: 1.02 }} className="rounded-xl p-4 cursor-pointer transition-all"
-            style={{ background: "var(--m2-surface)", borderLeft: `3px solid ${p.color}` }}>
-            <div className="flex items-start justify-between mb-2">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${p.color}15` }}>
-                  <p.icon className="w-4 h-4" style={{ color: p.color }} />
-                </div>
-                <h3 className="text-sm font-semibold" style={{ color: "var(--m2-text-primary)" }}>{p.name}</h3>
-              </div>
-              <Badge status={p.status} label={p.statusLabel} color={p.color} />
-            </div>
-            <p className="text-xs mt-2 leading-relaxed" style={{ color: "var(--m2-text-muted)" }}>{p.description}</p>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   AGENT COMMAND CENTER & AUTOMATION
-   ═══════════════════════════════════════════════════════════ */
-
-function AgentCenter() {
-  const [masterSwitch, setMasterSwitch] = useState(false);
-  const [running, setRunning] = useState<string | null>(null);
-  
-  const [activityFeed, setActivityFeed] = useState([
-    { id: 1, time: "Just now", agent: "OpenClaw Gateway", action: "Awaiting master activation" },
-    { id: 2, time: "2m ago", agent: "System", action: "Dashboard initialized securely" },
-  ]);
-
-  const handleRun = async (name: string) => { 
-    setRunning(name); 
-    setActivityFeed(prev => [{
-      id: Date.now(),
-      time: "Just now",
-      agent: name,
-      action: "Initiating absolute path background task..."
-    }, ...prev].slice(0, 5));
-    
-    try {
-      const res = await fetch("/api/agents/run", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentName: name })
-      });
-      const data = await res.json();
-      
-      setActivityFeed(prev => [{
-        id: Date.now(),
-        time: "Just now",
-        agent: name,
-        action: data.success ? "Task complete. Core updated." : "Task failed. Check logs."
-      }, ...prev].slice(0, 5));
-    } catch {
-       setActivityFeed(prev => [{
-        id: Date.now(),
-        time: "Just now",
-        agent: name,
-        action: "Execution error: Could not reach agent."
-      }, ...prev].slice(0, 5));
-    } finally {
-      setRunning(null);
-    }
-  };
-
-  const toggleMaster = () => {
-    const nextState = !masterSwitch;
-    setMasterSwitch(nextState);
-    setActivityFeed(prev => [{
-      id: Date.now(),
-      time: "Just now",
-      agent: "CORE",
-      action: nextState ? "BACKGROUND AI AUTOMATION ENABLED. Agents will now run continuously." : "MASTER AUTOMATION DISABLED. Agents suspended."
-    }, ...prev].slice(0, 5));
-  };
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6 flex flex-col h-full">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
-          <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>Automation Center</h2>
-        </div>
-        
-        {/* MASTER SWITCH */}
-        <div className="flex items-center gap-3 bg-m2-void px-3 py-1.5 rounded-lg border border-m2-border/50">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-m2-text-muted">Master Core</span>
-          <button 
-            onClick={toggleMaster}
-            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${masterSwitch ? "bg-m2-green" : "bg-m2-border"}`}
-          >
-            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${masterSwitch ? "translate-x-4" : "translate-x-1"}`} />
-          </button>
-        </div>
-      </div>
-      
-      {/* AGENT LIST */}
-      <div className="space-y-2 mb-6">
-        {agents.map((a) => (
-          <div key={a.name} className="flex items-center gap-4 rounded-xl p-3 transition-colors" style={{ background: "var(--m2-surface)" }}>
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${masterSwitch ? "animate-pulse shadow-[0_0_15px_rgba(34,197,94,0.2)]" : ""}`} style={{ background: masterSwitch ? "var(--m2-green-subtle)" : "var(--m2-purple-glow)" }}>
-              <a.icon className="w-4 h-4" style={{ color: masterSwitch ? "var(--m2-green)" : "var(--m2-purple)" }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium" style={{ color: "var(--m2-text-primary)" }}>{a.name}</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded font-mono bg-m2-void text-m2-text-muted">{a.script}</span>
-              </div>
-              <p className="text-xs truncate text-m2-text-muted">
-                {masterSwitch ? <span className="text-m2-green font-mono text-[10px]">● Running in background...</span> : a.description}
-              </p>
-            </div>
-            {!masterSwitch && (
-              <button onClick={() => handleRun(a.name)} disabled={running === a.name}
-                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all cursor-pointer"
-                style={{ background: running === a.name ? "var(--m2-green)" : "var(--m2-gold-subtle)", border: `1px solid ${running === a.name ? "var(--m2-green)" : "var(--m2-border)"}` }}>
-                {running === a.name
-                  ? <Activity className="w-3.5 h-3.5 text-white animate-pulse" />
-                  : <Play className="w-3.5 h-3.5" style={{ color: "var(--m2-gold)" }} />}
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* LIVE ACTIVITY FEED */}
-      <div className="mt-auto">
-        <h3 className="text-[11px] font-bold uppercase tracking-wider text-m2-text-muted mb-3 flex items-center gap-2">
-          <Activity className="w-3 h-3 text-m2-purple" /> Live Activity Log
-        </h3>
-        <div className="space-y-3 p-3 rounded-lg bg-m2-surface border border-m2-border/30 h-[140px] overflow-hidden">
-          {activityFeed.map((feed) => (
-            <div key={feed.id} className="flex gap-3 text-[11px] border-b border-m2-border/10 pb-2 last:border-0">
-              <span className="font-mono text-m2-text-muted w-12 shrink-0">{feed.time}</span>
-              <span className="font-bold text-m2-gold w-24 shrink-0 truncate">{feed.agent}</span>
-              <span className="text-m2-text-muted truncate">{feed.action}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   CONTENT MATRIX
-   ═══════════════════════════════════════════════════════════ */
-
-function ContentMatrix() {
-  const total = contentTiers.reduce((s, t) => s + t.target, 0);
-  const done = contentTiers.reduce((s, t) => s + t.done, 0);
-  const pct = Math.round((done / total) * 100);
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <FileText className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>300 Stories — Content Matrix</h2>
-        <span className="ml-auto text-sm font-bold gold-text">{done}/{total}</span>
-      </div>
-      <div className="mb-5">
-        <div className="status-bar" style={{ height: 10, borderRadius: 5 }}>
-          <div className="status-bar-fill" style={{ width: `${pct}%`, borderRadius: 5, background: "linear-gradient(90deg, var(--m2-gold), #f59e0b, var(--m2-purple))" }} />
-        </div>
-        <p className="text-[10px] mt-1.5" style={{ color: "var(--m2-text-muted)" }}>{pct}% Complete — {total - done} stories remaining</p>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        {contentTiers.map((t) => (
-          <div key={t.label} className="rounded-xl p-3 text-center" style={{ background: "var(--m2-surface)" }}>
-            <div className="text-2xl font-bold tabular-nums" style={{ color: t.color }}>{t.done}<span className="text-xs font-normal" style={{ color: "var(--m2-text-muted)" }}>/{t.target}</span></div>
-            <p className="text-[10px] mt-1" style={{ color: "var(--m2-text-muted)" }}>{t.label}</p>
-            <div className="status-bar mt-2">
-              <div className="status-bar-fill" style={{ width: `${Math.round((t.done / t.target) * 100)}%`, background: t.color }} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   PAGE
-   ═══════════════════════════════════════════════════════════ */
-
+/**
+ * M2 NEXUS Dashboard
+ * ==================
+ * Refactored to maximum DRY architecture. All logic and layout nodes 
+ * are deferred to the localized component library.
+ */
 export default function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full space-y-6">
+        <div className="mb-6">
+          <AvatarSpeaker 
+            title="M2 Sovereign Intelligence" 
+            caption="Nexus system initialized. Monitoring Guurti and SNPA deployment pipelines."
+            persona="m2-creative"
+            status="ready"
+          />
+        </div>
+        
         <QuickStats />
         <SystemMonitor />
+        
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
           <div className="xl:col-span-3"><ProjectHub /></div>
           <div className="xl:col-span-2"><AgentCenter /></div>
         </div>
+        
         <ContentMatrix />
       </main>
+      
       <footer className="px-8 py-4 text-center text-[10px]" style={{ borderTop: "1px solid var(--m2-border)", color: "var(--m2-text-muted)" }}>
-        M2 NEXUS v1.0 — Powered by M2 Creative &amp; Consulting · Hargeisa, Somaliland · {new Date().getFullYear()}
+        M2 NEXUS v2.0 — Powered by Gemini 2.0 Flash · M2 Creative & Consulting · Hargeisa, Somaliland · {new Date().getFullYear()}
       </footer>
     </div>
   );

@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "Centralized command center for M2 Creative & Consulting. Monitor systems, manage projects, and control automation agents.",
 };
 
+import ConvexClientProvider from "@/components/ConvexClientProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,7 +33,9 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} antialiased bg-[var(--m2-void)] text-[var(--m2-text-primary)]`}
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
-        {children}
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
       </body>
     </html>
   );
