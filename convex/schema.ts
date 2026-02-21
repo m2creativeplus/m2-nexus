@@ -546,4 +546,17 @@ export default defineSchema({
     lastRun: v.string(),
     status: v.optional(v.string()), // "idle" | "running" | "error"
   }),
+
+  // ============ M2 NEXUS AUTONOMY ============
+  liveLogs: defineTable({
+    agent: v.string(),
+    action: v.string(),
+    type: v.string(), // "info" | "success" | "error" | "running"
+  }).index("by_creation_time", ["_creationTime"]),
+
+  systemStats: defineTable({
+    cpu: v.number(),
+    ram: v.number(),
+    storage: v.number(),
+  }),
 });

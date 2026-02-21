@@ -2,7 +2,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Loader2, Shield, Terminal, Cpu, Code2, Play, CheckCircle2, AlertCircle, Activity } from "lucide-react";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { AgentOutputModal } from "./AgentOutputModal";
 
@@ -17,21 +17,41 @@ interface LogEntry {
 export function AgentCenter() {
   const dynamicAgents = useQuery(api.nexus.getAgents);
   const _agents = dynamicAgents || [];
+  
+  // Real Convex query replacing the hardcoded data
+  const rawLogs = useQuery(api.m2_agent.getLogs);
+  const logMutation = useMutation(api.m2_agent.createLog);
 
   const [running, setRunning] = useState<string | null>(null);
   const [output, setOutput] = useState<{ agentName: string; text: string } | null>(null);
-  const [activityFeed, setActivityFeed] = useState<LogEntry[]>([
-    { id: 1, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }), agent: "SYSTEM", action: "M2 NEXUS online. All agents ready.", type: "success" },
-    { id: 2, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }), agent: "Gemini", action: "2.0 Flash API connected. Real agent execution enabled.", type: "info" },
-  ]);
+  const [activityFeed, setActivityFeed] = useState<LogEntry[]>([]);
 
-  const addLog = useCallback((agent: string, action: string, type: LogEntry["type"]) => {
-    setActivityFeed(prev => [{
-      id: Date.now(),
-      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-      agent, action, type
-    }, ...prev].slice(0, 8));
-  }, []);
+  // Sync Convex DB to Local UI State
+  useEffect(() => {
+    if (rawLogs) {
+      setActivityFeed(rawLogs.map(l => ({
+        id: l._creationTime,
+        time: new Date(l._creationTime).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+        agent: l.agent,
+        action: l.action,
+        type: l.type as any
+      })));
+    }
+  }, [rawLogs]);
+
+  const addLog = useCallback(async (agent: string, action: string, type: LogEntry["type"]) => {
+    // Write instantly to the real cloud database if connected
+    if (logMutation) {
+      logMutation({ agent, action, type });
+    } else {
+      // Offline fallback
+      setActivityFeed(prev => [{
+        id: Date.now(),
+        time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+        agent, action, type
+      }, ...prev].slice(0, 8));
+    }
+  }, [logMutation]);
 
   const handleRun = async (name: string) => {
     if (running) return;

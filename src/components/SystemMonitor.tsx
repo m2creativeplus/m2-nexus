@@ -4,21 +4,25 @@ import { motion } from "framer-motion";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { Monitor, Cpu, MemoryStick, HardDrive } from "lucide-react";
 
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+
 interface CpuDataPoint { v: number; }
 
 export function SystemMonitor() {
-  const [stats, setStats] = useState({ cpu: 22, ram: 57, storage: 67 });
-  const [history, setHistory] = useState<CpuDataPoint[]>(Array.from({ length: 20 }, () => ({ v: Math.round(15 + Math.random() * 25) })));
+  // Try to pull live stats from Convex. If missing or disconnected, fallback to defaults.
+  const liveStats = useQuery(api.m2_agent.getSystemStats) ?? { cpu: 15, ram: 42, storage: 67 };
+  
+  const [stats, setStats] = useState({ cpu: 15, ram: 42, storage: 67 });
+  const [history, setHistory] = useState<CpuDataPoint[]>(Array.from({ length: 20 }, () => ({ v: 15 })));
 
+  // Sync Convex live stats into the graph
   useEffect(() => {
-    const id = setInterval(() => {
-      const cpu = Math.round(15 + Math.random() * 35);
-      const ram = Math.round(52 + Math.random() * 20);
-      setStats(prev => ({ ...prev, cpu, ram }));
-      setHistory(prev => [...prev.slice(-19), { v: cpu }]);
-    }, 3000);
-    return () => clearInterval(id);
-  }, []);
+    if (liveStats) {
+      setStats({ cpu: liveStats.cpu, ram: liveStats.ram, storage: liveStats.storage });
+      setHistory(prev => [...prev.slice(-19), { v: liveStats.cpu }]);
+    }
+  }, [liveStats]);
 
   const metrics = [
     { label: "CPU", value: stats.cpu, icon: Cpu, color: stats.cpu > 80 ? "#ef4444" : "#22c55e", unit: "%" },

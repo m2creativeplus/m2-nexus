@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,18 +10,14 @@ const inter = Inter({
 });
 
 const outfit = Outfit({
-  variable: "--font-outfit",
   subsets: ["latin"],
-  display: "swap",
+  variable: '--font-outfit'
 });
 
-export const metadata: Metadata = {
-  title: "M2 NEXUS — Sovereign AI Dashboard",
-  description:
-    "Centralized command center for M2 Creative & Consulting. Monitor systems, manage projects, and control automation agents.",
+export const metadata = {
+  title: "M2 NEXUS",
+  description: "Mahmoud Awaleh Strategic Command Center",
 };
-
-import ConvexClientProvider from "@/components/ConvexClientProvider";
 
 export default function RootLayout({
   children,
@@ -28,11 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${inter.variable} ${outfit.variable} antialiased bg-[var(--m2-void)] text-[var(--m2-text-primary)]`}
-        style={{ fontFamily: "var(--font-inter), sans-serif" }}
-      >
+    <html lang="en">
+      <body className={`${inter.className} ${outfit.variable} antialiased bg-zinc-950 text-white`}>
         <ConvexClientProvider>
           {children}
         </ConvexClientProvider>
