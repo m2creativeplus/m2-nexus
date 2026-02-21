@@ -1,7 +1,7 @@
 'use client';
 // @ts-nocheck
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -18,7 +18,7 @@ import {
 import clsx from 'clsx';
 
 export default function OrbitConsole() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as any;
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as unknown as { messages: { id: string, role: string, content: string }[], input: string, handleInputChange: (e: unknown) => void, handleSubmit: (e: unknown) => void, isLoading: boolean };
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -138,7 +138,7 @@ export default function OrbitConsole() {
                 </div>
               </motion.div>
             ) : (
-              messages.map((m: any) => (
+              messages.map((m: { id: string, role: string, content: string }) => (
                 <motion.div
                   initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}

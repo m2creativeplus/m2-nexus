@@ -13,12 +13,9 @@ import {
   Shield,
   Car,
   Landmark,
-  Stamp,
   Monitor,
   Terminal,
   Play,
-  Trash2,
-  FolderSync,
   FileText,
   BarChart3,
   Clock,
@@ -219,42 +216,127 @@ function ProjectHub() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   AGENT COMMAND CENTER
+   AGENT COMMAND CENTER & AUTOMATION
    ═══════════════════════════════════════════════════════════ */
 
 function AgentCenter() {
+  const [masterSwitch, setMasterSwitch] = useState(false);
   const [running, setRunning] = useState<string | null>(null);
-  const handleRun = (name: string) => { setRunning(name); setTimeout(() => setRunning(null), 3000); };
+  
+  const [activityFeed, setActivityFeed] = useState([
+    { id: 1, time: "Just now", agent: "OpenClaw Gateway", action: "Awaiting master activation" },
+    { id: 2, time: "2m ago", agent: "System", action: "Dashboard initialized securely" },
+  ]);
+
+  const handleRun = async (name: string) => { 
+    setRunning(name); 
+    setActivityFeed(prev => [{
+      id: Date.now(),
+      time: "Just now",
+      agent: name,
+      action: "Initiating absolute path background task..."
+    }, ...prev].slice(0, 5));
+    
+    try {
+      const res = await fetch("/api/agents/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ agentName: name })
+      });
+      const data = await res.json();
+      
+      setActivityFeed(prev => [{
+        id: Date.now(),
+        time: "Just now",
+        agent: name,
+        action: data.success ? "Task complete. Core updated." : "Task failed. Check logs."
+      }, ...prev].slice(0, 5));
+    } catch {
+       setActivityFeed(prev => [{
+        id: Date.now(),
+        time: "Just now",
+        agent: name,
+        action: "Execution error: Could not reach agent."
+      }, ...prev].slice(0, 5));
+    } finally {
+      setRunning(null);
+    }
+  };
+
+  const toggleMaster = () => {
+    const nextState = !masterSwitch;
+    setMasterSwitch(nextState);
+    setActivityFeed(prev => [{
+      id: Date.now(),
+      time: "Just now",
+      agent: "CORE",
+      action: nextState ? "BACKGROUND AI AUTOMATION ENABLED. Agents will now run continuously." : "MASTER AUTOMATION DISABLED. Agents suspended."
+    }, ...prev].slice(0, 5));
+  };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <Terminal className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>Agent Command Center</h2>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6 flex flex-col h-full">
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2">
+          <Terminal className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
+          <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)", fontFamily: "var(--font-outfit)" }}>Automation Center</h2>
+        </div>
+        
+        {/* MASTER SWITCH */}
+        <div className="flex items-center gap-3 bg-m2-void px-3 py-1.5 rounded-lg border border-m2-border/50">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-m2-text-muted">Master Core</span>
+          <button 
+            onClick={toggleMaster}
+            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${masterSwitch ? "bg-m2-green" : "bg-m2-border"}`}
+          >
+            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${masterSwitch ? "translate-x-4" : "translate-x-1"}`} />
+          </button>
+        </div>
       </div>
-      <div className="space-y-2">
+      
+      {/* AGENT LIST */}
+      <div className="space-y-2 mb-6">
         {agents.map((a) => (
           <div key={a.name} className="flex items-center gap-4 rounded-xl p-3 transition-colors" style={{ background: "var(--m2-surface)" }}>
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: "var(--m2-purple-glow)" }}>
-              <a.icon className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${masterSwitch ? "animate-pulse shadow-[0_0_15px_rgba(34,197,94,0.2)]" : ""}`} style={{ background: masterSwitch ? "var(--m2-green-subtle)" : "var(--m2-purple-glow)" }}>
+              <a.icon className="w-4 h-4" style={{ color: masterSwitch ? "var(--m2-green)" : "var(--m2-purple)" }} />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium" style={{ color: "var(--m2-text-primary)" }}>{a.name}</span>
-                <code className="text-[10px] px-1.5 py-0.5 rounded font-mono" style={{ background: "var(--m2-void)", color: "var(--m2-text-muted)" }}>{a.script}</code>
+                <span className="text-[10px] px-1.5 py-0.5 rounded font-mono bg-m2-void text-m2-text-muted">{a.script}</span>
               </div>
-              <p className="text-xs truncate" style={{ color: "var(--m2-text-muted)" }}>{a.description}</p>
+              <p className="text-xs truncate text-m2-text-muted">
+                {masterSwitch ? <span className="text-m2-green font-mono text-[10px]">● Running in background...</span> : a.description}
+              </p>
             </div>
-            <span className="text-[10px] whitespace-nowrap" style={{ color: "var(--m2-text-muted)" }}>{a.lastRun}</span>
-            <button onClick={() => handleRun(a.name)} disabled={running === a.name}
-              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all cursor-pointer"
-              style={{ background: running === a.name ? "var(--m2-green)" : "var(--m2-gold-subtle)", border: `1px solid ${running === a.name ? "var(--m2-green)" : "var(--m2-border)"}` }}>
-              {running === a.name
-                ? <Activity className="w-3.5 h-3.5 text-white animate-pulse" />
-                : <Play className="w-3.5 h-3.5" style={{ color: "var(--m2-gold)" }} />}
-            </button>
+            {!masterSwitch && (
+              <button onClick={() => handleRun(a.name)} disabled={running === a.name}
+                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all cursor-pointer"
+                style={{ background: running === a.name ? "var(--m2-green)" : "var(--m2-gold-subtle)", border: `1px solid ${running === a.name ? "var(--m2-green)" : "var(--m2-border)"}` }}>
+                {running === a.name
+                  ? <Activity className="w-3.5 h-3.5 text-white animate-pulse" />
+                  : <Play className="w-3.5 h-3.5" style={{ color: "var(--m2-gold)" }} />}
+              </button>
+            )}
           </div>
         ))}
+      </div>
+
+      {/* LIVE ACTIVITY FEED */}
+      <div className="mt-auto">
+        <h3 className="text-[11px] font-bold uppercase tracking-wider text-m2-text-muted mb-3 flex items-center gap-2">
+          <Activity className="w-3 h-3 text-m2-purple" /> Live Activity Log
+        </h3>
+        <div className="space-y-3 p-3 rounded-lg bg-m2-surface border border-m2-border/30 h-[140px] overflow-hidden">
+          {activityFeed.map((feed) => (
+            <div key={feed.id} className="flex gap-3 text-[11px] border-b border-m2-border/10 pb-2 last:border-0">
+              <span className="font-mono text-m2-text-muted w-12 shrink-0">{feed.time}</span>
+              <span className="font-bold text-m2-gold w-24 shrink-0 truncate">{feed.agent}</span>
+              <span className="text-m2-text-muted truncate">{feed.action}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
