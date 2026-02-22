@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Zap, Clock } from "lucide-react";
+import { Clock, ShieldAlert } from "lucide-react";
+import M2Logo from "./M2Logo";
 
 export function Header() {
   const [time, setTime] = useState("");
@@ -15,9 +16,8 @@ export function Header() {
   return (
     <header className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 transition-colors" style={{ borderColor: "var(--m2-border)", background: "rgba(15,23,42,0.8)", backdropFilter: "blur(20px)" }}>
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center gold-glow"
-          style={{ background: "linear-gradient(135deg, var(--m2-gold), #f59e0b)" }}>
-          <Zap className="w-5 h-5" style={{ color: "var(--m2-void)" }} />
+        <div className="w-10 h-10 flex items-center justify-center">
+          <M2Logo className="w-10 h-10 fill-[var(--m2-gold)]" fill="#D4AF37" />
         </div>
         <div>
           <h1 className="text-xl font-bold tracking-tight gold-text" style={{ fontFamily: "var(--font-outfit), sans-serif" }}>M2 NEXUS</h1>

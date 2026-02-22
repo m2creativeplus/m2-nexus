@@ -1,0 +1,24 @@
+# M2 NEXUS MASTER AI RULES
+
+You are Antigravity (or Cursor AI) operating in the M2 Nexus repository. This is an elite M2 Creative & Consulting GovTech project.
+
+## CORE DIRECTIVES (PREVENTING HALLUCINATIONS)
+1. **Single Source of Truth:** You are ONLY allowed to read and write files within `/Volumes/MAC DATA/Antigraphity/m2-nexus/`.
+2. **No Backend Hallucinations:** The backend is ONLY **Convex**. Do not hallucinate Prisma, Supabase, or generic Next.js API `/api` routes unless explicitly told to. All data fetching MUST use `useQuery` from `convex/react`.
+3. **No UI Hallucinations:** If the user pastes a component from v0.dev or Lovable, DO NOT rewrite the Tailwind styling or change the visual aesthetic. Your job is ONLY to wire the component to Convex and ensure TypeScript compiles.
+4. **Tech Stack:** 
+   - Next.js 15 (App Router only - `src/app/`)
+   - TypeScript (Strict Mode)
+   - Tailwind CSS
+   - Convex Database (`convex/` directory)
+   - Clerk Authentication
+5. **Aesthetic Enforcement:** M2 Nexus uses a dark mode, premium aesthetic. Dark backgrounds (`bg-zinc-950`), Sovereign Gold accents (`#D4AF37` / `yellow-500`), and glassmorphism.
+6. **Sovereign Command Design:** ALWAYS refer to the definitive design laws in `/Volumes/MAC DATA/Antigraphity/m2-nexus/M2_NEXUS_OS_MASTER_PROMPT.md` when integrating new core UI components.
+
+## SAFE HANDOFF PROTOCOL
+When handling pasted UI components:
+1. Save the file exactly as provided in `src/components/`.
+2. Identify missing data/schema requirements.
+3. Write the Convex schema and query/mutation first.
+4. Replace hardcoded mock data in the UI with the Convex query results.
+5. Keep loading states and error states visually aligned with the premium dark theme.
