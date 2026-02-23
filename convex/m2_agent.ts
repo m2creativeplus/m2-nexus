@@ -43,7 +43,6 @@ export const getLogs = query({
     // Return the 10 most recent agent execution logs globally
     return await ctx.db
       .query("liveLogs")
-      .withIndex("by_creation_time")
       .order("desc")
       .take(10);
   },

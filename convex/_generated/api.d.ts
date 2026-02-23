@@ -25,6 +25,7 @@ import type * as hostel from "../hostel.js";
 import type * as income from "../income.js";
 import type * as inventory from "../inventory.js";
 import type * as library from "../library.js";
+import type * as m2_agent from "../m2_agent.js";
 import type * as news from "../news.js";
 import type * as nexus from "../nexus.js";
 import type * as notifications from "../notifications.js";
@@ -64,6 +65,7 @@ declare const fullApi: ApiFromModules<{
   income: typeof income;
   inventory: typeof inventory;
   library: typeof library;
+  m2_agent: typeof m2_agent;
   news: typeof news;
   nexus: typeof nexus;
   notifications: typeof notifications;

@@ -552,7 +552,7 @@ export default defineSchema({
     agent: v.string(),
     action: v.string(),
     type: v.string(), // "info" | "success" | "error" | "running"
-  }).index("by_creation_time", ["_creationTime"]),
+  }),
 
   systemStats: defineTable({
     cpu: v.number(),

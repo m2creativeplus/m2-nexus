@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Loader2, Shield, Terminal, Cpu, Code2, Play, CheckCircle2, AlertCircle, Activity } from "lucide-react";
 import { useQuery, useMutation } from "convex/react";
