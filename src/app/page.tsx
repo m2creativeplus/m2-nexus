@@ -5,6 +5,7 @@ import { ProjectHub } from "@/components/ProjectHub";
 import { AgentCenter } from "@/components/AgentCenter";
 import { ContentMatrix } from "@/components/ContentMatrix";
 import { AvatarSpeaker } from "@/components/AvatarSpeaker";
+import { PortfolioMatrix } from "@/components/PortfolioMatrix";
 
 /**
  * M2 NEXUS Dashboard
@@ -34,6 +35,7 @@ export default function Dashboard() {
           <div className="xl:col-span-2"><AgentCenter /></div>
         </div>
         
+        <PortfolioMatrix />
         <ContentMatrix />
       </main>
       
