@@ -546,6 +546,13 @@ export default defineSchema({
     embedUrl: v.optional(v.string()), // Iframe embed link
   }),
 
+  contentTiers: defineTable({
+    label: v.string(), // "HERO", "HUB", "HYGIENE"
+    target: v.number(),
+    done: v.number(),
+    color: v.string(),
+  }),
+
   nexusAgents: defineTable({
     name: v.string(),
     icon: v.string(),

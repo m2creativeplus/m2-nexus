@@ -12,6 +12,7 @@ import type * as academicMeta from "../academicMeta.js";
 import type * as additional from "../additional.js";
 import type * as attendance from "../attendance.js";
 import type * as classes from "../classes.js";
+import type * as contentItems from "../contentItems.js";
 import type * as core from "../core.js";
 import type * as dashboard from "../dashboard.js";
 import type * as events from "../events.js";
@@ -53,6 +54,7 @@ declare const fullApi: ApiFromModules<{
   additional: typeof additional;
   attendance: typeof attendance;
   classes: typeof classes;
+  contentItems: typeof contentItems;
   core: typeof core;
   dashboard: typeof dashboard;
   events: typeof events;
