@@ -5,6 +5,7 @@ import { Sparkles, Loader2, Shield, Terminal, Cpu, Code2, Play, CheckCircle2, Al
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { AgentOutputModal } from "./AgentOutputModal";
+import { AgentCard } from "./ui/AgentCard";
 
 interface LogEntry {
   id: number;
@@ -101,36 +102,22 @@ export function AgentCenter() {
           </span>
         </div>
 
-        <div className="space-y-2 mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
           {_agents.map((a: any) => {
-            let IconComp = Shield; // Default
-            if (a.icon === "Terminal") IconComp = Terminal;
-            if (a.icon === "Cpu") IconComp = Cpu;
-            if (a.icon === "Code2") IconComp = Code2;
-
+            const isRunning = running === a.name;
+            const statusType = isRunning ? "processing" : (a.status || "idle");
+            
             return (
-              <div key={a.name} className="flex items-center gap-3 rounded-xl p-3 transition-colors group" style={{ background: "var(--m2-surface)" }}>
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all ${running === a.name ? "animate-pulse" : "group-hover:scale-105"}`}
-                  style={{ background: running === a.name ? "var(--m2-purple-glow)" : "rgba(139,92,246,0.1)" }}>
-                  <IconComp className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium" style={{ color: "var(--m2-text-primary)" }}>{a.name}</span>
-                    <span className="text-[9px] px-1.5 py-0.5 rounded font-mono" style={{ background: "var(--m2-void)", color: "var(--m2-text-muted)" }}>{a.script}</span>
-                  </div>
-                  <p className="text-xs truncate" style={{ color: running === a.name ? "var(--m2-purple)" : "var(--m2-text-muted)" }}>
-                    {running === a.name ? "● Running Gemini intelligence sweep…" : a.description}
-                  </p>
-                </div>
-                <button onClick={() => handleRun(a.name)} disabled={!!running}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                  style={{ background: running === a.name ? "var(--m2-purple-glow)" : "var(--m2-gold-subtle)", border: `1px solid ${running === a.name ? "rgba(139,92,246,0.3)" : "var(--m2-border)"}` }}>
-                  {running === a.name
-                    ? <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: "var(--m2-purple)" }} />
-                    : <Play className="w-3.5 h-3.5" style={{ color: "var(--m2-gold)" }} />}
-                </button>
-              </div>
+              <AgentCard 
+                key={a.name}
+                name={a.name}
+                purpose={a.description}
+                status={statusType}
+                cpuLoad={isRunning ? 85 : 5}
+                lastTask={isRunning ? "Initializing sweep..." : "System ready"}
+                onClick={() => handleRun(a.name)}
+                disabled={!!running}
+              />
             );
           })}
         </div>
