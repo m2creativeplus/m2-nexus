@@ -30,6 +30,7 @@ import type * as news from "../news.js";
 import type * as nexus from "../nexus.js";
 import type * as notifications from "../notifications.js";
 import type * as onlineExam from "../onlineExam.js";
+import type * as portfolio from "../portfolio.js";
 import type * as reports from "../reports.js";
 import type * as sections from "../sections.js";
 import type * as seed from "../seed.js";
@@ -70,6 +71,7 @@ declare const fullApi: ApiFromModules<{
   nexus: typeof nexus;
   notifications: typeof notifications;
   onlineExam: typeof onlineExam;
+  portfolio: typeof portfolio;
   reports: typeof reports;
   sections: typeof sections;
   seed: typeof seed;

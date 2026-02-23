@@ -538,6 +538,14 @@ export default defineSchema({
     priority: v.optional(v.string()), // e.g. "P1"
   }).index("by_status", ["status"]),
 
+  portfolioItems: defineTable({
+    title: v.string(),
+    type: v.string(), // "figma" | "vercel"
+    description: v.string(),
+    url: v.optional(v.string()), // Live deployment link
+    embedUrl: v.optional(v.string()), // Iframe embed link
+  }),
+
   nexusAgents: defineTable({
     name: v.string(),
     icon: v.string(),
