@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { QuickStats } from "@/components/QuickStats";
 import { SystemMonitor } from "@/components/SystemMonitor";
@@ -6,24 +7,63 @@ import { AgentCenter } from "@/components/AgentCenter";
 import { ContentMatrix } from "@/components/ContentMatrix";
 import { AvatarSpeaker } from "@/components/AvatarSpeaker";
 import { PortfolioMatrix } from "@/components/PortfolioMatrix";
+import { AvatarControl } from "@/components/AvatarControl";
 
-/**
- * M2 NEXUS Dashboard
- * ==================
- * Refactored to maximum DRY architecture. All logic and layout nodes 
- * are deferred to the localized component library.
- */
 export default function Dashboard() {
+  const [avatarStatus, setAvatarStatus] = useState<'idle' | 'generating' | 'ready'>('ready');
+  const [avatarVideo, setAvatarVideo] = useState('/avatars/latest_briefing.mp4');
+  const [avatarCaption, setAvatarCaption] = useState('Nexus system initialized. Monitoring Guurti and SNPA deployment pipelines.');
+
+  const handleAvatarCommand = async (text: string) => {
+    setAvatarStatus('generating');
+    setAvatarCaption(text);
+    
+    try {
+      const res = await fetch('/api/did/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, persona: 'mahmoud' })
+      });
+      const data = await res.json();
+      
+      if (!res.ok) throw new Error(data.error);
+      
+      const poll = async () => {
+        const pollRes = await fetch(`/api/did/poll/${data.id}`);
+        const pollData = await pollRes.json();
+        
+        if (pollData.status === 'done') {
+          setAvatarVideo(pollData.result_url);
+          setAvatarStatus('ready');
+        } else if (pollData.status === 'error') {
+          throw new Error("D-ID generation failed");
+        } else {
+          setTimeout(poll, 2000);
+        }
+      };
+      poll();
+    } catch (err) {
+      console.error(err);
+      setAvatarStatus('ready');
+      setAvatarCaption("Error generating intelligence briefing.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full space-y-6">
-        <div className="mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <AvatarSpeaker 
             title="M2 Sovereign Intelligence" 
-            caption="Nexus system initialized. Monitoring Guurti and SNPA deployment pipelines."
-            persona="m2-creative"
-            status="ready"
+            caption={avatarCaption}
+            persona="mahmoud"
+            status={avatarStatus}
+            videoUrl={avatarVideo}
+          />
+          <AvatarControl 
+            onSendMessage={handleAvatarCommand}
+            isGenerating={avatarStatus === 'generating'}
           />
         </div>
         

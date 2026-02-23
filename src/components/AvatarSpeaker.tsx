@@ -17,16 +17,16 @@ type AvatarStatus = 'idle' | 'generating' | 'ready';
 type AvatarPersona = 'mahmoud' | 'm2-creative';
 
 interface AvatarSpeakerProps {
-  /** URL to the generated MP4. Defaults to the auto-generated daily briefing. */
-  videoUrl?: string;
-  /** Status of the video generation process */
-  status?: AvatarStatus;
-  /** Optional subtitle/caption to display over the video */
-  caption?: string;
-  /** Which persona is speaking */
+  /** Persona config */
   persona?: AvatarPersona;
   /** Card header title */
   title?: string;
+  /** Trigger to start generation from parent */
+  onGenerate?: (text: string) => void;
+  /** Current state provided or managed internally */
+  videoUrl?: string;
+  status?: AvatarStatus;
+  caption?: string;
 }
 
 const PERSONA_CONFIG: Record<AvatarPersona, { accent: string; label: string; borderColor: string }> = {
@@ -35,15 +35,24 @@ const PERSONA_CONFIG: Record<AvatarPersona, { accent: string; label: string; bor
 };
 
 export function AvatarSpeaker({
-  videoUrl    = '/avatars/latest_briefing.mp4',
-  status      = 'ready',
-  caption     = 'M2 Avatar System Initialized. Standing by for Nexus Intelligence updates.',
   persona     = 'mahmoud',
   title       = 'Avatar Intelligence Briefing',
+  videoUrl: externalVideoUrl,
+  status: externalStatus,
+  caption: externalCaption,
 }: AvatarSpeakerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted,   setMuted]   = useState(false);
+  
+  // Local state for internal management if not provided by parent
+  const [internalStatus, setInternalStatus] = useState<AvatarStatus>('ready');
+  const [internalVideoUrl, setInternalVideoUrl] = useState('/avatars/latest_briefing.mp4');
+  const [internalCaption, setInternalCaption] = useState('M2 Avatar System Initialized. Standing by for Nexus Intelligence updates.');
+
+  const status = externalStatus || internalStatus;
+  const videoUrl = externalVideoUrl || internalVideoUrl;
+  const caption = externalCaption || internalCaption;
 
   const cfg = PERSONA_CONFIG[persona];
 
