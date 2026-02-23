@@ -13,11 +13,13 @@ export function SystemMonitor() {
   // Try to pull live stats from Convex. If missing or disconnected, fallback to defaults.
   const liveStats = useQuery(api.m2_agent.getSystemStats) ?? { cpu: 15, ram: 42, storage: 67 };
   
+  const [mounted, setMounted] = useState(false);
   const [stats, setStats] = useState({ cpu: 15, ram: 42, storage: 67 });
   const [history, setHistory] = useState<CpuDataPoint[]>(Array.from({ length: 20 }, () => ({ v: 15 })));
 
   // Sync Convex live stats into the graph
   useEffect(() => {
+    setMounted(true);
     if (liveStats) {
       setStats({ cpu: liveStats.cpu, ram: liveStats.ram, storage: liveStats.storage });
       setHistory(prev => [...prev.slice(-19), { v: liveStats.cpu }]);
@@ -52,20 +54,22 @@ export function SystemMonitor() {
             </div>
             {m.label === "CPU" ? (
               <div style={{ height: 40 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={history}>
-                    <defs>
-                      <linearGradient id="cpuGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={m.color} stopOpacity={0.3} />
-                        <stop offset="95%" stopColor={m.color} stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <Tooltip
-                      contentStyle={{ background: "var(--m2-void)", border: "none", borderRadius: 6, fontSize: 10 }}
-                    />
-                    <Area type="monotone" dataKey="v" stroke={m.color} strokeWidth={1.5} fill="url(#cpuGrad)" dot={false} />
-                  </AreaChart>
-                </ResponsiveContainer>
+                {mounted && (
+                  <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+                    <AreaChart data={history}>
+                      <defs>
+                        <linearGradient id="cpuGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={m.color} stopOpacity={0.3} />
+                          <stop offset="95%" stopColor={m.color} stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <Tooltip
+                        contentStyle={{ background: "var(--m2-void)", border: "none", borderRadius: 6, fontSize: 10 }}
+                      />
+                      <Area type="monotone" dataKey="v" stroke={m.color} strokeWidth={1.5} fill="url(#cpuGrad)" dot={false} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             ) : (
               <div className="status-bar">
