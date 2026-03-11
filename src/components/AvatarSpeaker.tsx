@@ -12,6 +12,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Loader2, Bot, Zap } from 'lucide-react';
+import M2Logo from './M2Logo';
 
 type AvatarStatus = 'idle' | 'generating' | 'ready';
 type AvatarPersona = 'mahmoud' | 'm2-creative';
@@ -27,6 +28,8 @@ interface AvatarSpeakerProps {
   videoUrl?: string;
   status?: AvatarStatus;
   caption?: string;
+  /** Optional poster image for the video preview */
+  poster?: string;
 }
 
 const PERSONA_CONFIG: Record<AvatarPersona, { accent: string; label: string; borderColor: string }> = {
@@ -40,6 +43,7 @@ export function AvatarSpeaker({
   videoUrl: externalVideoUrl,
   status: externalStatus,
   caption: externalCaption,
+  poster,
 }: AvatarSpeakerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -73,10 +77,14 @@ export function AvatarSpeaker({
       <div className="flex items-center justify-between px-5 py-3 bg-white/5 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-full flex items-center justify-center"
+            className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden"
             style={{ background: `${cfg.accent}22`, border: `1px solid ${cfg.accent}55` }}
           >
-            <Bot className="w-4 h-4" style={{ color: cfg.accent }} />
+            {persona === 'm2-creative' ? (
+              <M2Logo className="w-5 h-5 fill-[var(--m2-gold)]" fill="#D4AF37" />
+            ) : (
+              <Bot className="w-4 h-4" style={{ color: cfg.accent }} />
+            )}
           </div>
           <div>
             <p className="text-sm font-semibold text-white/90 leading-none">{title}</p>
@@ -128,6 +136,7 @@ export function AvatarSpeaker({
           <video
             ref={videoRef}
             src={videoUrl}
+            poster={poster}
             className="w-full h-full object-cover"
             muted={muted}
             onPlay={() => setPlaying(true)}

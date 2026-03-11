@@ -33,10 +33,10 @@ export function SystemMonitor() {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
+    <motion.section aria-labelledby="system-monitor-title" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
       <div className="flex items-center gap-2 mb-5">
-        <Monitor className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>System Monitor</h2>
+        <Monitor aria-hidden="true" className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
+        <h2 id="system-monitor-title" className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>System Monitor</h2>
         <div className="ml-auto flex items-center gap-2">
           <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: "var(--m2-surface)", color: "var(--m2-green)" }}>LIVE</span>
           <span className="text-xs" style={{ color: "var(--m2-text-muted)" }}>Uptime: 14d 7h 23m</span>
@@ -79,6 +79,6 @@ export function SystemMonitor() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </motion.section>
   );
 }

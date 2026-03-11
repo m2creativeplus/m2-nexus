@@ -25,7 +25,7 @@ export function Header() {
         </div>
       </div>
       <div className="flex items-center gap-6">
-        <Link href="/orbit" className="px-4 py-1.5 rounded-full text-xs font-bold font-mono border border-[#EAB308]/30 text-[#EAB308] hover:bg-[#EAB308]/10 transition-colors shadow-[0_0_15px_rgba(234,179,8,0.1)]">
+        <Link aria-label="Launch M2 Orbit AI Console" href="/orbit" className="px-4 py-1.5 rounded-full text-xs font-bold font-mono border border-[#EAB308]/30 text-[#EAB308] hover:bg-[#EAB308]/10 transition-colors shadow-[0_0_15px_rgba(234,179,8,0.1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EAB308] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
           [ LAUNCH M2 ORBIT ]
         </Link>
         <div className="flex items-center gap-2 text-sm" style={{ color: "var(--m2-text-secondary)" }}>

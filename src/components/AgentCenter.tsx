@@ -6,6 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { AgentOutputModal } from "./AgentOutputModal";
 import { AgentCard } from "./ui/AgentCard";
+import { M2Icon } from "./M2IconSet";
 
 interface LogEntry {
   id: number;
@@ -93,12 +94,12 @@ export function AgentCenter() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6 flex flex-col h-full">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4" style={{ color: "var(--m2-purple)" }} />
-            <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>Gemini Agent Center</h2>
+            <M2Icon className="w-5 h-5 fill-[var(--m2-gold)]" fill="#D4AF37" />
+            <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>Nexus Intelligence Center</h2>
           </div>
-          <span className="text-[10px] flex items-center gap-2 px-2 py-1 rounded-full font-mono" style={{ background: "var(--m2-purple-glow)", color: "var(--m2-purple)", border: "1px solid rgba(139,92,246,0.3)" }}>
+          <span className="text-[10px] flex items-center gap-2 px-2 py-1 rounded-full font-mono bg-[rgba(212,175,55,0.1)] text-[var(--m2-gold)] border border-[rgba(212,175,55,0.3)]">
             {dynamicAgents === undefined && <Loader2 className="w-3 h-3 animate-spin" />}
-            2.0 Flash LIVE
+            SYSTEM OS · 2.0 FLASH
           </span>
         </div>
 
@@ -124,7 +125,7 @@ export function AgentCenter() {
 
         <div className="mt-auto">
           <h3 className="text-[10px] font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: "var(--m2-text-muted)" }}>
-            <Activity className="w-3 h-3" style={{ color: "var(--m2-purple)" }} /> Live Intelligence Log
+            <Activity className="w-3 h-3" style={{ color: "var(--m2-gold)" }} /> Neural Activity Feed
           </h3>
           <div className="space-y-2 p-3 rounded-xl overflow-hidden" style={{ background: "var(--m2-void)", border: "1px solid var(--m2-border)", maxHeight: 160 }}>
             <AnimatePresence initial={false}>

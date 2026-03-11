@@ -32,7 +32,7 @@ export const seedNexusData = mutation({
       { name: "Guurti Portal", icon: "Landmark", status: "active", statusLabel: "In Progress", description: "House of Elders Legislative Portal", color: "#f59e0b", priority: "P1" },
       { name: "M2 Website", icon: "Globe", status: "active", statusLabel: "In Progress", description: "Main Agency Website (Next.js)", color: "#f59e0b", url: "https://m2creative-website.vercel.app", priority: "P2" },
       { name: "M2 NEXUS", icon: "Activity", status: "live", statusLabel: "Deployed", description: "Sovereign AI Data Dashboard", color: "#22c55e", url: "https://m2-nexus.vercel.app", priority: "P1" },
-      { name: "SNPA Print Intel", icon: "FileText", status: "planned", statusLabel: "Scaffolded", description: "SNPA Research Portal Database", color: "#8b5cf6", priority: "P2" },
+      { name: "SNPA Intelligence Hub", icon: "Landmark", status: "live", statusLabel: "Active Mission", description: "Strategic ROI and Negotiation Hub", color: "#D4AF37", url: "/snpa-intelligence", priority: "P1" },
       { name: "Moving Ads", icon: "Car", status: "ready", statusLabel: "Concept", description: "Creator Economy Platform", color: "#3b82f6", priority: "P3" },
     ];
 
