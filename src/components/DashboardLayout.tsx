@@ -1,18 +1,22 @@
 import { Sidebar } from "@/components/Sidebar";
 import { RightPanel } from "@/components/RightPanel";
 import { Header } from "@/components/Header";
+import { SystemStatusBar } from "@/components/SystemStatusBar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-zinc-950">
+    <div className="flex bg-[var(--m2-void)] min-h-screen">
       <Sidebar />
-      <div className="flex-1 ml-[260px] mr-[340px] flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-w-0 md:ml-[260px] xl:mr-[340px] min-h-screen">
         <Header />
-        <div className="flex-1">
+        <SystemStatusBar />
+        <div className="flex-1 min-w-0">
           {children}
         </div>
       </div>
-      <RightPanel />
+      <div className="hidden xl:block">
+        <RightPanel />
+      </div>
     </div>
   );
 }

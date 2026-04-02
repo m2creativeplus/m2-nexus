@@ -10,20 +10,34 @@ import {
   PieChart, 
   FileText, 
   Settings,
-  CircleDot
+  CircleDot,
+  Cpu,
+  Brain,
+  FolderOpen,
+  Activity,
+  Shield,
+  Network
 } from "lucide-react";
 import M2Logo from "./M2Logo";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
+  { label: "Local AI", href: "/lm-studio", icon: Cpu, badge: "LOCAL" },
   { label: "AI Agents", href: "/agents", icon: Users },
+  { label: "Component Library", href: "/library", icon: Network },
+  { label: "SNPA Intelligence", href: "/snpa-intelligence", icon: Brain },
+  { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
   { label: "Automations", href: "/automations", icon: Zap },
   { label: "Campaign Intelligence", href: "/campaign-intelligence", icon: BarChart3 },
   { label: "Moving Ads", href: "/moving-ads", icon: Truck },
   { label: "Analytics", href: "/analytics", icon: PieChart },
   { label: "System Logs", href: "/system-logs", icon: FileText },
+  { label: "MCP Filesystem", href: "/mcp-explorer", icon: FolderOpen },
   { label: "Settings", href: "/settings", icon: Settings },
+];
+
+const adminItems = [
+  { label: "Super Admin", href: "/admin", icon: Shield },
 ];
 
 export function Sidebar() {
@@ -63,6 +77,31 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Admin Section */}
+      <div className="px-4 pb-2">
+        <div className="border-t border-white/5 pt-3 space-y-1">
+          <p className="text-[9px] text-zinc-700 uppercase tracking-widest font-bold px-4 pb-1">Admin</p>
+          {adminItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium transition-all group ${
+                  isActive
+                    ? "bg-amber-500/15 text-amber-400 border-l-2 border-amber-500 shadow-[inset_0_0_20px_rgba(245,158,11,0.08)]"
+                    : "text-zinc-600 hover:bg-white/5 hover:text-amber-400"
+                }`}
+              >
+                <item.icon className={`w-4 h-4 transition-colors ${isActive ? "text-amber-400" : "text-zinc-600 group-hover:text-amber-400"}`} />
+                {item.label}
+                {isActive && <div className="ml-auto"><CircleDot className="w-2 h-2 text-amber-400 animate-pulse" /></div>}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
 
       <div className="p-6 border-t border-white/5">
         <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/5">

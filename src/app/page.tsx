@@ -56,7 +56,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--m2-void)]">
-      <main id="main-content" className="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full space-y-12 focus:outline-none" tabIndex={-1}>
+      <main id="main-content" className="flex-1 p-6 md:p-12 xl:p-16 max-w-[1440px] mx-auto w-full space-y-[5rem] focus:outline-none" tabIndex={-1}>
         
         <M2BannerGolden title="M2 NEXUS INTELLIGENCE" subtitle="Strategic Command & Autonomous Operations" />
         
