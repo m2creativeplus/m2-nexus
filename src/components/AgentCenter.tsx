@@ -1,9 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Loader2, Shield, Terminal, Cpu, Code2, Play, CheckCircle2, AlertCircle, Activity } from "lucide-react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { Sparkles, Loader2, Play, CheckCircle2, AlertCircle, Activity } from "lucide-react";
 import { AgentOutputModal } from "./AgentOutputModal";
 import { AgentCard } from "./ui/AgentCard";
 import { M2Icon } from "./M2IconSet";
@@ -16,44 +14,49 @@ interface LogEntry {
   type: "info" | "success" | "error" | "running";
 }
 
-export function AgentCenter() {
-  const dynamicAgents = useQuery(api.nexus.getAgents);
-  const _agents = dynamicAgents || [];
-  
-  // Real Convex query replacing the hardcoded data
-  const rawLogs = useQuery(api.m2_agent.getLogs);
-  const logMutation = useMutation(api.m2_agent.createLog);
+interface Agent {
+  name: string;
+  description: string;
+  status: string;
+  icon?: string;
+  lastRun?: string;
+}
 
+// Static fallback agents (always works — loaded when Convex isn't available)
+const STATIC_AGENTS: Agent[] = [
+  { name: "Antigravity IDE", description: "Maximum Capacity Build Agent", status: "idle", lastRun: "Ready" },
+  { name: "DPIA Intel Unit", description: "Digital Presence Audits & Scoring", status: "idle", lastRun: "Ready" },
+  { name: "OpenClaw Gateway", description: "Terminal Multi-Agent Hub", status: "idle", lastRun: "Ready" },
+  { name: "Daily Systems Check", description: "Operations & Git Status", status: "idle", lastRun: "Ready" },
+];
+
+export function AgentCenter() {
+  const [agents, setAgents] = useState<Agent[]>(STATIC_AGENTS);
   const [running, setRunning] = useState<string | null>(null);
   const [output, setOutput] = useState<{ agentName: string; text: string } | null>(null);
-  const [activityFeed, setActivityFeed] = useState<LogEntry[]>([]);
+  const [activityFeed, setActivityFeed] = useState<LogEntry[]>([
+    { id: 1, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }), agent: "NEXUS OS", action: "System online — Gemini 2.0 Flash ready", type: "success" },
+  ]);
 
-  // Sync Convex DB to Local UI State
+  // Try to load dynamic agents from API
   useEffect(() => {
-    if (rawLogs) {
-      setActivityFeed(rawLogs.map(l => ({
-        id: l._creationTime,
-        time: new Date(l._creationTime).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-        agent: l.agent,
-        action: l.action,
-        type: l.type as any
-      })));
-    }
-  }, [rawLogs]);
+    fetch("/api/feeds/agents")
+      .then(r => r.json())
+      .then(d => {
+        if (d?.data && Array.isArray(d.data) && d.data.length > 0) {
+          setAgents(d.data);
+        }
+      })
+      .catch(() => {}); // Keep static agents on fail
+  }, []);
 
-  const addLog = useCallback(async (agent: string, action: string, type: LogEntry["type"]) => {
-    // Write instantly to the real cloud database if connected
-    if (logMutation) {
-      logMutation({ agent, action, type });
-    } else {
-      // Offline fallback
-      setActivityFeed(prev => [{
-        id: Date.now(),
-        time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-        agent, action, type
-      }, ...prev].slice(0, 8));
-    }
-  }, [logMutation]);
+  const addLog = useCallback((agent: string, action: string, type: LogEntry["type"]) => {
+    setActivityFeed(prev => [{
+      id: Date.now(),
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+      agent, action, type
+    }, ...prev].slice(0, 8));
+  }, []);
 
   const handleRun = async (name: string) => {
     if (running) return;
@@ -98,24 +101,22 @@ export function AgentCenter() {
             <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>Nexus Intelligence Center</h2>
           </div>
           <span className="text-[10px] flex items-center gap-2 px-2 py-1 rounded-full font-mono bg-[rgba(212,175,55,0.1)] text-[var(--m2-gold)] border border-[rgba(212,175,55,0.3)]">
-            {dynamicAgents === undefined && <Loader2 className="w-3 h-3 animate-spin" />}
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             SYSTEM OS · 2.0 FLASH
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
-          {_agents.map((a: any) => {
+          {agents.map((a) => {
             const isRunning = running === a.name;
-            const statusType = isRunning ? "processing" : (a.status || "idle");
-            
             return (
-              <AgentCard 
+              <AgentCard
                 key={a.name}
                 name={a.name}
                 purpose={a.description}
-                status={statusType}
+                status={isRunning ? "processing" : (a.status || "idle")}
                 cpuLoad={isRunning ? 85 : 5}
-                lastTask={isRunning ? "Initializing sweep..." : "System ready"}
+                lastTask={isRunning ? "Initializing sweep..." : (a.lastRun || "System ready")}
                 onClick={() => handleRun(a.name)}
                 disabled={!!running}
               />
