@@ -114,7 +114,7 @@ export function AgentCenter() {
                 key={a.name}
                 name={a.name}
                 purpose={a.description}
-                status={isRunning ? "processing" : (a.status || "idle")}
+                status={isRunning ? "processing" : ((a.status as "active" | "idle" | "error" | "processing" | "offline") || "idle")}
                 cpuLoad={isRunning ? 85 : 5}
                 lastTask={isRunning ? "Initializing sweep..." : (a.lastRun || "System ready")}
                 onClick={() => handleRun(a.name)}

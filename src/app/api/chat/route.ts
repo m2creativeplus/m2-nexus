@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
 const M2_SYSTEM_PROMPT = `
@@ -43,8 +43,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY not configured" }, { status: 500 });
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      systemInstruction: M2_SYSTEM_PROMPT,
+    });
+
     // Convert message history to Gemini format
     const userMessage = messages[messages.length - 1]?.content || "";
     const history = messages.slice(0, -1).map((m: any) => ({
@@ -52,18 +56,13 @@ export async function POST(req: Request) {
       parts: [{ text: m.content }],
     }));
 
-    const chat = ai.chats.create({
-      model: "gemini-2.0-flash",
-      config: {
-        systemInstruction: M2_SYSTEM_PROMPT,
-        temperature: 0.7,
-        maxOutputTokens: 2048,
-      },
+    const chat = model.startChat({
       history,
+      generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
     });
 
-    const response = await chat.sendMessage({ message: userMessage });
-    const text = response.text ?? "No response generated.";
+    const result = await chat.sendMessage(userMessage);
+    const text = result.response.text() ?? "No response generated.";
 
     // Return as a streaming-compatible response for the AI SDK
     const encoder = new TextEncoder();

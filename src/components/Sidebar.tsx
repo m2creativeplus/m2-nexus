@@ -24,15 +24,15 @@ const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
   { label: "Local AI", href: "/lm-studio", icon: Cpu, badge: "LOCAL" },
   { label: "AI Agents", href: "/agents", icon: Users },
-  { label: "Component Library", href: "/library", icon: Network },
-  { label: "SNPA Intelligence", href: "/snpa-intelligence", icon: Brain },
-  { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
-  { label: "Automations", href: "/automations", icon: Zap },
+  { label: "Project Registry", href: "/projects", icon: FolderOpen },
+  { label: "n8n Workflows", href: "/automations", icon: Zap, badge: "4,343" },
   { label: "Campaign Intelligence", href: "/campaign-intelligence", icon: BarChart3 },
   { label: "Moving Ads", href: "/moving-ads", icon: Truck },
   { label: "Analytics", href: "/analytics", icon: PieChart },
   { label: "System Logs", href: "/system-logs", icon: FileText },
-  { label: "MCP Filesystem", href: "/mcp-explorer", icon: FolderOpen },
+  { label: "SNPA Intelligence", href: "/snpa-intelligence", icon: Brain },
+  { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
+  { label: "Component Library", href: "/library", icon: Network },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -68,6 +68,11 @@ export function Sidebar() {
             >
               <item.icon className={`w-4 h-4 transition-colors ${isActive ? "text-yellow-500" : "text-zinc-500 group-hover:text-white"}`} />
               {item.label}
+              {(item as any).badge && !isActive && (
+                <span className="ml-auto text-[9px] font-mono px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-500/60 border border-yellow-500/20">
+                  {(item as any).badge}
+                </span>
+              )}
               {isActive && (
                 <div className="ml-auto">
                   <CircleDot className="w-2 h-2 text-yellow-500 animate-pulse" />
