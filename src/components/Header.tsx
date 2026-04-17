@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Clock, ShieldAlert } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 import M2Logo from "./M2Logo";
 
 export function Header() {
@@ -32,8 +33,9 @@ export function Header() {
           <span className="w-2 h-2 rounded-full pulse-live" style={{ background: "var(--m2-green)" }} />
           System Online
         </div>
-        <div className="text-sm font-mono" style={{ color: "var(--m2-gold-dim)" }}>
-          <Clock className="w-3.5 h-3.5 inline mr-1.5" />{time}
+        <div className="text-sm font-mono flex items-center gap-4" style={{ color: "var(--m2-gold-dim)" }}>
+          <span><Clock className="w-3.5 h-3.5 inline mr-1.5" />{time}</span>
+          <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 rounded-full border border-[var(--m2-gold)] shadow-[0_0_10px_rgba(234,179,8,0.2)]" } }} />
         </div>
       </div>
     </header>
