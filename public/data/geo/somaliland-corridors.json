@@ -1,0 +1,191 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Berbera Port",
+        "description": "Primary Maritime Hub — DP World Operated",
+        "type": "hub",
+        "importance": "critical",
+        "category": "infrastructure",
+        "color": "#D4AF37",
+        "icon": "port"
+      },
+      "geometry": { "type": "Point", "coordinates": [45.0188, 10.4357] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hargeisa",
+        "description": "Capital & Administrative Center",
+        "type": "capital",
+        "importance": "critical",
+        "category": "administrative",
+        "color": "#0F5132",
+        "icon": "capital"
+      },
+      "geometry": { "type": "Point", "coordinates": [44.0626, 9.5600] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tog-Wajaale",
+        "description": "Ethiopia Border Crossing — Customs Hub",
+        "type": "entry",
+        "importance": "high",
+        "category": "trade",
+        "color": "#b37d14",
+        "icon": "border"
+      },
+      "geometry": { "type": "Point", "coordinates": [43.3384, 9.3741] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Burao",
+        "description": "Togdheer Capital — Livestock Market Hub",
+        "type": "city",
+        "importance": "high",
+        "category": "economic",
+        "color": "#2D5A27",
+        "icon": "city"
+      },
+      "geometry": { "type": "Point", "coordinates": [45.5333, 9.5167] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Borama",
+        "description": "Awdal Capital — Amoud University",
+        "type": "city",
+        "importance": "medium",
+        "category": "administrative",
+        "color": "#3d7a35",
+        "icon": "city"
+      },
+      "geometry": { "type": "Point", "coordinates": [43.1803, 9.9417] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Erigavo",
+        "description": "Sanaag Capital — Highland Region",
+        "type": "city",
+        "importance": "medium",
+        "category": "administrative",
+        "color": "#3d7a35",
+        "icon": "city"
+      },
+      "geometry": { "type": "Point", "coordinates": [47.3667, 10.6167] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Las Anod",
+        "description": "Sool Capital — Eastern Territory",
+        "type": "city",
+        "importance": "medium",
+        "category": "administrative",
+        "color": "#5a9e50",
+        "icon": "city"
+      },
+      "geometry": { "type": "Point", "coordinates": [47.3597, 8.4773] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Berbera Economic Zone",
+        "description": "12 km² Free Trade Zone — DP World",
+        "type": "zone",
+        "importance": "critical",
+        "category": "infrastructure",
+        "color": "#D4AF37"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [44.95, 10.40], [45.10, 10.40], [45.10, 10.47], [44.95, 10.47], [44.95, 10.40]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Berbera Corridor (Main Trade Route)",
+        "description": "260km strategic highway — 30% of Ethiopia's transit cargo",
+        "type": "route",
+        "status": "active",
+        "category": "infrastructure",
+        "color": "#D4AF37"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [45.0188, 10.4357],
+          [44.7500, 10.1000],
+          [44.3500, 9.7500],
+          [44.0626, 9.5600],
+          [43.7000, 9.4500],
+          [43.3384, 9.3741]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Eastern Highway (Burao Link)",
+        "description": "Hargeisa to Burao — livestock transport corridor",
+        "type": "route",
+        "status": "active",
+        "category": "infrastructure",
+        "color": "#5a9e50"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [44.0626, 9.5600],
+          [44.5000, 9.5400],
+          [45.0000, 9.5200],
+          [45.5333, 9.5167]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western Route (Borama Link)",
+        "description": "Hargeisa to Borama — agriculture corridor",
+        "type": "route",
+        "status": "active",
+        "category": "infrastructure",
+        "color": "#3d7a35"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [44.0626, 9.5600],
+          [43.6000, 9.7000],
+          [43.1803, 9.9417]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Somaliland Coastline (Gulf of Aden)",
+        "description": "~740km strategic coastline",
+        "type": "coastline",
+        "category": "sovereignty",
+        "color": "#1a3d16"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [43.3, 11.4], [44.0, 11.1], [45.0, 10.5],
+          [46.0, 10.8], [47.0, 11.0], [48.0, 11.2], [49.0, 11.3]
+        ]
+      }
+    }
+  ]
+}

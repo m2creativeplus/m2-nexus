@@ -574,4 +574,20 @@ export default defineSchema({
     ram: v.number(),
     storage: v.number(),
   }),
+
+  aiTelemetryLogs: defineTable({
+    projectId: v.optional(v.id("nexusProjects")),
+    projectName: v.optional(v.string()), // for easier indexing/fallback
+    agent: v.string(),
+    action: v.string(),
+    message: v.string(),
+    type: v.string(), // info, success, error, mistake, warning
+    mistake: v.optional(v.string()),
+    solution: v.optional(v.string()),
+    enforcedRule: v.optional(v.string()),
+    timeWastedMinutes: v.optional(v.number()),
+    timestamp: v.string(), // ISO
+  }).index("by_project", ["projectId"])
+    .index("by_type", ["type"])
+    .index("by_timestamp", ["timestamp"]),
 });

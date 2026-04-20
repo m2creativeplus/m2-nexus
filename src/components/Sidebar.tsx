@@ -16,7 +16,8 @@ import {
   FolderOpen,
   Activity,
   Shield,
-  Network
+  Network,
+  Globe
 } from "lucide-react";
 import M2Logo from "./M2Logo";
 
@@ -31,6 +32,7 @@ const navItems = [
   { label: "Analytics", href: "/analytics", icon: PieChart },
   { label: "System Logs", href: "/system-logs", icon: FileText },
   { label: "SNPA Intelligence", href: "/snpa-intelligence", icon: Brain },
+  { label: "GeoMind Intelligence", href: "/geomind", icon: Globe, badge: "NEW" },
   { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
   { label: "Component Library", href: "/library", icon: Network },
   { label: "Settings", href: "/settings", icon: Settings },
