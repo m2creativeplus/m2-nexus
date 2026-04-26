@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Header } from "@/components/Header";
 import { LiveLogsFeed } from "@/components/LiveLogsFeed";
 import { SystemMonitor } from "@/components/SystemMonitor";
 import { motion } from "framer-motion";
@@ -71,8 +70,7 @@ export default function SystemLogsPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="flex flex-col h-full">
       <main className="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full space-y-6">
         <div className="flex flex-col gap-2 mb-2">
           <h1 className="text-3xl font-bold tracking-tighter gold-text uppercase">SYSTEM LOGS</h1>
@@ -165,9 +163,6 @@ export default function SystemLogsPage() {
           </div>
         </div>
       </main>
-      <footer className="px-8 py-4 text-center text-[10px]" style={{ borderTop: "1px solid var(--m2-border)", color: "var(--m2-text-muted)" }}>
-        M2 NEXUS v2.0 — Sovereign Activity Log · Real-Time Stream · {new Date().getFullYear()}
-      </footer>
     </div>
   );
 }

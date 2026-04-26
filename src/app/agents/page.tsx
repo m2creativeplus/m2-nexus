@@ -1,12 +1,9 @@
 "use client";
-import { Header } from "@/components/Header";
 import { AgentCenter } from "@/components/AgentCenter";
-import { SystemStatusBar } from "@/components/SystemStatusBar";
 
 export default function AgentsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="flex flex-col h-full">
       <main className="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full space-y-6">
         <div className="flex flex-col gap-2 mb-2">
           <h1 className="text-3xl font-bold tracking-tighter gold-text uppercase">AI AGENTS</h1>
@@ -14,12 +11,8 @@ export default function AgentsPage() {
             Sovereign intelligence units — Architect · Security Auditor · UI Vibe · Strategy · Git Guardian · Deploy Agent
           </p>
         </div>
-        <SystemStatusBar />
         <AgentCenter />
       </main>
-      <footer className="px-8 py-4 text-center text-[10px]" style={{ borderTop: "1px solid var(--m2-border)", color: "var(--m2-text-muted)" }}>
-        M2 NEXUS v2.0 — Powered by Gemini 2.0 Flash · M2 Creative &amp; Consulting · Hargeisa, Somaliland · {new Date().getFullYear()}
-      </footer>
     </div>
   );
 }

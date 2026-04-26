@@ -37,78 +37,12 @@ export default function OrbitConsole() {
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#EAB308] opacity-[0.02] blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Sidebar: Navigation & Status */}
-      <aside className="w-full md:w-64 border-r border-zinc-800 bg-black/30 backdrop-blur-md z-10 flex flex-col justify-between">
-        <div className="p-6">
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 rounded-lg bg-[#EAB308]/10 border border-[#EAB308]/20 flex items-center justify-center">
-              <Globe className="w-6 h-6 text-[#EAB308]" />
-            </div>
-            <div>
-              <h1 className="font-bold text-lg tracking-tight text-white">M2 ORBIT™</h1>
-              <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-medium">Intelligence Console</p>
-            </div>
-          </div>
-
-          <nav className="space-y-1">
-            {[
-              { icon: Search, label: 'Orbit Scan', active: true },
-              { icon: BarChart3, label: 'Orbit Rank', active: false },
-              { icon: ShieldCheck, label: 'Orbit Align', active: false },
-              { icon: Zap, label: 'Orbit Advise', active: false },
-            ].map((item) => (
-              <button 
-                key={item.label}
-                className={clsx(
-                  "w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-                  item.active 
-                    ? "bg-[#EAB308]/10 text-[#EAB308] border border-[#EAB308]/20 shadow-[0_0_15px_rgba(234,179,8,0.1)]" 
-                    : "text-zinc-500 hover:text-white hover:bg-white/5"
-                )}
-              >
-                <item.icon className="w-4 h-4" />
-                <span>{item.label}</span>
-                {item.active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#EAB308] animate-pulse" />}
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        <div className="p-6 border-t border-zinc-800">
-          <div className="flex items-center justify-between text-[10px] text-zinc-500 mb-2">
-            <span>SYSTEM STATUS</span>
-            <span className="text-emerald-500 font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              ONLINE
-            </span>
-          </div>
-          <div className="h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
-            <div className="h-full w-[85%] bg-[#EAB308] rounded-full opacity-50"></div>
-          </div>
-          <div className="mt-2 text-[10px] text-zinc-500 font-mono">
-            V2.0 (ORBIT CLASS) :: CONNECTED
-          </div>
-        </div>
-      </aside>
+      {/* Removed Sidebar to prevent duplication with DashboardLayout */}
 
       {/* Main Console Area */}
       <main className="flex-1 flex flex-col relative z-10 h-screen">
         
-        {/* Header */}
-        <header className="h-16 border-b border-zinc-800 flex items-center px-8 bg-black/80 backdrop-blur-sm sticky top-0">
-          <div className="flex items-center space-x-2 text-sm text-zinc-500">
-            <Terminal className="w-4 h-4" />
-            <span>Console</span>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-zinc-200">Active Session</span>
-          </div>
-          <div className="ml-auto flex items-center space-x-4">
-             <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full border border-[#EAB308]/20 bg-[#EAB308]/5">
-               <Cpu className="w-3 h-3 text-[#EAB308]" />
-               <span className="text-[10px] font-mono font-bold text-[#EAB308]">AI OPTIMIZED</span>
-             </div>
-          </div>
-        </header>
+        {/* Removed Header to prevent duplication */}
 
         {/* Content Area / Chat Stream */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-40 scroll-smooth">
@@ -138,7 +72,7 @@ export default function OrbitConsole() {
                 </div>
               </motion.div>
             ) : (
-              messages.map((m: { id: string, role: string, content: string }) => (
+              messages.map((m: any) => (
                 <motion.div
                   initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -163,6 +97,29 @@ export default function OrbitConsole() {
                     <div className="whitespace-pre-wrap">
                       {m.content}
                     </div>
+                    {/* Tool Invocations UI */}
+                    {m.toolInvocations && m.toolInvocations.length > 0 && (
+                      <div className="mt-4 space-y-2 border-t border-zinc-800/50 pt-3">
+                        {m.toolInvocations.map((tool: any) => (
+                          <div key={tool.toolCallId} className="flex flex-col gap-1 text-[11px] font-mono">
+                            <div className="flex items-center gap-2 text-[#EAB308]/70">
+                              <Command className="w-3 h-3 animate-pulse" />
+                              <span className="uppercase tracking-widest">EXECUTING: {tool.toolName}</span>
+                            </div>
+                            {tool.state === 'result' ? (
+                              <div className="bg-black/40 p-2 rounded border border-zinc-800 text-zinc-400">
+                                <span className="text-emerald-500">✓ SUCCESS:</span> {JSON.stringify(tool.result)}
+                              </div>
+                            ) : (
+                              <div className="bg-black/40 p-2 rounded border border-zinc-800 text-zinc-500 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#EAB308] animate-bounce" />
+                                Awaiting response from M2 Nexus Kernel...
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))

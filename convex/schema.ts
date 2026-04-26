@@ -590,4 +590,13 @@ export default defineSchema({
   }).index("by_project", ["projectId"])
     .index("by_type", ["type"])
     .index("by_timestamp", ["timestamp"]),
+
+  // ============ SEO AUDITS ============
+  seoAudits: defineTable({
+    targetUrl: v.string(),
+    score: v.number(),
+    passedChecks: v.array(v.number()),
+    rating: v.string(), // e.g. "Excellent", "Poor"
+    timestamp: v.string(),
+  }).index("by_url", ["targetUrl"]),
 });
