@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+import { getSiteUrl } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -15,8 +16,10 @@ const outfit = Outfit({
   variable: '--font-outfit'
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://m2-nexus.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "M2 NEXUS — Strategic Command Center",
     template: "%s | M2 NEXUS",
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "M2 NEXUS — Strategic Command Center",
     description: "Sovereign AI-powered operations dashboard by M2 Creative.",
-    url: "https://m2-nexus.vercel.app",
+    url: siteUrl,
     siteName: "M2 NEXUS",
     type: "website",
     locale: "en_US",
@@ -47,6 +50,8 @@ export const metadata: Metadata = {
     description: "Sovereign AI-powered operations dashboard by M2 Creative.",
     creator: "@m2creativeplus",
   },
+  // Private operations dashboard: keep out of public search indexes unless you add
+  // per-route overrides (e.g. a marketing layout) with `robots: { index: true }`.
   robots: {
     index: false,
     follow: false,

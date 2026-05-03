@@ -1,0 +1,41 @@
+/**
+ * Static routes to expose in sitemap.xml.
+ * Excludes: /admin/*, dynamic segments (e.g. /agent/[id]), and API routes.
+ * Keep in sync with real App Router page.tsx files under src/app.
+ */
+export const SITEMAP_PATHS: string[] = [
+  "/",
+  "/login",
+  "/orbit",
+  "/agents",
+  "/projects",
+  "/automations",
+  "/campaign-intelligence",
+  "/moving-ads",
+  "/analytics",
+  "/system-logs",
+  "/snpa-intelligence",
+  "/geomind",
+  "/narrative-monitor",
+  "/brand-showcase",
+  "/library",
+  "/lm-studio",
+  "/models",
+  "/memory",
+  "/telemetry",
+  "/crewai-telemetry",
+  "/seo-audit",
+  "/settings",
+  "/sovereign-builder",
+  "/agent-orchestration",
+  "/control-center",
+  "/intelligence/rankings",
+  "/intelligence/events",
+  "/intelligence/forensics",
+  "/intelligence/community",
+  "/intelligence/knowledge-base",
+  "/intelligence/communications",
+  "/intelligence/stakeholders",
+  "/intelligence/reports",
+  "/intelligence/funding",
+];

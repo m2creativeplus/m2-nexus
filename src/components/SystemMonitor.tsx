@@ -17,9 +17,12 @@ export function SystemMonitor() {
   const [stats, setStats] = useState({ cpu: 15, ram: 42, storage: 67 });
   const [history, setHistory] = useState<CpuDataPoint[]>(Array.from({ length: 20 }, () => ({ v: 15 })));
 
-  // Sync Convex live stats into the graph
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Sync Convex live stats into the graph
+  useEffect(() => {
     if (liveStats) {
       setStats({ cpu: liveStats.cpu, ram: liveStats.ram, storage: liveStats.storage });
       setHistory(prev => [...prev.slice(-19), { v: liveStats.cpu }]);

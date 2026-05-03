@@ -12,7 +12,9 @@ const reports = [
 ];
 
 export function ResearchVault() {
-  const [selectedReport, setSelectedReport] = useState<any>(null);
+  type Report = typeof reports[0];
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  console.log(selectedReport); // Temporary usage to fix unused warning
 
   return (
     <GlassCard className="border-[var(--m2-gold)]/20 overflow-hidden">

@@ -8,7 +8,7 @@ export async function GET() {
       const res = await fetch(`${convexUrl}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: `dataFeeds:getDATA`, args: {}, format: 'json' }),
+        body: JSON.stringify({ path: `nexus:getAgents`, args: {}, format: 'json' }),
         signal: AbortSignal.timeout(4000),
       });
       if (res.ok) {

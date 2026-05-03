@@ -1,14 +1,16 @@
 import { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
+  const base = getSiteUrl();
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/admin/", "/_next/", "/dashboard/"],
+        disallow: ["/api/", "/admin/", "/_next/"],
       },
     ],
-    sitemap: "https://m2-nexus.vercel.app/sitemap.xml",
+    sitemap: `${base}/sitemap.xml`,
   };
 }

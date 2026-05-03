@@ -38,6 +38,15 @@ const agentPrompts: Record<string, { systemPrompt: string; userPrompt: string }>
     2. ONE critical action for today across Guurti EPD and SNPA consulting work
     3. TODAY's content piece to publish (from the 300 Stories pipeline)
     Format as a morning briefing.`
+  },
+  "SAIP Narrative Intel": {
+    systemPrompt: `You are the Sovereign AI Platform (SAIP) Intel Agent for M2 Creative & Consulting.
+    Your objective is to scan digital narratives, geopolitical reports, and media regarding the Republic of Somaliland.
+    You must identify any misleading terminology (e.g., 'breakaway region', 'secessionist') and provide a Sovereign Alignment synthesis.`,
+    userPrompt: `Perform a rapid deep scan of the current global digital narrative regarding Somaliland over the last 24 hours.
+    Identify any 3 recent anomalies or misleading labels from international organizations or media.
+    Provide the extracted label, the status (Accurate, Incomplete, Flagged), and the Recommended Override (AI Synthesis).
+    Format as a structured JSON array of objects with keys: sourceName, sourceType, language, date, labelUsed, accuracyScore, comment, correction, status. Ensure the output is strictly valid JSON.`
   }
 };
 
@@ -96,7 +105,11 @@ export async function POST(request: Request) {
         "Antigravity IDE": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Highest Impact Engineering Task:**\nDeploy `m2-nexus` frontend updates to Vercel to ship current UI iterations.\n**Action:** Run `vercel --prod` in the `m2-nexus` directory.",
         "DPIA Intel Unit": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Digital Presence Audit (Cached):**\n1. Website: 8/10. Action: Add SNPA Case Study.\n2. Social Proof: 7/10. Action: Publish Portfolio updates.\n3. GovTech: 9/10. Action: Deploy Guurti training module.\n4. AI Leadership: 8/10. Action: Post Nexus capabilities on LinkedIn.",
         "OpenClaw Gateway": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Multi-Stream Intelligence:**\n1. Content Gap: Proceed with 'Why I stopped using Purple' (Hygiene tier).\n2. Tools: Use local Flux.1 for image generation.\n3. Viral Post: Write about the integration of ISO 14298 in Somaliland printing standards.",
-        "Daily Systems Check": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Systems Check (Local Mode):**\n- Smart School SMS: 🟢 GREEN\n- M2 NEXUS: 🟢 GREEN\n- Guurti Portal: 🟢 GREEN\n**Critical Action:** Finish M2 NEXUS Dashboard feature deployment."
+        "Daily Systems Check": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Systems Check (Local Mode):**\n- Smart School SMS: 🟢 GREEN\n- M2 NEXUS: 🟢 GREEN\n- Guurti Portal: 🟢 GREEN\n**Critical Action:** Finish M2 NEXUS Dashboard feature deployment.",
+        "SAIP Narrative Intel": JSON.stringify([
+          { sourceName: "BBC News Africa", sourceType: "News Media", language: "English", date: "2026-04-27", labelUsed: "breakaway region", accuracyScore: "Misleading", comment: "Frames Somaliland as rebellious.", correction: "Refer to as 'self-declared state' or 'Somaliland'.", status: "Flagged" },
+          { sourceName: "Wikipedia", sourceType: "Encyclopedia", language: "English", date: "2026-04-27", labelUsed: "de facto state", accuracyScore: "Incomplete", comment: "Neutral but lacks context.", correction: "Add section on 1960 independence.", status: "Needs Edit" }
+        ])
       };
 
       return NextResponse.json({

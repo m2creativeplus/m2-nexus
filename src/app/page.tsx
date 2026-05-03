@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { Landmark, Activity } from "lucide-react";
+import { Landmark, Activity, Code2, Zap, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { QuickStats } from "@/components/QuickStats";
 import { SystemMonitor } from "@/components/SystemMonitor";
 import { ProjectHub } from "@/components/ProjectHub";
@@ -85,7 +86,38 @@ export default function Dashboard() {
         </div>
         
         <QuickStats />
-        
+
+        {/* SOVEREIGN BUILDER QUICK ACCESS */}
+        <section className="relative group">
+          <div className="absolute -inset-px bg-gradient-to-r from-[var(--m2-gold)]/20 via-transparent to-[var(--m2-gold)]/10 rounded-2xl" />
+          <div className="relative flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl bg-[var(--m2-surface)] border border-[var(--m2-gold)]/20">
+            <div className="w-12 h-12 rounded-xl bg-[var(--m2-gold)]/10 border border-[var(--m2-gold)]/20 flex items-center justify-center shrink-0">
+              <Code2 className="w-6 h-6 text-[var(--m2-gold)]" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-bold text-white tracking-tight">Vibecoding Agent</h2>
+              <p className="text-zinc-500 text-sm mt-0.5">AI-powered code generation via Sovereign Engine — build components, pages, and full apps in seconds.</p>
+            </div>
+            <div className="flex gap-3 shrink-0">
+              <a
+                href="https://m2-sovereign-engine.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-xs text-zinc-400 hover:text-white hover:border-white/20 transition-all"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Open App
+              </a>
+              <Link
+                href="/sovereign-builder"
+                className="flex items-center gap-2 px-5 py-2 rounded-lg text-black text-xs font-bold transition-all hover:scale-105 active:scale-95"
+                style={{ background: "linear-gradient(135deg, #D4AF37, #f59e0b)" }}
+              >
+                <Zap className="w-3.5 h-3.5" /> Launch Builder
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* INTERACTIVE DATA MATRIX */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">

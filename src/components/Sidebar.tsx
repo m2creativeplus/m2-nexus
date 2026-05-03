@@ -14,10 +14,10 @@ import {
   Cpu,
   Brain,
   FolderOpen,
-  Activity,
   Shield,
   Network,
-  Globe
+  Globe,
+  Search
 } from "lucide-react";
 import M2Logo from "./M2Logo";
 
@@ -33,7 +33,9 @@ const navItems = [
   { label: "System Logs", href: "/system-logs", icon: FileText },
   { label: "SNPA Intelligence", href: "/snpa-intelligence", icon: Brain },
   { label: "GeoMind Intelligence", href: "/geomind", icon: Globe, badge: "NEW" },
+  { label: "Narrative Monitor", href: "/narrative-monitor", icon: Shield, badge: "AI" },
   { label: "Brand Showcase", href: "/brand-showcase", icon: CircleDot },
+  { label: "SEO Audit", href: "/seo-audit", icon: Search },
   { label: "Component Library", href: "/library", icon: Network },
   { label: "Settings", href: "/settings", icon: Settings },
 ];

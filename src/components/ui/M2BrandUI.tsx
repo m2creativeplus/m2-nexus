@@ -5,7 +5,13 @@ import M2Logo from "../M2Logo";
 // 1. BUTTONS
 // ==========================================
 
-export function ButtonPrimary({ children, onClick, disabled }: any) {
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+export function ButtonPrimary({ children, onClick, disabled }: ButtonProps) {
   return (
     <button 
       onClick={onClick} 
@@ -18,7 +24,7 @@ export function ButtonPrimary({ children, onClick, disabled }: any) {
   );
 }
 
-export function ButtonSecondary({ children, onClick, disabled }: any) {
+export function ButtonSecondary({ children, onClick, disabled }: ButtonProps) {
   return (
     <button 
       onClick={onClick} 
@@ -35,7 +41,12 @@ export function ButtonSecondary({ children, onClick, disabled }: any) {
 // 2. CARDS & CONTAINERS
 // ==========================================
 
-export function GlassCard({ children, className = "" }: any) {
+interface GlassCardProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function GlassCard({ children, className = "" }: GlassCardProps) {
   return (
     <div className={`rounded-xl p-6 ${className}`}
          style={{ 
@@ -49,7 +60,13 @@ export function GlassCard({ children, className = "" }: any) {
   );
 }
 
-export function FeatureCard({ title, description, icon: Icon }: any) {
+interface FeatureCardProps {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+}
+
+export function FeatureCard({ title, description, icon: Icon }: FeatureCardProps) {
   return (
     <GlassCard className="flex flex-col gap-4 hover:border-[var(--m2-gold)] transition-colors group">
       <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-[rgba(212,175,55,0.1)] group-hover:bg-[rgba(212,175,55,0.2)] transition-colors">
@@ -67,7 +84,11 @@ export function FeatureCard({ title, description, icon: Icon }: any) {
 // 3. TYPOGRAPHY & HEADINGS
 // ==========================================
 
-export function Heading1({ children }: any) {
+interface HeadingProps {
+  children: React.ReactNode;
+}
+
+export function Heading1({ children }: HeadingProps) {
   return (
     <h1 className="text-5xl md:text-7xl font-bold tracking-tighter" style={{ fontFamily: "var(--font-outfit), sans-serif", color: "white" }}>
       {children}
@@ -75,7 +96,7 @@ export function Heading1({ children }: any) {
   );
 }
 
-export function Subheading({ children }: any) {
+export function Subheading({ children }: HeadingProps) {
   return (
     <p className="text-lg md:text-xl font-medium" style={{ color: "var(--m2-text-secondary)" }}>
       {children}
@@ -87,7 +108,13 @@ export function Subheading({ children }: any) {
 // 4. FORMS & INPUTS
 // ==========================================
 
-export function InputField({ label, type = "text", placeholder }: any) {
+interface InputFieldProps {
+  label: string;
+  type?: string;
+  placeholder?: string;
+}
+
+export function InputField({ label, type = "text", placeholder }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold uppercase tracking-wider text-[var(--m2-text-muted)]">{label}</label>
@@ -104,7 +131,13 @@ export function InputField({ label, type = "text", placeholder }: any) {
 // 5. SECTIONS / VIEWS
 // ==========================================
 
-export function HeroSection({ title, subtitle, ctaText }: any) {
+interface HeroSectionProps {
+  title: React.ReactNode;
+  subtitle: React.ReactNode;
+  ctaText: React.ReactNode;
+}
+
+export function HeroSection({ title, subtitle, ctaText }: HeroSectionProps) {
   return (
     <section className="flex flex-col items-center justify-center text-center py-32 px-4 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--m2-gold)] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />

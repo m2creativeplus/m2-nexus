@@ -27,21 +27,32 @@ export function SystemStatusBar() {
   }
 
   useEffect(() => {
-    refresh();
-    const iv = setInterval(refresh, 15_000);
-    return () => clearInterval(iv);
+    let mounted = true;
+    const fetchStatus = async () => {
+      try {
+        const r = await fetch("/api/system/health");
+        const d = await r.json();
+        if (mounted) setStatus(d);
+      } catch {}
+    };
+    fetchStatus();
+    const iv = setInterval(fetchStatus, 15_000);
+    return () => {
+      mounted = false;
+      clearInterval(iv);
+    };
   }, []);
 
-  if (!status) return null;
+  if (!status || (status as any).error) return null;
 
   const pills = [
-    { label: "LM Studio", ok: status.lmStudio.online, icon: Cpu, detail: `${status.lmStudio.models.length} model${status.lmStudio.models.length !== 1 ? "s" : ""}` },
-    { label: "OpenClaw", ok: status.openClaw.online, icon: Brain, detail: `Port ${status.openClaw.port}` },
-    { label: "Convex DB", ok: status.convex.connected, icon: Database, detail: "Cloud DB" },
-    { label: "MCP FS", ok: status.mcp.filesystem, icon: ShieldCheck, detail: "Filesystem" },
-    { label: "RAG v1", ok: status.plugins.ragV1, icon: Brain, detail: "LMS Plugin" },
-    { label: "JS Sandbox", ok: status.plugins.jsCodeSandbox, icon: Code2, detail: "LMS Plugin" },
-    { label: "Data Lake", ok: status.sovereignDataLake.docCount > 0, icon: Database, detail: `${status.sovereignDataLake.docCount} docs` },
+    { label: "LM Studio", ok: status.lmStudio?.online, icon: Cpu, detail: `${status.lmStudio?.models?.length || 0} model${status.lmStudio?.models?.length !== 1 ? "s" : ""}` },
+    { label: "OpenClaw", ok: status.openClaw?.online, icon: Brain, detail: `Port ${status.openClaw?.port || 0}` },
+    { label: "Convex DB", ok: status.convex?.connected, icon: Database, detail: "Cloud DB" },
+    { label: "MCP FS", ok: status.mcp?.filesystem, icon: ShieldCheck, detail: "Filesystem" },
+    { label: "RAG v1", ok: status.plugins?.ragV1, icon: Brain, detail: "LMS Plugin" },
+    { label: "JS Sandbox", ok: status.plugins?.jsCodeSandbox, icon: Code2, detail: "LMS Plugin" },
+    { label: "Data Lake", ok: (status.sovereignDataLake?.docCount || 0) > 0, icon: Database, detail: `${status.sovereignDataLake?.docCount || 0} docs` },
   ];
 
   return (
