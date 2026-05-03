@@ -591,6 +591,31 @@ export default defineSchema({
     .index("by_type", ["type"])
     .index("by_timestamp", ["timestamp"]),
 
+  // ============ CONTROL PLANE: JOB QUEUE ============
+  jobs: defineTable({
+    kind: v.string(), // e.g. "agent.run", "audit.telemetry", ...
+    status: v.union(
+      v.literal("queued"),
+      v.literal("running"),
+      v.literal("succeeded"),
+      v.literal("failed"),
+      v.literal("cancelled")
+    ),
+    priority: v.optional(v.number()), // higher = sooner
+    attempts: v.number(),
+    maxAttempts: v.number(),
+    runAt: v.number(), // unix ms
+    lockedUntil: v.optional(v.number()), // unix ms (lease)
+    lastError: v.optional(v.string()),
+    payload: v.optional(v.any()), // intentionally flexible; validate per kind in code
+    createdByClerkId: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_run_at", ["runAt"])
+    .index("by_status_run_at", ["status", "runAt"]),
+
   // ============ SEO AUDITS ============
   seoAudits: defineTable({
     targetUrl: v.string(),
@@ -599,4 +624,144 @@ export default defineSchema({
     rating: v.string(), // e.g. "Excellent", "Poor"
     timestamp: v.string(),
   }).index("by_url", ["targetUrl"]),
+
+  // ============ SSIAS v2: SOVEREIGN EVENT INTELLIGENCE OS ============
+  ssiasEvents: defineTable({
+    title: v.string(),
+    description: v.optional(v.string()),
+    source: v.string(), // e.g., 'UN_API', 'AU_CALENDAR', 'AGENT_SCAN'
+    startDate: v.number(), // Unix timestamp
+    endDate: v.number(),
+    location: v.string(),
+    country: v.optional(v.string()),
+    sector: v.union(
+      v.literal("DIPLOMACY"), 
+      v.literal("ECONOMY"), 
+      v.literal("SECURITY"), 
+      v.literal("TECHNOLOGY"),
+      v.literal("CULTURE"),
+      v.literal("GOVERNANCE"),
+      v.literal("UNKNOWN")
+    ),
+    status: v.union(
+      v.literal("SCANNED"), 
+      v.literal("ANALYZED"), 
+      v.literal("RECOMMENDED"), 
+      v.literal("ASSIGNED"), 
+      v.literal("REJECTED")
+    ),
+    estimatedDelegates: v.optional(v.number()),
+    organizer: v.optional(v.string()),
+    website: v.optional(v.string()),
+    metadata: v.optional(v.any()), // Raw JSON payload from AI agents
+  }).index("by_date", ["startDate"]).index("by_sector", ["sector"]),
+
+  ssiasEventScores: defineTable({
+    eventId: v.id("ssiasEvents"),
+    totalSovereignIndex: v.number(), // The final 0-100 ranking score
+    globalRank: v.optional(v.number()),
+    africaRank: v.optional(v.number()),
+    priorityLevel: v.string(), // HIGH, MEDIUM, LOW
+    
+    // Agent Formula Variables
+    economicImpact: v.number(),   // 30%
+    diplomaticValue: v.number(),  // 25%
+    investmentPotential: v.number(), // 20%
+    mediaReach: v.number(),       // 15%
+    tourismImpact: v.number(),    // 10%
+    riskFactor: v.optional(v.number()), // Deductions
+    
+    lastCalculatedAt: v.number(),
+    calculatedByAgentId: v.optional(v.string()),
+  }).index("by_event", ["eventId"]).index("by_score", ["totalSovereignIndex"]),
+
+  ssiasFunding: defineTable({
+    eventId: v.id("ssiasEvents"),
+    sponsorName: v.string(),
+    sponsorType: v.string(), // corporate / NGO / government
+    industry: v.string(),
+    estimatedSponsorshipValue: v.number(),
+    contactProbability: v.string(), // low/medium/high
+  }).index("by_event", ["eventId"]),
+
+  ssiasAgents: defineTable({
+    name: v.string(),
+    role: v.string(),
+    status: v.union(v.literal("IDLE"), v.literal("RUNNING"), v.literal("ERROR")),
+    lastRunAt: v.optional(v.number()),
+    successRate: v.optional(v.number()),
+  }),
+
+  ssiasAgentExecutions: defineTable({
+    agentName: v.string(),
+    eventId: v.optional(v.id("ssiasEvents")),
+    status: v.union(v.literal("SUCCESS"), v.literal("FAILED")),
+    output: v.any(), // JSON output from the specific agent
+    executionTimeMs: v.number(),
+    timestamp: v.number(),
+  }).index("by_agent", ["agentName"]),
+
+  // ============ SSIAS v2: EXPANDED PLATFORM FEATURES ============
+  
+  ssiasCategories: defineTable({
+    name: v.string(),
+    type: v.string(), // "CATEGORY" or "SUBCATEGORY"
+    parentId: v.optional(v.id("ssiasCategories")),
+    description: v.optional(v.string()),
+  }),
+
+  ssiasStakeholders: defineTable({
+    name: v.string(),
+    type: v.union(v.literal("GOVERNMENT"), v.literal("NGO"), v.literal("DIPLOMATIC"), v.literal("CORPORATE")),
+    role: v.string(),
+    contactPerson: v.optional(v.string()),
+    email: v.optional(v.string()),
+    phone: v.optional(v.string()),
+    country: v.optional(v.string()),
+  }),
+
+  ssiasKnowledgeBase: defineTable({
+    title: v.string(),
+    type: v.union(v.literal("ARTICLE"), v.literal("POLICY"), v.literal("REPORT"), v.literal("RESEARCH")),
+    content: v.string(),
+    authorId: v.optional(v.string()), // Clerk ID
+    published: v.boolean(),
+    date: v.number(),
+  }),
+
+  ssiasMessages: defineTable({
+    senderId: v.string(),
+    receiverId: v.optional(v.string()), // Optional for group/broadcast
+    groupId: v.optional(v.string()),
+    subject: v.optional(v.string()),
+    body: v.string(),
+    isRead: v.boolean(),
+    timestamp: v.number(),
+  }),
+
+  ssiasReviews: defineTable({
+    eventId: v.id("ssiasEvents"),
+    userId: v.string(),
+    rating: v.number(), // 1-5
+    comment: v.string(),
+    timestamp: v.number(),
+  }),
+
+  ssiasReports: defineTable({
+    title: v.string(),
+    type: v.union(v.literal("CSV"), v.literal("JSON"), v.literal("PDF")),
+    fileUrl: v.string(),
+    generatedBy: v.string(), // Clerk ID or "SYSTEM_AGENT"
+    timestamp: v.number(),
+  }),
+
+  ssiasAuditLog: defineTable({
+    actorId: v.string(), // Clerk User ID or "SYSTEM"
+    action: v.string(), // e.g., "DELETED_EVENT", "CHANGED_THEME"
+    resourceType: v.string(), // "EVENT", "SETTINGS", "USER"
+    resourceId: v.optional(v.string()),
+    details: v.any(), // JSON payload of what changed
+    timestamp: v.number(),
+  }),
+
 });
