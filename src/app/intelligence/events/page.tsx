@@ -36,7 +36,7 @@ export default function EventsPage() {
   const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
-    let d = EVENTS.filter(e => {
+    const d = EVENTS.filter(e => {
       const s = search === '' || e.title.toLowerCase().includes(search.toLowerCase()) || e.location.toLowerCase().includes(search.toLowerCase());
       const sec = sector === 'All' || e.sector === sector;
       const reg = region === 'All Regions' || e.region === region;

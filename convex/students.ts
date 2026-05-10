@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { Id, Doc } from "./_generated/dataModel";
@@ -11,13 +11,16 @@ export const list = query({
     search: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    let q: any = ctx.db.query("students");
+    let students: Doc<"students">[];
 
     if (args.classId) {
-      q = q.withIndex("by_class", (q) => q.eq("classId", args.classId as Id<"classes">));
+      students = await ctx.db
+        .query("students")
+        .withIndex("by_class", (q) => q.eq("classId", args.classId as Id<"classes">))
+        .collect();
+    } else {
+      students = await ctx.db.query("students").collect();
     }
-
-    let students: Doc<"students">[] = await q.collect();
 
     // In-memory filtering for section and search (Convex filters coming soon for relations)
     if (args.sectionId) {
@@ -41,8 +44,8 @@ export const list = query({
         const section = await ctx.db.get(s.sectionId);
         return {
           ...s,
-          className: (cls as any)?.name || "Unknown",
-          sectionName: (section as any)?.name || "Unknown",
+          className: cls?.name || "Unknown",
+          sectionName: section?.name || "Unknown",
         };
       })
     );

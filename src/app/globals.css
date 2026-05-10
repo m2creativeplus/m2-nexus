@@ -237,6 +237,26 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@keyframes flux {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-flux {
+  background: linear-gradient(-45deg, #09090b, #111114, #18181b, #0c0c0e);
+  background-size: 400% 400%;
+  animation: flux 15s ease infinite;
+}
+
+.glass-card-neon {
+  background: rgba(212, 175, 55, 0.03);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--m2-border);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
 /* ===== STATUS BAR ===== */
 .status-bar {
   height: 6px;

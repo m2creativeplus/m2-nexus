@@ -10,7 +10,7 @@ async function run(cmd: string): Promise<string> {
     const { stdout } = await execAsync(cmd, { timeout: 10000 });
     return stdout.trim();
   } catch (e: unknown) {
-    // grep returns exit code 1 when no matches — that's fine
+    // grep returns exit code 1 when no matches — that&apos;s fine
     if (e && typeof e === 'object' && 'stdout' in e) return (e as { stdout: string }).stdout?.trim() ?? '';
     return '';
   }

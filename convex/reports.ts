@@ -80,7 +80,7 @@ export const getStudentAttendanceSummary = query({
     // Get all students (optionally filtered by class)
     let students = await ctx.db.query("students");
     if (args.classId) {
-       // @ts-ignore
+       // @ts-expect-error -- dynamic property access
       students = students.withIndex("by_class", q => q.eq("classId", args.classId));
     }
     const studentList = await students.collect();

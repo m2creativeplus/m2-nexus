@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useAgentActivity } from '@/hooks/useDataFeeds';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import { Cpu, Zap } from 'lucide-react';
 
 interface Agent {
@@ -14,11 +15,17 @@ interface Agent {
   recentLogs?: Array<{ agent: string; action: string; type: string }>;
 }
 
-export function AgentActivityMonitor() {
-  const { data, loading } = useAgentActivity();
-  const agents = (data as any[]) || [];
+interface Log {
+  agent: string;
+  action: string;
+  type: string;
+}
 
-  if (loading && !agents.length) {
+export function AgentActivityMonitor() {
+  const agents = useQuery(api.agents.getAgents) as Agent[] | undefined;
+  const logs = useQuery(api.agents.getLiveLogs) as Log[] | undefined;
+
+  if (agents === undefined) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -51,12 +58,12 @@ export function AgentActivityMonitor() {
             color: 'var(--m2-green)',
           }}
         >
-          {agents.filter((a: Agent) => a.status === 'running').length} active
+          {(agents || []).filter((a: Agent) => a.status === 'running').length} active
         </span>
       </div>
 
       <div className="space-y-2">
-        {agents.map((agent: Agent, i: number) => (
+        {(agents || []).map((agent: Agent, i: number) => (
           <motion.div
             key={agent.name}
             initial={{ opacity: 0, x: -10 }}
@@ -107,9 +114,9 @@ export function AgentActivityMonitor() {
               </div>
             </div>
 
-            {agent.recentLogs && agent.recentLogs.length > 0 && (
+            {(logs || []).filter((l: Log) => l.agent === agent.name).length > 0 && (
               <div className="mt-2 pt-2 border-t border-white/10 space-y-1">
-                {agent.recentLogs.slice(0, 2).map((log, j) => (
+                {(logs || []).filter((l: Log) => l.agent === agent.name).slice(0, 2).map((log: Log, j: number) => (
                   <div key={j} className="text-[10px]" style={{ color: 'var(--m2-text-muted)' }}>
                     → {log.action}
                   </div>

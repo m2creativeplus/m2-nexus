@@ -50,9 +50,10 @@ export async function generateAvatarVideo(scriptText: string, persona: "mahmoud"
 
     const data = await response.json();
     return { success: true, id: data.id };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("D-ID Generation Error:", error);
-    return { success: false, error: error.message };
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return { success: false, error: message };
   }
 }
 
@@ -83,8 +84,9 @@ export async function checkAvatarStatus(id: string) {
       result_url: data.result_url || null,
       error: data.error // sometimes D-ID populates an inner error object if generation fails
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("D-ID Polling Error:", error);
-    return { success: false, error: error.message };
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return { success: false, error: message };
   }
 }

@@ -96,11 +96,14 @@ export async function POST(request: Request) {
       model: "gemini-2.0-flash",
     });
 
-  } catch (error: any) {
-    console.error("Agent execution error:", error);
+  } catch (err: unknown) {
+    console.error("Agent execution error:", err);
+    
+    const errorResponse = err as { status?: number };
+    const errorMessage = err instanceof Error ? err.message : "";
 
     // M2 Sovereign Fallback for API Rate Limits
-    if (error?.status === 429 || error?.message?.includes("429") || error?.message?.includes("exhausted")) {
+    if (errorResponse?.status === 429 || errorMessage.includes("429") || errorMessage.includes("exhausted")) {
       const fallbackOutputs: Record<string, string> = {
         "Antigravity IDE": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Highest Impact Engineering Task:**\nDeploy `m2-nexus` frontend updates to Vercel to ship current UI iterations.\n**Action:** Run `vercel --prod` in the `m2-nexus` directory.",
         "DPIA Intel Unit": "⚠️ **GEMINI RATE LIMIT ACTIVE | LOCAL OVERRIDE**\n\n**Digital Presence Audit (Cached):**\n1. Website: 8/10. Action: Add SNPA Case Study.\n2. Social Proof: 7/10. Action: Publish Portfolio updates.\n3. GovTech: 9/10. Action: Deploy Guurti training module.\n4. AI Leadership: 8/10. Action: Post Nexus capabilities on LinkedIn.",

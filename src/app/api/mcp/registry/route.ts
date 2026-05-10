@@ -32,7 +32,7 @@ export async function GET() {
         type: 'Active Mission'
       }));
 
-    // Format dev library (just checking if it exists and what's inside roughly)
+    // Format dev library (just checking if it exists and what&apos;s inside roughly)
     const components = devLibraryEntries
       .filter((entry) => entry.isDirectory())
       .map((entry) => ({
@@ -51,9 +51,10 @@ export async function GET() {
         workspaceRoot: WORKSPACE_ROOT
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 }
     );
   }

@@ -1,0 +1,240 @@
+
+> m2-nexus@0.1.0 lint
+> eslint
+
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/auth.config.ts
+  1:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/classes.ts
+  2:10  warning  'v' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/contentItems.ts
+  2:10  warning  'v' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/dataFeeds.ts
+  2:10  warning  'v' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/examinations.ts
+  340:11  warning  'midTerm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  346:11  warning  'final' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/expenses.ts
+  179:11  warning  'suppliesHead' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/fees.ts
+  164:15  warning  'feeMaster' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  241:11  warning  'masters' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/homework.ts
+  3:10  warning  'Id' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/inventory.ts
+  3:10  warning  'Id' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/library.ts
+  3:10  warning  'Id' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/nexus.ts
+  2:10  warning  'v' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/portfolio.ts
+  2:10  warning  'v' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/reports.ts
+  28:11  warning  'incomeByCategory' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  29:11  warning  'expenseByCategory' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  30:11  warning  'feesByType' is assigned a value but never used         @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/staff.ts
+  3:10  warning  'Doc' is defined but never used  @typescript-eslint/no-unused-vars
+  3:15  warning  'Id' is defined but never used   @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/convex/timetables.ts
+  3:14  warning  'Doc' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/admin/page.tsx
+    6:36  warning  'MemoryStick' is defined but never used  @typescript-eslint/no-unused-vars
+    6:49  warning  'HardDrive' is defined but never used    @typescript-eslint/no-unused-vars
+    7:3   warning  'Network' is defined but never used      @typescript-eslint/no-unused-vars
+    7:51  warning  'XCircle' is defined but never used      @typescript-eslint/no-unused-vars
+    8:3   warning  'Info' is defined but never used         @typescript-eslint/no-unused-vars
+    8:46  warning  'Eye' is defined but never used          @typescript-eslint/no-unused-vars
+    9:25  warning  'Filter' is defined but never used       @typescript-eslint/no-unused-vars
+    9:45  warning  'Server' is defined but never used       @typescript-eslint/no-unused-vars
+   10:42  warning  'RotateCcw' is defined but never used    @typescript-eslint/no-unused-vars
+  276:13  warning  'e' is defined but never used            @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/agent-orchestration/page.tsx
+  36:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/admin/actions/route.ts
+  26:16  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/admin/processes/route.ts
+  49:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/admin/system-stats/route.ts
+  117:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/admin/tasks/route.ts
+  104:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/admin/terminal-logs/route.ts
+  84:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/agent-orchestration/route.ts
+  32:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/chat/route.ts
+  46:27  warning  '_args' is defined but never used  @typescript-eslint/no-unused-vars
+  74:27  warning  '_args' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/control-center/route.ts
+  34:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/lm-studio/embed/route.ts
+  23:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/mcp/filesystem/route.ts
+  59:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/mcp/registry/route.ts
+  11:12  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/system/health/route.ts
+  63:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/api/telemetry/route.ts
+  42:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/brand-showcase/page.tsx
+  5:10  warning  'HeroSection' is defined but never used  @typescript-eslint/no-unused-vars
+  5:54  warning  'FeatureCard' is defined but never used  @typescript-eslint/no-unused-vars
+  6:10  warning  'Server' is defined but never used       @typescript-eslint/no-unused-vars
+  6:18  warning  'Activity' is defined but never used     @typescript-eslint/no-unused-vars
+  6:40  warning  'Shield' is defined but never used       @typescript-eslint/no-unused-vars
+  6:48  warning  'Zap' is defined but never used          @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/campaign-intelligence/page.tsx
+  2:41  warning  'Globe' is defined but never used  @typescript-eslint/no-unused-vars
+  2:59  warning  'Users' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/control-center/page.tsx
+  29:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/crewai-telemetry/page.tsx
+  73:15  warning  'res' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/library/page.tsx
+  4:41  warning  'Search' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/lm-studio/page.tsx
+  79:54  warning  'path' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/narrative-monitor/page.tsx
+    4:30   warning  'Database' is defined but never used               @typescript-eslint/no-unused-vars
+    4:40   warning  'ShieldAlert' is defined but never used            @typescript-eslint/no-unused-vars
+    4:53   warning  'CheckCircle' is defined but never used            @typescript-eslint/no-unused-vars
+    4:66   warning  'Activity' is defined but never used               @typescript-eslint/no-unused-vars
+    4:107  warning  'Globe' is defined but never used                  @typescript-eslint/no-unused-vars
+    5:10   warning  'deepNarrativeAnalysis' is defined but never used  @typescript-eslint/no-unused-vars
+   52:22   warning  'setAiReport' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  103:18   warning  'error' is defined but never used                  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/page.tsx
+    3:10  warning  'Landmark' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   20:24  warning  'setAvatarPoster' is assigned a value but never used                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  149:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/app/snpa-intelligence/page.tsx
+  4:10  warning  'Heading1' is defined but never used       @typescript-eslint/no-unused-vars
+  4:20  warning  'GlassCard' is defined but never used      @typescript-eslint/no-unused-vars
+  4:31  warning  'ButtonPrimary' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/AgentCenter.tsx
+  4:10  warning  'Sparkles' is defined but never used  @typescript-eslint/no-unused-vars
+  4:29  warning  'Play' is defined but never used      @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/AgentOutputModal.tsx
+  4:27  warning  'Loader2' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/AvatarControlPanel.tsx
+  12:25  warning  'RefreshCw' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/AvatarSpeaker.tsx
+  53:26  warning  'setInternalStatus' is assigned a value but never used                 @typescript-eslint/no-unused-vars
+  54:28  warning  'setInternalVideoUrl' is assigned a value but never used               @typescript-eslint/no-unused-vars
+  55:27  warning  'setInternalCaption' is assigned a value but never used                @typescript-eslint/no-unused-vars
+  66:5   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/ConvexClientProvider.tsx
+  4:10  warning  'ClerkProvider' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/GeoMindDashboard.tsx
+  5:9   warning  'Layers' is defined but never used      @typescript-eslint/no-unused-vars
+  5:17  warning  'Globe' is defined but never used       @typescript-eslint/no-unused-vars
+  5:35  warning  'Zap' is defined but never used         @typescript-eslint/no-unused-vars
+  6:27  warning  'Navigation' is defined but never used  @typescript-eslint/no-unused-vars
+  7:11  warning  'Clock' is defined but never used       @typescript-eslint/no-unused-vars
+  7:18  warning  'ArrowRight' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/Header.tsx
+  4:17  warning  'ShieldAlert' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/LocalAIPanel.tsx
+  96:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/MapEditor.tsx
+    5:47  warning  'Edit3' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+    7:28  warning  'Move' is defined but never used                                                                             @typescript-eslint/no-unused-vars
+    7:34  warning  'Type' is defined but never used                                                                             @typescript-eslint/no-unused-vars
+   82:10  warning  'editingFeatureId' is assigned a value but never used                                                        @typescript-eslint/no-unused-vars
+   82:28  warning  'setEditingFeatureId' is assigned a value but never used                                                     @typescript-eslint/no-unused-vars
+  122:32  warning  'id' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  523:15  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  531:17  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  540:19  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/OrbitConsole.tsx
+   8:3  warning  'Search' is defined but never used       @typescript-eslint/no-unused-vars
+   9:3  warning  'ShieldCheck' is defined but never used  @typescript-eslint/no-unused-vars
+  10:3  warning  'BarChart3' is defined but never used    @typescript-eslint/no-unused-vars
+  13:3  warning  'Terminal' is defined but never used     @typescript-eslint/no-unused-vars
+  15:3  warning  'Zap' is defined but never used          @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/PortfolioMatrix.tsx
+  22:9  warning  The '_studies' logical expression could make the dependencies of useEffect Hook (at line 31) change on every render. To fix this, wrap the initialization of '_studies' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/ProjectHub.tsx
+  3:29  warning  'Shield' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/RightPanel.tsx
+  3:20  warning  'ShieldCheck' is defined but never used    @typescript-eslint/no-unused-vars
+  3:38  warning  'AlertTriangle' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/SystemMonitor.tsx
+  22:9  warning  'currentStats' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/SystemStatusBar.tsx
+  3:23  warning  'Wifi' is defined but never used          @typescript-eslint/no-unused-vars
+  3:29  warning  'WifiOff' is defined but never used       @typescript-eslint/no-unused-vars
+  3:67  warning  'ExternalLink' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/components/snpa/NegotiationCommand.tsx
+   5:17  warning  'TrendingUp' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   5:29  warning  'DollarSign' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  17:14  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Volumes/MAC DATA/Antigraphity/M2_PROJECTS_HUB/01_ACTIVE_MISSIONS/m2-nexus/src/lib/seo-framework.ts
+  1:10  warning  'FileText' is defined but never used      @typescript-eslint/no-unused-vars
+  1:20  warning  'Search' is defined but never used        @typescript-eslint/no-unused-vars
+  1:28  warning  'Activity' is defined but never used      @typescript-eslint/no-unused-vars
+  1:38  warning  'Users' is defined but never used         @typescript-eslint/no-unused-vars
+  1:45  warning  'FileBarChart' is defined but never used  @typescript-eslint/no-unused-vars
+  1:59  warning  'Globe' is defined but never used         @typescript-eslint/no-unused-vars
+  1:66  warning  'ShieldCheck' is defined but never used   @typescript-eslint/no-unused-vars
+  1:79  warning  'Zap' is defined but never used           @typescript-eslint/no-unused-vars
+
+✖ 121 problems (0 errors, 121 warnings)
+

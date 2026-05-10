@@ -7,7 +7,7 @@ export const seedAll = mutation({
     const results: string[] = [];
 
     // Import all seed functions dynamically
-    // Note: Since Convex doesn't support dynamic imports, we'll run seeds inline
+    // Note: Since Convex doesn&apos;t support dynamic imports, we'll run seeds inline
 
     // 1. Seed Categories and Houses
     const existingCats = await ctx.db.query("categories").collect();

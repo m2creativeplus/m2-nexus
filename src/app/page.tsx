@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Landmark, Activity, Code2, Zap, ExternalLink } from "lucide-react";
+import { Activity, Code2, Zap, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { QuickStats } from "@/components/QuickStats";
 import { SystemMonitor } from "@/components/SystemMonitor";
@@ -13,11 +13,12 @@ import { AvatarControl } from "@/components/AvatarControl";
 import M2Logo from "@/components/M2Logo";
 import { GoldMotionPoster, DataGridMatrix, Heading1, GlassCard } from "@/components/ui/M2BrandUI";
 import { M2BannerGolden } from "@/components/M2Banners";
+import { SovereignMonitor } from "@/components/SovereignMonitor";
 
 export default function Dashboard() {
   const [avatarStatus, setAvatarStatus] = useState<'idle' | 'generating' | 'ready'>('ready');
   const [avatarVideo, setAvatarVideo] = useState('/avatars/latest_briefing.mp4');
-  const [avatarPoster, setAvatarPoster] = useState('/branding/mahmoud_awaleh.jpg');
+  const [avatarPoster] = useState('/branding/mahmoud_awaleh.jpg');
   const [avatarCaption, setAvatarCaption] = useState('Nexus system initialized. Monitoring Guurti and SNPA deployment pipelines.');
 
   const handleAvatarCommand = async (text: string) => {
@@ -118,16 +119,21 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* INTERACTIVE DATA MATRIX */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold font-outfit text-white">System Intelligence Grid</h2>
-            <div className="flex gap-2">
-              <span className="w-2 h-2 rounded-full bg-[var(--m2-green)] animate-pulse" />
-              <span className="text-[10px] uppercase tracking-widest text-[var(--m2-text-muted)]">Live Flux</span>
+        {/* INTERACTIVE DATA MATRIX & SOVEREIGN MONITOR */}
+        <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-2 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold font-outfit text-white">System Intelligence Grid</h2>
+              <div className="flex gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--m2-green)] animate-pulse" />
+                <span className="text-[10px] uppercase tracking-widest text-[var(--m2-text-muted)]">Live Flux</span>
+              </div>
             </div>
+            <DataGridMatrix />
           </div>
-          <DataGridMatrix />
+          <div className="xl:col-span-1">
+            <SovereignMonitor />
+          </div>
         </section>
 
         <SystemMonitor />

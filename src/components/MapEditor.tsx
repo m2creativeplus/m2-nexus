@@ -24,7 +24,7 @@ export interface GeoFeature {
   };
   geometry: {
     type: 'Point' | 'LineString' | 'Polygon';
-    coordinates: any;
+    coordinates: unknown;
   };
 }
 
@@ -139,7 +139,7 @@ export default function MapEditor({
       try {
         const json = JSON.parse(event.target?.result as string);
         if (json.type === 'FeatureCollection' && Array.isArray(json.features)) {
-          const imported: GeoFeature[] = json.features.map((f: any, i: number) => ({
+          const imported: GeoFeature[] = json.features.map((f: unknown, i: number) => ({
             ...f,
             id: f.id || `imported-${Date.now()}-${i}`,
             properties: {

@@ -76,7 +76,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;
-    const updates: any = {};
+    const updates: Record<string, string | boolean | undefined> = {};
     
     if (data.title !== undefined) updates.title = data.title;
     if (data.content !== undefined) updates.content = data.content;

@@ -1,14 +1,25 @@
 "use client";
 import { motion } from "framer-motion";
-import { Database, Loader2, Shield, Terminal, Landmark, Globe, Activity, FileText, Car, ChevronRight } from "lucide-react";
+import { Database, Loader2, Terminal, Landmark, Globe, Activity, FileText, Car, ChevronRight } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Badge } from "./Badge";
 import { M2Icon, M2Shield } from "./M2IconSet";
 
+interface Project {
+  name: string;
+  icon: string;
+  status: string;
+  statusLabel: string;
+  description: string;
+  color: string;
+  url?: string;
+  priority?: string;
+}
+
 export function ProjectHub() {
   const dynamicProjects = useQuery(api.nexus.getProjects);
-  const _projects = dynamicProjects || [];
+  const _projects = (dynamicProjects || []) as Project[];
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6 min-h-[300px]">
@@ -21,8 +32,8 @@ export function ProjectHub() {
         </span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {_projects.map((p: any) => {
-          let IconComp: any = M2Icon; // Default
+        {_projects.map((p: Project) => {
+          let IconComp: React.ElementType = M2Icon; // Default
           if (p.icon === "Terminal") IconComp = Terminal;
           if (p.icon === "Landmark") IconComp = Landmark;
           if (p.icon === "Globe") IconComp = Globe;

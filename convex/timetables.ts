@@ -28,7 +28,7 @@ export const list = query({
         const teacher = entry.teacherId ? await ctx.db.get(entry.teacherId) : null;
         return {
           ...entry,
-          subjectName: (subject as any)?.name || "Unknown",
+          subjectName: subject?.name || "Unknown",
           teacherName: teacher ? `${teacher.firstName} ${teacher.lastName}` : "TBA",
         };
       })

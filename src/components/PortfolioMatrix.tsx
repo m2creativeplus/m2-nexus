@@ -1,26 +1,36 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 import { motion } from "framer-motion";
 import { Layers, Figma, Globe, ExternalLink } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GlassCard } from "./ui/GlassCard";
 import { GoldButton } from "./ui/GoldButton";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
+interface Study {
+  _id: string;
+  title: string;
+  description: string;
+  type: 'figma' | 'vercel';
+  embedUrl?: string;
+  url?: string;
+}
+
 export function PortfolioMatrix() {
-  const dynamicStudies = useQuery(api.portfolio.getLivePortfolio);
-  const _studies = dynamicStudies || [];
+  const dynamicStudies = useQuery(api.portfolio.getLivePortfolio) as Study[] | undefined;
+  const _studies = useMemo(() => dynamicStudies || [], [dynamicStudies]);
   
   const [activeStudyId, setActiveStudyId] = useState<string | null>(null);
 
   // Auto-select the first study when data loads
   useEffect(() => {
     if (_studies.length > 0 && !activeStudyId) {
-      setActiveStudyId(_studies[0]._id);
+      setActiveStudyId(_studies[0]?._id);
     }
   }, [_studies, activeStudyId]);
 
-  const activeStudy = _studies.find((s: any) => s._id === activeStudyId) || _studies[0];
+  const activeStudy = _studies.find((s: Study) => s?._id === activeStudyId) || (_studies.length > 0 ? _studies[0] : null);
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="glass-card p-6 min-h-[600px] flex flex-col">
@@ -37,7 +47,7 @@ export function PortfolioMatrix() {
           {dynamicStudies === undefined ? (
             <div className="flex items-center justify-center p-8"><span className="text-zinc-500 text-xs animate-pulse">Establishing secure link...</span></div>
           ) : (
-            _studies.map((study: any) => (
+            _studies.map((study: Study) => (
               <GlassCard 
                 key={study._id} 
                 hoverEffect 
@@ -60,7 +70,7 @@ export function PortfolioMatrix() {
              <span className="text-zinc-500 text-sm animate-pulse">Awaiting network feed...</span>
           ) : (
             <>
-              {activeStudy.type === 'figma' && activeStudy.embedUrl && (
+              {activeStudy?.type === 'figma' && activeStudy?.embedUrl && (
                 <iframe 
                   className="w-full h-full min-h-[500px] flex-1 border-0 rounded-xl"
                   src={activeStudy.embedUrl} 
@@ -68,12 +78,12 @@ export function PortfolioMatrix() {
                 />
               )}
 
-              {activeStudy.type === 'vercel' && (
+              {activeStudy?.type === 'vercel' && (
                  <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center p-8 text-center bg-black/40 rounded-xl">
                    <Globe className="w-16 h-16 text-blue-500/40 mb-6" />
-                   <h2 className="text-2xl font-bold text-white mb-3">{activeStudy.title}</h2>
-                   <p className="text-sm text-zinc-400 max-w-md mx-auto mb-8 leading-relaxed">{activeStudy.description}</p>
-                   <GoldButton variant="outline" onClick={() => window.open(activeStudy.url, "_blank")}>
+                   <h2 className="text-2xl font-bold text-white mb-3">{activeStudy.title || "Untitled Study"}</h2>
+                   <p className="text-sm text-zinc-400 max-w-md mx-auto mb-8 leading-relaxed">{activeStudy.description || "No description provided."}</p>
+                   <GoldButton variant="outline" onClick={() => activeStudy.url && window.open(activeStudy.url, "_blank")}>
                      Open Live Deployment <ExternalLink className="w-4 h-4 ml-2" />
                    </GoldButton>
                  </div>

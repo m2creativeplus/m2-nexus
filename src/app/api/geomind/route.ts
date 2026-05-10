@@ -205,25 +205,40 @@ Rules:
     }
 
     // ── Construct response ──────────────────────────────────────────────
-    const response: any = {
+    interface GeoResponse {
+      timestamp: string;
+      query: string;
+      source: string;
+      intel: {
+        title: string;
+        summary: string;
+        facts: string[];
+        category: string;
+      } | null;
+      mapAction: {
+        lng: number;
+        lat: number;
+        zoom: number;
+        pitch: number;
+        bearing: number;
+        layer: string;
+      } | null;
+      text: string;
+    }
+
+    const resultResponse: GeoResponse = {
       timestamp: new Date().toISOString(),
       query: message,
       source: aiResponse ? "gemini-2.0-flash" : "sovereign-knowledge-base",
+      intel: match ? match.intel : null,
+      mapAction: match ? match.mapAction : null,
+      text: aiResponse || (match ? match.intel.summary : "No matching intelligence found for this query. Try asking about Berbera, Hargeisa, Wajaale, Burao, Borama, the Berbera Corridor, Somaliland overview, or GIS fundamentals.")
     };
 
-    if (match) {
-      response.intel = match.intel;
-      response.mapAction = match.mapAction;
-      response.text = aiResponse || match.intel.summary;
-    } else {
-      response.intel = null;
-      response.mapAction = null;
-      response.text = aiResponse || "No matching intelligence found for this query. Try asking about Berbera, Hargeisa, Wajaale, Burao, Borama, the Berbera Corridor, Somaliland overview, or GIS fundamentals.";
-    }
-
-    return NextResponse.json(response);
-  } catch (error: any) {
+    return NextResponse.json(resultResponse);
+  } catch (error: unknown) {
     console.error("GeoMind API error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

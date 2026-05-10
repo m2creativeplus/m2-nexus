@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Loader2, Play, CheckCircle2, AlertCircle, Activity } from "lucide-react";
+import { Loader2, CheckCircle2, AlertCircle, Activity } from "lucide-react";
 import { AgentOutputModal } from "./AgentOutputModal";
 import { AgentCard } from "./ui/AgentCard";
 import { M2Icon } from "./M2IconSet";
@@ -98,12 +98,21 @@ export function AgentCenter() {
         addLog(name, `Error: ${data.error}`, "error");
       }
     } catch {
-      // Simulate success if no API is wired up for these fallback agents
+      // Rule 11.2: No mock data. Providing real diagnostic feedback.
+      addLog(name, "Backend link unavailable. Running local diagnostic...", "error");
       setTimeout(() => {
-        addLog(name, "Analysis completed (Offline Mode).", "success");
-        setOutput({ agentName: name, text: "System is running in isolated offline mode. No anomalies detected." });
+        addLog(name, "Diagnostic: Nerve Engine connection required for this agent.", "info");
+        setOutput({ 
+          agentName: name, 
+          text: `AGENT DIAGNOSTIC: 
+Status: UNLINKED
+Required: OpenClaw Nerve Engine (Local)
+Action: Ensure the Nerve Engine is running on port 18789 and that your .env.local contains the correct GEMINI_API_KEY.
+
+This agent is currently in 'Conceptual State' until a functional bridge is established.` 
+        });
         setRunning(null);
-      }, 2000);
+      }, 1500);
     } finally {
       if (running === name) setRunning(null);
     }

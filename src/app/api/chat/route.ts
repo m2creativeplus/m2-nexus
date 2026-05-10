@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         checkSystemHealth: tool({
           description: "Check if M2 Nexus, Kaltirsi, and CrewAI engines are online and fetch their current ports.",
           parameters: z.object({}),
-          // @ts-ignore - Vercel AI SDK type inference bug
+          // @ts-expect-error - Vercel AI SDK type inference bug
           execute: async (_args: Record<string, never>) => {
             return {
               status: "nominal",
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
           parameters: z.object({
             target: z.enum(["nexus", "all"]).describe("Which cache to flush"),
           }),
-          // @ts-ignore - Vercel AI SDK type inference bug
+          // @ts-expect-error - Vercel AI SDK type inference bug
           execute: async ({ target }: { target: "nexus" | "all" }) => {
             return {
               success: true,
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
         triggerTelemetryAudit: tool({
           description: "Ping the Python FastAPI backend to run a live CrewAI workspace audit.",
           parameters: z.object({}),
-          // @ts-ignore - Vercel AI SDK type inference bug
+          // @ts-expect-error - Vercel AI SDK type inference bug
           execute: async (_args: Record<string, never>) => {
             return {
               status: "success",
@@ -82,10 +82,11 @@ export async function POST(req: Request) {
       },
     });
 
-    // @ts-ignore - Bypass AI SDK version mismatch types
+    // @ts-expect-error - Bypass AI SDK version mismatch types
     return typeof result.toDataStreamResponse === 'function' ? result.toDataStreamResponse() : result.toTextStreamResponse();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat API error:", error);
-    return new Response(error.message, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return new Response(message, { status: 500 });
   }
 }

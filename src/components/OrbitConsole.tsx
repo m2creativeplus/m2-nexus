@@ -72,7 +72,7 @@ export default function OrbitConsole() {
                 </div>
               </motion.div>
             ) : (
-              messages.map((m: any) => (
+              messages.map((m: unknown) => (
                 <motion.div
                   initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -100,7 +100,7 @@ export default function OrbitConsole() {
                     {/* Tool Invocations UI */}
                     {m.toolInvocations && m.toolInvocations.length > 0 && (
                       <div className="mt-4 space-y-2 border-t border-zinc-800/50 pt-3">
-                        {m.toolInvocations.map((tool: any) => (
+                        {m.toolInvocations.map((tool: unknown) => (
                           <div key={tool.toolCallId} className="flex flex-col gap-1 text-[11px] font-mono">
                             <div className="flex items-center gap-2 text-[#EAB308]/70">
                               <Command className="w-3 h-3 animate-pulse" />

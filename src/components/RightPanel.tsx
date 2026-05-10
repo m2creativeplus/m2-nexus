@@ -1,9 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Activity, ShieldCheck, Cpu, AlertTriangle } from "lucide-react";
+import { Activity, Cpu } from "lucide-react";
+import { SovereignMonitor } from "@/components/SovereignMonitor";
+
+interface MemoryEvent {
+  timestamp: string;
+  status: string;
+  task_id: string;
+  output: string;
+}
+
+interface TelemetryData {
+  heartbeat: {
+    status: string;
+    safe_mode?: boolean;
+    last_task_attempted?: string;
+  };
+  memoryEvents: MemoryEvent[];
+}
 
 export function RightPanel() {
-  const [telemetry, setTelemetry] = useState<any>({ heartbeat: { status: 'offline' }, memoryEvents: [] });
+  const [telemetry, setTelemetry] = useState<TelemetryData>({ 
+    heartbeat: { status: 'offline' }, 
+    memoryEvents: [] 
+  });
 
   useEffect(() => {
     const fetchTelemetry = async () => {
@@ -57,10 +77,11 @@ export function RightPanel() {
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <SovereignMonitor />
         {telemetry.memoryEvents.length === 0 && (
           <div className="text-[10px] text-zinc-600 font-mono text-center mt-10">Awaiting memory stream...</div>
         )}
-        {telemetry.memoryEvents.map((log: any, i: number) => {
+        {telemetry.memoryEvents.map((log: MemoryEvent, i: number) => {
           const timeStr = new Date(log.timestamp).toLocaleTimeString();
           let color = 'text-zinc-400';
           if (log.status === 'SUCCESS' || log.status === 'SIMULATED_SUCCESS') color = 'text-green-500';

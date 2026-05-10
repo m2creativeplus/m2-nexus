@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Clock, ShieldAlert } from "lucide-react";
+import { Clock } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import M2Logo from "./M2Logo";
 

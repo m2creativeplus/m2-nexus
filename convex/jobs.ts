@@ -46,7 +46,7 @@ export const cancel = mutation({
     const job = await ctx.db.get(args.jobId);
     if (!job) throw new Error("Job not found");
 
-    // For now: any authenticated user may cancel. Tighten to roles later.
+    // For now: unknown authenticated user may cancel. Tighten to roles later.
     if (job.status === "succeeded" || job.status === "failed") return job.status;
 
     await ctx.db.patch(args.jobId, {

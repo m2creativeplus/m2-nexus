@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect, react-hooks/preserve-manual-memoization */
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
@@ -265,7 +266,7 @@ function SecurityAgentTab() {
   const [search, setSearch] = useState('');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  const handleAction = async (action: string, payload?: any) => {
+  const handleAction = async (action: string, payload?: unknown) => {
     setActionLoading(action);
     try {
       await globalThis.fetch('/api/admin/actions', { method: 'POST', body: JSON.stringify({ action, payload }) });

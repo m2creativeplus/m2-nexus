@@ -113,7 +113,7 @@ export default function GeoMindDashboard() {
       .then(r => r.json())
       .then(data => {
         if (data.type === 'FeatureCollection' && Array.isArray(data.features)) {
-          const features: GeoFeature[] = data.features.map((f: any, i: number) => ({
+          const features: GeoFeature[] = data.features.map((f: unknown, i: number) => ({
             ...f,
             id: f.id || `feature-${i}`,
             properties: { ...f.properties, visible: true },
@@ -201,7 +201,7 @@ export default function GeoMindDashboard() {
       }
 
       setQueryCount(prev => prev + 1);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setMessages(prev => [...prev, {
         role: 'assistant',
         text: `⚠️ Intelligence error: ${err.message}. Falling back to sovereign knowledge base.`,
@@ -220,7 +220,7 @@ export default function GeoMindDashboard() {
   };
 
   // ── Map Click ──────────────────────────────────────────────────────────
-  const onMapClick = useCallback((event: any) => {
+  const onMapClick = useCallback((event: unknown) => {
     if (isAddingPoint) {
       const newFeature: GeoFeature = {
         id: `custom-${Date.now()}`,

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
@@ -9,9 +10,15 @@ import { api } from "../../convex/_generated/api";
 
 interface CpuDataPoint { v: number; }
 
+interface SystemStats {
+  cpu: number;
+  ram: number;
+  storage: number;
+}
+
 export function SystemMonitor() {
   // Try to pull live stats from Convex. If missing or disconnected, fallback to defaults.
-  const liveStats = useQuery(api.m2_agent.getSystemStats) ?? { cpu: 15, ram: 42, storage: 67 };
+  const liveStats = useQuery(api.m2_agent.getSystemStats) as SystemStats | undefined;
   
   const [mounted, setMounted] = useState(false);
   const [stats, setStats] = useState({ cpu: 15, ram: 42, storage: 67 });

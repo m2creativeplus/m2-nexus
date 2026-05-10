@@ -9,7 +9,7 @@ const localAI = createOpenAI({
   apiKey: 'lm-studio-local', // API key is ignored by LM Studio but required by SDK
 });
 
-export async function deepNarrativeAnalysis(dataSnapshot: any[]) {
+export async function deepNarrativeAnalysis(dataSnapshot: unknown[]) {
   try {
     const prompt = `
       You are the Sovereign Intelligence Agent for the M2 NEXUS system.

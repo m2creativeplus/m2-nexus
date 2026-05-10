@@ -16,8 +16,20 @@ import {
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 
+interface TelemetryLog {
+  _id: string;
+  type: string;
+  agent: string;
+  action: string;
+  timestamp: string | number | Date;
+  message: string;
+  mistake?: string;
+  solution?: string;
+  enforcedRule?: string;
+}
+
 export default function TelemetryPage() {
-  const logs = useQuery(api.telemetry.getLatestFull, { limit: 20 });
+  const logs = useQuery(api.telemetry.getLatestFull, { limit: 20 }) as TelemetryLog[] | undefined;
   const stats = useQuery(api.telemetry.getStats);
 
   if (!logs) {
@@ -93,7 +105,7 @@ export default function TelemetryPage() {
                 <p className="text-zinc-500">No telemetry logs found. System operates at peak efficiency.</p>
               </div>
             ) : (
-              logs.map((log: any, i: number) => (
+              logs.map((log: TelemetryLog, i: number) => (
                 <motion.div
                   key={log._id}
                   initial={{ opacity: 0, x: -20 }}
@@ -123,7 +135,7 @@ export default function TelemetryPage() {
                       </div>
                       
                       <p className="text-sm text-zinc-400 leading-relaxed italic border-l-2 border-white/5 pl-3">
-                        "{log.message}"
+                        &quot;{log.message}&quot;
                       </p>
 
                       {log.mistake && (

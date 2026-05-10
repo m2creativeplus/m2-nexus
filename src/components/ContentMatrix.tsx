@@ -5,16 +5,23 @@ import { FileText } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
+interface Tier {
+  label: string;
+  target: number;
+  done: number;
+  color: string;
+}
+
 export function ContentMatrix() {
   const dynamicTiers = useQuery(api.contentItems.getContentTiers);
-  const _tiers = dynamicTiers || [
+  const _tiers = (dynamicTiers as Tier[]) || [
     { label: "HERO", target: 15, done: 0, color: "#fbbf24" },
     { label: "HUB", target: 50, done: 0, color: "#3b82f6" },
     { label: "HYGIENE", target: 235, done: 0, color: "#8b5cf6" },
   ]; // fallback while loading
 
-  const total = _tiers.reduce((s: number, t: any) => s + t.target, 0);
-  const done = _tiers.reduce((s: number, t: any) => s + t.done, 0);
+  const total = Array.isArray(_tiers) ? _tiers.reduce((s: number, t: Tier) => s + (t?.target || 0), 0) : 0;
+  const done = Array.isArray(_tiers) ? _tiers.reduce((s: number, t: Tier) => s + (t?.done || 0), 0) : 0;
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
   return (
@@ -31,12 +38,12 @@ export function ContentMatrix() {
         <p className="text-[10px] mt-1.5" style={{ color: "var(--m2-text-muted)" }}>{pct}% Complete — {total - done} stories remaining</p>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        {_tiers.map((t: any) => (
-          <div key={t.label} className="rounded-xl p-4 text-center" style={{ background: "var(--m2-surface)" }}>
-            <div className="text-2xl font-bold tabular-nums" style={{ color: t.color }}>{t.done}<span className="text-xs font-normal" style={{ color: "var(--m2-text-muted)" }}>/{t.target}</span></div>
-            <p className="text-[10px] mt-1" style={{ color: "var(--m2-text-muted)" }}>{t.label}</p>
+        {Array.isArray(_tiers) && _tiers.map((t, i) => (
+          <div key={t?.label || i} className="rounded-xl p-4 text-center" style={{ background: "var(--m2-surface)" }}>
+            <div className="text-2xl font-bold tabular-nums" style={{ color: t?.color || "var(--m2-gold)" }}>{t?.done || 0}<span className="text-xs font-normal" style={{ color: "var(--m2-text-muted)" }}>/{t?.target || 0}</span></div>
+            <p className="text-[10px] mt-1" style={{ color: "var(--m2-text-muted)" }}>{t?.label || "N/A"}</p>
             <div className="status-bar mt-2">
-              <div className="status-bar-fill" style={{ width: `${Math.max(Math.round((t.done / t.target) * 100), 2)}%`, background: t.color }} />
+              <div className="status-bar-fill" style={{ width: `${Math.max(Math.round(((t?.done || 0) / (t?.target || 1)) * 100), 2)}%`, background: t?.color || "var(--m2-gold)" }} />
             </div>
           </div>
         ))}

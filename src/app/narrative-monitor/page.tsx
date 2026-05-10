@@ -31,11 +31,24 @@ const TERMINAL_LOGS = [
   "[SYSTEM] Awaiting manual override or counter-narrative deployment."
 ];
 
+interface IntelItem {
+    sourceName: string;
+    sourceType: string;
+    language: string;
+    link: string;
+    date: string;
+    labelUsed: string;
+    accuracyScore: string;
+    comment: string;
+    correction: string;
+    status: string;
+}
+
 export default function NarrativeMonitor() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [terminalLines, setTerminalLines] = useState<string[]>([]);
-    const [intelData, setIntelData] = useState<any[]>(defaultSourceData);
+    const [intelData, setIntelData] = useState<IntelItem[]>(defaultSourceData);
     const [aiReport, setAiReport] = useState<string | null>(null);
     
     // Terminal typing effect
@@ -74,7 +87,7 @@ export default function NarrativeMonitor() {
             
             if (data.success && data.output) {
                 // Parse the JSON string from the AI output
-                let newIntel: any[] = [];
+                let newIntel: unknown[] = [];
                 try {
                   const cleanedOutput = data.output.replace(/```json/g, '').replace(/```/g, '').trim();
                   newIntel = JSON.parse(cleanedOutput);
@@ -248,7 +261,7 @@ export default function NarrativeMonitor() {
                                         <div className="text-xs text-zinc-500 mt-1 font-mono">{item.sourceType} • {item.language}</div>
                                     </td>
                                     <td className="p-4 text-zinc-400 font-mono text-xs">{item.date}</td>
-                                    <td className="p-4 font-medium text-zinc-300">"{item.labelUsed}"</td>
+                                    <td className="p-4 font-medium text-zinc-300">&quot;{item.labelUsed}&quot;</td>
                                     <td className="p-4">
                                         <span className={`inline-flex items-center px-2 py-1 rounded text-[10px] font-mono font-medium border uppercase tracking-wider ${
                                             item.accuracyScore === 'Accurate' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :

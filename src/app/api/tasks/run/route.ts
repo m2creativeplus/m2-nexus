@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       message: "Task delegated to local n8n orchestrator successfully.",
       data
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Agent Execution Bridge Error:", error);
     // Graceful fallback for when the Mac is asleep or n8n is offline
     return NextResponse.json({

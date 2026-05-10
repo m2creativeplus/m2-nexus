@@ -108,7 +108,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;
-    const updates: any = {};
+    const updates: Record<string, string | number | undefined> = {};
     Object.entries(data).forEach(([k, v]) => {
       if (v !== undefined) updates[k] = v;
     });

@@ -40,7 +40,8 @@ export async function POST() {
       stats: resultData.stats || {},
       raw: stdout
     });
-  } catch (error: any) {
-    return NextResponse.json({ status: "error", error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return NextResponse.json({ status: "error", error: message }, { status: 500 });
   }
 }
