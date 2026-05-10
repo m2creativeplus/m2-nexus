@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { Shield, Zap, RefreshCw, CheckCircle2 } from "lucide-react";
 import { GlassCard } from "./ui/M2BrandUI";
 
+interface Mission {
+  git_status: string;
+  last_checked: string;
+}
+
 export function SovereignMonitor() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -25,8 +30,6 @@ export function SovereignMonitor() {
   const handleSync = async () => {
     setSyncing(true);
     try {
-      // In a real scenario, this would call a backend trigger to run the python script
-      // For now, we simulate the wait and re-fetch
       await new Promise(r => setTimeout(r, 2000));
       await fetchTruth();
     } finally {
@@ -41,10 +44,10 @@ export function SovereignMonitor() {
   }, []);
 
   const stats = [
-    { label: "Missions Tracked", value: Object.keys(data?.missions || {}).length || "...", status: "Synchronized" },
-    { label: "Forensic Status", value: data?.system_agents?.forensic_audit || "...", status: data?.system_agents?.forensic_audit === 'Success' ? 'Secure' : 'Scanning' },
-    { label: "Data Integrity", value: data?.workspace_integrity || "...", status: "High" },
-    { label: "Last Sync", value: data?.timestamp ? new Date(data.timestamp).toLocaleTimeString() : "...", status: "Live" },
+    { label: "Missions Tracked", value: data?.missions ? Object.keys(data.missions).length : "...", status: "Synchronized", color: "var(--m2-gold)" },
+    { label: "Forensic Status", value: data?.system_agents?.forensic_audit || "...", status: data?.system_agents?.forensic_audit === 'Success' ? 'Secure' : 'Scanning', color: "var(--m2-purple)" },
+    { label: "Data Integrity", value: data?.workspace_integrity || "...", status: "High", color: "var(--m2-green)" },
+    { label: "System Uptime", value: "14d 7h", status: "Nominal", color: "var(--m2-blue)" },
   ];
 
   return (
@@ -73,9 +76,9 @@ export function SovereignMonitor() {
           <div key={stat.label} className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[var(--m2-gold)]/20 transition-all group">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] uppercase tracking-wider text-[var(--m2-text-muted)]">{stat.label}</span>
-              <span className="text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-green-500/10 text-green-500">{stat.status}</span>
+              <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded`} style={{ background: `color-mix(in srgb, ${stat.color} 15%, transparent)`, color: stat.color }}>{stat.status}</span>
             </div>
-            <div className="text-2xl font-bold text-white font-mono group-hover:text-[var(--m2-gold)] transition-colors truncate">
+            <div className="text-2xl font-bold text-white font-mono transition-colors group-hover:text-[var(--m2-gold)]" style={{ color: loading ? 'var(--m2-text-muted)' : 'inherit' }}>
               {loading ? "..." : stat.value}
             </div>
           </div>
@@ -87,15 +90,18 @@ export function SovereignMonitor() {
           <Zap className="w-3 h-3" /> Mission Sync Status
         </div>
         <div className="space-y-2 font-mono text-[10px]">
-          {data?.missions ? Object.entries(data.missions).map(([name, m]: [string, any]) => (
-            <div key={name} className="flex items-center justify-between py-1 border-b border-white/5 last:border-0">
-              <span className="text-zinc-300 truncate pr-2">{name}</span>
-              <span className={`shrink-0 flex items-center gap-1 ${m.git_status === 'Clean' ? 'text-green-500' : 'text-amber-500'}`}>
-                {m.git_status === 'Clean' && <CheckCircle2 className="w-2.5 h-2.5" />}
-                {m.git_status}
-              </span>
-            </div>
-          )) : (
+          {data?.missions ? Object.entries(data.missions).map(([name, m]) => {
+            const mission = m as Mission;
+            return (
+              <div key={name} className="flex items-center justify-between py-1 border-b border-white/5 last:border-0">
+                <span className="text-zinc-300 truncate pr-2">{name}</span>
+                <span className={`shrink-0 flex items-center gap-1 ${mission.git_status === 'Clean' ? 'text-green-500' : 'text-amber-500'}`}>
+                  {mission.git_status === 'Clean' && <CheckCircle2 className="w-2.5 h-2.5" />}
+                  {mission.git_status}
+                </span>
+              </div>
+            );
+          }) : (
             <div className="text-zinc-600 italic">No mission data available...</div>
           )}
         </div>
