@@ -86,16 +86,15 @@ export default function NarrativeMonitor() {
             const data = await res.json();
             
             if (data.success && data.output) {
-                // Parse the JSON string from the AI output
-                let newIntel: unknown[] = [];
                 try {
-                  const cleanedOutput = data.output.replace(/```json/g, '').replace(/```/g, '').trim();
-                  newIntel = JSON.parse(cleanedOutput);
-                  setIntelData(prev => [...newIntel, ...prev]);
-                  setTerminalLines(prev => [...prev, `[SYSTEM] Scan complete. Integrated ${newIntel.length} live anomalies via SAIP.`]);
+                    // Simple cleanup of AI output if it contains markdown code blocks
+                    const cleanedOutput = data.output.replace(/```json|```/g, '').trim();
+                    const newIntel = JSON.parse(cleanedOutput) as IntelItem[];
+                    setIntelData(prev => [...newIntel, ...prev]);
+                    setTerminalLines(prev => [...prev, `[SYSTEM] Scan complete. Integrated ${newIntel.length} live anomalies via SAIP.`]);
                 } catch (parseError) {
-                   console.error("Failed to parse SAIP JSON output:", parseError);
-                   setTerminalLines(prev => [...prev, "[ERROR] Malformed intel payload received from SAIP."]);
+                    console.error("Failed to parse SAIP JSON output:", parseError);
+                    setTerminalLines(prev => [...prev, "[ERROR] Malformed intel payload received from SAIP."]);
                 }
             } else {
                 setTerminalLines(prev => [...prev, `[ERROR] SAIP Connection failed: ${data.error || 'Unknown'}`]);

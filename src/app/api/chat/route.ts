@@ -1,6 +1,7 @@
 import { google } from "@ai-sdk/google";
 import { streamText, tool } from "ai";
 import { z } from "zod";
+import { traceAgentCall, getLangfuse } from "../../../lib/langfuse";
 
 const M2_SYSTEM_PROMPT = `
 # 🟢 M2 ORBIT™ — STRATEGIC INTELLIGENCE ENGINE
@@ -27,6 +28,8 @@ You have direct access to the M2 Nexus Omni-Loop Engine. You can execute tools t
 `;
 
 export async function POST(req: Request) {
+  const sessionId = req.headers.get("x-session-id") || `session-${Date.now()}`;
+  
   try {
     const { messages } = await req.json();
 
@@ -44,13 +47,27 @@ export async function POST(req: Request) {
           parameters: z.object({}),
           // @ts-expect-error - Vercel AI SDK type inference bug
           execute: async (_args: Record<string, never>) => {
-            return {
-              status: "nominal",
-              nexus_port: 3001,
-              crewai_port: 8000,
-              uptime: "System memory stable",
-              message: "Sovereign AI Memory & Health Check Validated."
-            };
+            try {
+              const res = await fetch("http://localhost:8000/api/status", { signal: AbortSignal.timeout(3000) });
+              if (res.ok) {
+                const data = await res.json();
+                return {
+                  status: "nominal",
+                  nexus_port: 3001,
+                  crewai_port: 8000,
+                  uptime: "System memory stable",
+                  message: `Sovereign AI Memory & Health Check Validated. CrewAI Engine online with ${data.agents} agents.`
+                };
+              }
+              throw new Error("CrewAI offline");
+            } catch (e) {
+              return {
+                status: "degraded",
+                nexus_port: 3001,
+                crewai_port: 8000,
+                message: "M2 CrewAI Engine is offline. Start the engine on port 8000."
+              };
+            }
           },
         }),
         flushSystemCache: tool({
@@ -72,20 +89,70 @@ export async function POST(req: Request) {
           parameters: z.object({}),
           // @ts-expect-error - Vercel AI SDK type inference bug
           execute: async (_args: Record<string, never>) => {
-            return {
-              status: "success",
-              insights_synced: true,
-              message: "Autonomous audit triggered. 0 uncommitted files detected. 3 new lessons synced to the daily mirror."
-            };
+            try {
+              const res = await fetch("http://localhost:8000/api/audit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ project_path: "/Volumes/MAC DATA/Antigraphity", focus_area: "general" }),
+                signal: AbortSignal.timeout(60000) // Audits can take time
+              });
+              if (res.ok) {
+                const data = await res.json();
+                return {
+                  status: "success",
+                  insights_synced: true,
+                  message: "Autonomous audit triggered successfully.",
+                  audit_result: data.output
+                };
+              }
+              throw new Error("CrewAI offline or failed");
+            } catch (e) {
+              return {
+                status: "error",
+                insights_synced: false,
+                message: "Failed to trigger autonomous audit. Ensure the M2 CrewAI Engine is running on port 8000 and LM Studio is loaded."
+              };
+            }
           },
         }),
       },
+      onFinish: async (event) => {
+        // Trace the entire conversation to Langfuse once the stream finishes
+        try {
+          await traceAgentCall({
+            agentName: "m2-orbit-chat",
+            sessionId,
+            input: messages,
+            output: event.text || JSON.stringify(event.toolCalls),
+            model: "gemini-2.0-flash",
+            usage: {
+              promptTokens: (event.usage as any)?.promptTokens,
+              completionTokens: (event.usage as any)?.completionTokens,
+              totalTokens: (event.usage as any)?.totalTokens
+            },
+            metadata: {
+              finishReason: event.finishReason,
+              hasToolCalls: event.toolCalls && event.toolCalls.length > 0
+            }
+          });
+        } catch (e) {
+          console.error("Failed to push trace to Langfuse:", e);
+        }
+      }
     });
 
     // @ts-expect-error - Bypass AI SDK version mismatch types
     return typeof result.toDataStreamResponse === 'function' ? result.toDataStreamResponse() : result.toTextStreamResponse();
   } catch (error: unknown) {
     console.error("Chat API error:", error);
+    
+    // Attempt to log the error to Langfuse
+    try {
+      const lf = getLangfuse();
+      lf.trace({ name: "m2-orbit-chat-error", sessionId });
+      await lf.flushAsync();
+    } catch(e) {}
+
     const message = error instanceof Error ? error.message : "Unknown error occurred";
     return new Response(message, { status: 500 });
   }

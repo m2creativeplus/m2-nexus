@@ -1,73 +1,144 @@
 "use client";
 import { motion } from "framer-motion";
-import { Database, Loader2, Terminal, Landmark, Globe, Activity, FileText, Car, ChevronRight } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { Database, Terminal, Landmark, Globe, Activity, FileText, Shield, Code2, Calendar } from "lucide-react";
 import { Badge } from "./Badge";
-import { M2Icon, M2Shield } from "./M2IconSet";
 
 interface Project {
   name: string;
-  icon: string;
+  icon: any;
   status: string;
   statusLabel: string;
   description: string;
   color: string;
-  url?: string;
-  priority?: string;
+  location: string;
 }
 
-export function ProjectHub() {
-  const dynamicProjects = useQuery(api.nexus.getProjects);
-  const _projects = (dynamicProjects || []) as Project[];
+const M2_ECOSYSTEM_PROJECTS: Project[] = [
+  {
+    name: "M2 NEXUS Dashboard",
+    icon: Activity,
+    status: "active",
+    statusLabel: "LIVE COMMAND",
+    description: "Sovereign Intelligence Dashboard & Control Center",
+    color: "#D4AF37",
+    location: "m2-nexus/"
+  },
+  {
+    name: "Guurti Portal",
+    icon: Landmark,
+    status: "in-progress",
+    statusLabel: "BUILDING",
+    description: "Trilingual Legislative Dashboard for the House of Elders",
+    color: "#10b981",
+    location: "M2_PROJECTS_HUB/03_KNOWLEDGE_BASE/03_GUURTI_PORTAL/"
+  },
+  {
+    name: "Guurti Foreign Affairs EPD",
+    icon: Shield,
+    status: "active",
+    statusLabel: "OPERATIONAL",
+    description: "Diplomatic Structuring & Shadow War Intelligence",
+    color: "#D4AF37",
+    location: "M2_PROJECTS_HUB/03_KNOWLEDGE_BASE/04_GUURTI_FOREIGN_AFFAIRS_EPD/"
+  },
+  {
+    name: "SNPA Knowledge Base",
+    icon: Database,
+    status: "in-progress",
+    statusLabel: "SCAFFOLDED",
+    description: "Research Portal & Sovereign Document Archives",
+    color: "#3b82f6",
+    location: "snpa-knowledge-base/"
+  },
+  {
+    name: "Smart School SMS",
+    icon: Globe,
+    status: "active",
+    statusLabel: "NEEDS COMPLETION",
+    description: "Next.js + Convex School Management System",
+    color: "#8b5cf6",
+    location: "smart-school-sms/"
+  },
+  {
+    name: "M2 Creative Website",
+    icon: Globe,
+    status: "in-progress",
+    statusLabel: "VERCEL DEPLOYED",
+    description: "Official Agency Portfolio (Next.js + Tailwind)",
+    color: "#eab308",
+    location: "m2creative-website/"
+  },
+  {
+    name: "M2 Dev Library",
+    icon: Code2,
+    status: "active",
+    statusLabel: "65 REGISTRY ITEMS",
+    description: "Reusable Component Library for Sovereign Apps",
+    color: "#ec4899",
+    location: "m2-dev-library/"
+  },
+  {
+    name: "Kaltirsi Calendar",
+    icon: Calendar,
+    status: "idle",
+    statusLabel: "CONCEPT",
+    description: "Ecological Intelligence Calendar System",
+    color: "#14b8a6",
+    location: "M2_EPD_MASTER_HUB/04_PRODUCT_ECOSYSTEM/"
+  },
+  {
+    name: "M2 Creative OS",
+    icon: Terminal,
+    status: "idle",
+    statusLabel: "BLUEPRINT",
+    description: "Master SaaS Blueprint & AI Creator Platform",
+    color: "#6366f1",
+    location: "M2_EPD_MASTER_HUB/04_PRODUCT_ECOSYSTEM/"
+  }
+];
 
+export function ProjectHub() {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6 min-h-[300px]">
-      <div className="flex items-center gap-2 mb-5">
-        <Database className="w-4 h-4" style={{ color: "var(--m2-gold)" }} />
-        <h2 className="text-sm font-semibold tracking-wide uppercase" style={{ color: "var(--m2-text-secondary)" }}>Unified Project Hub</h2>
-        <span className="ml-auto flex items-center gap-2 text-xs" style={{ color: "var(--m2-text-muted)" }}>
-          {dynamicProjects === undefined && <Loader2 className="w-3 h-3 animate-spin" />}
-          {_projects.length} Projects
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6 h-full flex flex-col border-[var(--m2-gold)]/20">
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2">
+          <Database className="w-5 h-5 text-[var(--m2-gold)]" />
+          <h2 className="text-sm font-semibold tracking-wide uppercase font-outfit text-white">M2 Sovereign Project Matrix</h2>
+        </div>
+        <span className="flex items-center gap-2 text-[10px] uppercase font-mono tracking-widest text-[var(--m2-gold)] border border-[var(--m2-gold)]/20 px-2 py-1 rounded-full bg-[var(--m2-gold)]/10">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          {M2_ECOSYSTEM_PROJECTS.length} Active Missions
         </span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {_projects.map((p: Project) => {
-          let IconComp: React.ElementType = M2Icon; // Default
-          if (p.icon === "Terminal") IconComp = Terminal;
-          if (p.icon === "Landmark") IconComp = Landmark;
-          if (p.icon === "Globe") IconComp = Globe;
-          if (p.icon === "Activity") IconComp = Activity;
-          if (p.icon === "FileText") IconComp = FileText;
-          if (p.icon === "Car") IconComp = Car;
-          if (p.icon === "Shield") IconComp = M2Shield;
-
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
+        {M2_ECOSYSTEM_PROJECTS.map((p) => {
+          const IconComp = p.icon;
           return (
-            <motion.a 
-              href={p.url || "#"}
-              target={p.url ? "_blank" : "_self"}
-              rel="noopener noreferrer"
+            <motion.div 
               key={p.name} 
               whileHover={{ scale: 1.02, y: -2 }} 
-              className="block rounded-xl p-4 cursor-pointer transition-all group focus:outline-none focus:ring-2 focus:ring-[var(--m2-gold)] focus:ring-offset-2 focus:ring-offset-[var(--m2-void)] ring-offset-2"
-              style={{ background: "var(--m2-surface)", borderLeft: `3px solid ${p.color}` }}
+              className="rounded-xl p-4 transition-all group flex flex-col justify-between border border-white/5"
+              style={{ background: "rgba(0,0,0,0.4)", borderLeft: `3px solid ${p.color}` }}
             >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110" style={{ background: `${p.color}15` }}>
-                    <IconComp className="w-4 h-4" style={{ color: p.color }} />
+              <div>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg" style={{ background: `${p.color}20` }}>
+                      <IconComp className="w-4 h-4" style={{ color: p.color }} />
+                    </div>
                   </div>
-                  <h3 className="text-sm font-semibold" style={{ color: "var(--m2-text-primary)" }}>{p.name}</h3>
+                  <Badge status={p.status} label={p.statusLabel} color={p.color} />
                 </div>
-                <Badge status={p.status} label={p.statusLabel} color={p.color} />
+                <h3 className="text-sm font-bold text-white mb-1.5">{p.name}</h3>
+                <p className="text-xs leading-relaxed text-zinc-400">{p.description}</p>
               </div>
-              <p className="text-xs mt-2 leading-relaxed" style={{ color: "var(--m2-text-muted)" }}>{p.description}</p>
-              {p.url && (
-                <div className="flex items-center gap-1 mt-3 text-[10px]" style={{ color: `${p.color}80` }}>
-                  <Globe className="w-2.5 h-2.5" /> Live on Vercel <ChevronRight className="w-2.5 h-2.5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              )}
-            </motion.a>
+              
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2">
+                <Terminal className="w-3 h-3 text-zinc-500" />
+                <span className="text-[9px] font-mono text-zinc-500 truncate" title={p.location}>{p.location}</span>
+              </div>
+            </motion.div>
           );
         })}
       </div>

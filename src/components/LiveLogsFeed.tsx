@@ -13,7 +13,7 @@ interface LiveLog {
 
 export function LiveLogsFeed() {
   const { data, loading } = useLiveLogs();
-  const logs = (data as unknown[]) || [];
+  const logs = (data as LiveLog[]) || [];
 
   const getIcon = (type: string) => {
     switch (type) {

@@ -127,7 +127,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : "Unknown execution error",
+        error: err instanceof Error ? err.message : "Unknown execution error",
       },
       { status: 500 }
     );

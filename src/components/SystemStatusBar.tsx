@@ -43,7 +43,7 @@ export function SystemStatusBar() {
     };
   }, []);
 
-  if (!status || (status as unknown).error) return null;
+  if (!status || (status as any).error) return null;
 
   const pills = [
     { label: "LM Studio", ok: status.lmStudio?.online, icon: Cpu, detail: `${status.lmStudio?.models?.length || 0} model${status.lmStudio?.models?.length !== 1 ? "s" : ""}` },

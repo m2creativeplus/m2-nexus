@@ -27,6 +27,7 @@
     "convex": "^1.32.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.34.3",
+    "langfuse": "^3.38.20",
     "lucide-react": "^0.563.0",
     "maplibre-gl": "^5.23.0",
     "newrelic": "^13.19.2",

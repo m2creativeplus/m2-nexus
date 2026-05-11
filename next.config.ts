@@ -13,9 +13,6 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
-  experimental: {
-    instrumentationHook: true,
-  },
 };
 
 export default nextConfig;

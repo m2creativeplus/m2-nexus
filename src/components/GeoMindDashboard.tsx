@@ -113,7 +113,7 @@ export default function GeoMindDashboard() {
       .then(r => r.json())
       .then(data => {
         if (data.type === 'FeatureCollection' && Array.isArray(data.features)) {
-          const features: GeoFeature[] = data.features.map((f: unknown, i: number) => ({
+          const features: GeoFeature[] = data.features.map((f: any, i: number) => ({
             ...f,
             id: f.id || `feature-${i}`,
             properties: { ...f.properties, visible: true },
@@ -204,7 +204,7 @@ export default function GeoMindDashboard() {
     } catch (err: unknown) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        text: `⚠️ Intelligence error: ${err.message}. Falling back to sovereign knowledge base.`,
+        text: `⚠️ Intelligence error: ${err instanceof Error ? err.message : String(err)}. Falling back to sovereign knowledge base.`,
         timestamp: formatTime(),
       }]);
     } finally {
@@ -220,7 +220,7 @@ export default function GeoMindDashboard() {
   };
 
   // ── Map Click ──────────────────────────────────────────────────────────
-  const onMapClick = useCallback((event: unknown) => {
+  const onMapClick = useCallback((event: any) => {
     if (isAddingPoint) {
       const newFeature: GeoFeature = {
         id: `custom-${Date.now()}`,
@@ -676,7 +676,7 @@ export default function GeoMindDashboard() {
               type="geojson"
               data={{
                 type: 'FeatureCollection',
-                features: editableGeoData.filter(f => f.properties.visible !== false),
+                features: editableGeoData.filter(f => f.properties.visible !== false) as any[],
               }}
             >
               {/* Economic Zones */}

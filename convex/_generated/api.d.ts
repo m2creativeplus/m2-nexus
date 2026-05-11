@@ -10,6 +10,7 @@
 
 import type * as academicMeta from "../academicMeta.js";
 import type * as additional from "../additional.js";
+import type * as agents from "../agents.js";
 import type * as attendance from "../attendance.js";
 import type * as classes from "../classes.js";
 import type * as contentItems from "../contentItems.js";
@@ -24,8 +25,10 @@ import type * as fees from "../fees.js";
 import type * as frontOffice from "../frontOffice.js";
 import type * as homework from "../homework.js";
 import type * as hostel from "../hostel.js";
+import type * as http from "../http.js";
 import type * as income from "../income.js";
 import type * as inventory from "../inventory.js";
+import type * as jobs from "../jobs.js";
 import type * as library from "../library.js";
 import type * as m2_agent from "../m2_agent.js";
 import type * as news from "../news.js";
@@ -37,6 +40,7 @@ import type * as reports from "../reports.js";
 import type * as sections from "../sections.js";
 import type * as seed from "../seed.js";
 import type * as seedData from "../seedData.js";
+import type * as seoAudits from "../seoAudits.js";
 import type * as settings from "../settings.js";
 import type * as staff from "../staff.js";
 import type * as students from "../students.js";
@@ -55,6 +59,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   academicMeta: typeof academicMeta;
   additional: typeof additional;
+  agents: typeof agents;
   attendance: typeof attendance;
   classes: typeof classes;
   contentItems: typeof contentItems;
@@ -69,8 +74,10 @@ declare const fullApi: ApiFromModules<{
   frontOffice: typeof frontOffice;
   homework: typeof homework;
   hostel: typeof hostel;
+  http: typeof http;
   income: typeof income;
   inventory: typeof inventory;
+  jobs: typeof jobs;
   library: typeof library;
   m2_agent: typeof m2_agent;
   news: typeof news;
@@ -82,6 +89,7 @@ declare const fullApi: ApiFromModules<{
   sections: typeof sections;
   seed: typeof seed;
   seedData: typeof seedData;
+  seoAudits: typeof seoAudits;
   settings: typeof settings;
   staff: typeof staff;
   students: typeof students;

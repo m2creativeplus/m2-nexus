@@ -72,9 +72,9 @@ export function Sidebar() {
             >
               <item.icon className={`w-4 h-4 transition-colors ${isActive ? "text-yellow-500" : "text-zinc-500 group-hover:text-white"}`} />
               {item.label}
-              {(item as unknown).badge && !isActive && (
+              {(item as any).badge && !isActive && (
                 <span className="ml-auto text-[9px] font-mono px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-500/60 border border-yellow-500/20">
-                  {(item as unknown).badge}
+                  {(item as any).badge}
                 </span>
               )}
               {isActive && (

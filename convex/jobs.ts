@@ -31,7 +31,6 @@ export const enqueue = mutation({
 
     // Kick the worker immediately.
     // `internal` is codegen'd; after adding `convex/jobs.ts` you must re-run Convex codegen.
-    // @ts-expect-error - internal.jobs.runDue appears after codegen.
     await ctx.scheduler.runAfter(0, internal.jobs.runDue, {});
     return jobId;
   },
@@ -171,17 +170,15 @@ export const logTelemetryInternal = internalMutation({
  */
 export const runDue = internalAction({
   args: {},
-  handler: async (ctx) => {
+  handler: async (ctx): Promise<{ processed: number }> => {
     const leaseMs = 60_000;
     const batchSize = 5;
 
-    // @ts-expect-error - internal.jobs.leaseDueBatch appears after codegen.
     const leased = await ctx.runMutation(internal.jobs.leaseDueBatch, { batchSize, leaseMs });
 
     for (const job of leased as Array<{ jobId: string; kind: string; payload: unknown; attempts: number; maxAttempts: number }>) {
       try {
         // Log start
-        // @ts-expect-error - internal.jobs.logTelemetryInternal appears after codegen.
         await ctx.runMutation(internal.jobs.logTelemetryInternal, {
           action: `job:${job.kind}`,
           message: `Running job ${job.jobId}`,
@@ -205,7 +202,6 @@ export const runDue = internalAction({
           if (!res.ok) throw new Error(`Agent run failed (${res.status})`);
           const data = (await res.json()) as { output?: string; success?: boolean };
 
-          // @ts-expect-error - internal.jobs.logTelemetryInternal appears after codegen.
           await ctx.runMutation(internal.jobs.logTelemetryInternal, {
             action: `job:${job.kind}`,
             message: `Agent "${agentName}" completed`,
@@ -213,14 +209,12 @@ export const runDue = internalAction({
           });
         }
 
-        // @ts-expect-error - internal.jobs.markSucceeded appears after codegen.
-        await ctx.runMutation(internal.jobs.markSucceeded, { jobId: job.jobId });
+        await ctx.runMutation(internal.jobs.markSucceeded, { jobId: job.jobId as any });
       } catch (err) {
         const error = err instanceof Error ? err.message : "Unknown error";
         const attempts = job.attempts + 1;
         const maxAttempts = job.maxAttempts ?? 3;
 
-        // @ts-expect-error - internal.jobs.logTelemetryInternal appears after codegen.
         await ctx.runMutation(internal.jobs.logTelemetryInternal, {
           action: `job:${job.kind}`,
           message: `Job ${job.jobId} failed (attempt ${attempts}/${maxAttempts})`,
@@ -228,15 +222,14 @@ export const runDue = internalAction({
           mistake: error,
         });
 
-        // @ts-expect-error - internal.jobs.markFailed appears after codegen.
-        await ctx.runMutation(internal.jobs.markFailed, { jobId: job.jobId, error, attempts, maxAttempts });
+        await ctx.runMutation(internal.jobs.markFailed, { jobId: job.jobId as any, error, attempts, maxAttempts });
       }
     }
 
     // If there may be more work, schedule another tick.
     if ((leased as unknown[]).length === batchSize) {
-      // @ts-expect-error - internal.jobs.runDue appears after codegen.
-      await ctx.scheduler.runAfter(0, internal.jobs.runDue, {});
+      // For recursive calls, we use the string path directly to avoid circular type inference.
+      await ctx.scheduler.runAfter(0, "jobs:runDue" as any, {});
     }
 
     return { processed: (leased as unknown[]).length };

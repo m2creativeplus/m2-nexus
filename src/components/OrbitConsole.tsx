@@ -18,7 +18,7 @@ import {
 import clsx from 'clsx';
 
 export default function OrbitConsole() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as unknown as { messages: { id: string, role: string, content: string }[], input: string, handleInputChange: (e: unknown) => void, handleSubmit: (e: unknown) => void, isLoading: boolean };
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as any;
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +72,7 @@ export default function OrbitConsole() {
                 </div>
               </motion.div>
             ) : (
-              messages.map((m: unknown) => (
+              messages.map((m: any) => (
                 <motion.div
                   initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -100,7 +100,7 @@ export default function OrbitConsole() {
                     {/* Tool Invocations UI */}
                     {m.toolInvocations && m.toolInvocations.length > 0 && (
                       <div className="mt-4 space-y-2 border-t border-zinc-800/50 pt-3">
-                        {m.toolInvocations.map((tool: unknown) => (
+                        {m.toolInvocations.map((tool: any) => (
                           <div key={tool.toolCallId} className="flex flex-col gap-1 text-[11px] font-mono">
                             <div className="flex items-center gap-2 text-[#EAB308]/70">
                               <Command className="w-3 h-3 animate-pulse" />

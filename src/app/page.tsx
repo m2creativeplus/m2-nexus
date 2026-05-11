@@ -14,6 +14,7 @@ import M2Logo from "@/components/M2Logo";
 import { GoldMotionPoster, DataGridMatrix, Heading1, GlassCard } from "@/components/ui/M2BrandUI";
 import { M2BannerGolden } from "@/components/M2Banners";
 import { SovereignMonitor } from "@/components/SovereignMonitor";
+import { InternalAuditMonitor } from "@/components/InternalAuditMonitor";
 
 export default function Dashboard() {
   const [avatarStatus, setAvatarStatus] = useState<'idle' | 'generating' | 'ready'>('ready');
@@ -120,7 +121,7 @@ export default function Dashboard() {
         </section>
 
         {/* INTERACTIVE DATA MATRIX & SOVEREIGN MONITOR */}
-        <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           <div className="xl:col-span-2 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold font-outfit text-white">System Intelligence Grid</h2>
@@ -133,6 +134,9 @@ export default function Dashboard() {
           </div>
           <div className="xl:col-span-1">
             <SovereignMonitor />
+          </div>
+          <div className="xl:col-span-1">
+            <InternalAuditMonitor />
           </div>
         </section>
 

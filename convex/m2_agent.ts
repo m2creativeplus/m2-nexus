@@ -29,10 +29,70 @@ export const updateSystemStats = mutation({
       ram: args.ram,
       storage: args.storage,
     });
-  }
+  },
 });
 
+// ==========================================
+// AGENT TASK QUEUE
+// ==========================================
 
+export const getPendingTask = query({
+  args: { agentName: v.string() },
+  handler: async (ctx, args) => {
+    const task = await ctx.db
+      .query("agentTasks")
+      .withIndex("by_status", (q) => q.eq("status", "PENDING"))
+      .filter((q) => q.eq(q.field("assignedAgent"), args.agentName))
+      .first();
+
+    if (task) {
+      // We can't mutate in a query, but the HTTP action could trigger a mutation
+      // Alternatively, the python agent handles "IN_PROGRESS" transition.
+      return task;
+    }
+    return null;
+  },
+});
+
+export const createTask = mutation({
+  args: {
+    title: v.string(),
+    payload: v.any(),
+    assignedAgent: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("agentTasks", {
+      title: args.title,
+      status: "PENDING",
+      assignedAgent: args.assignedAgent,
+      payload: args.payload,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+  },
+});
+
+export const updateTaskStatus = mutation({
+  args: {
+    taskId: v.id("agentTasks"),
+    status: v.union(v.literal("PENDING"), v.literal("IN_PROGRESS"), v.literal("COMPLETED"), v.literal("FAILED")),
+    result: v.optional(v.any()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.taskId, {
+      status: args.status,
+      result: args.result,
+      updatedAt: Date.now(),
+    });
+
+    // Also push a live log so the UI sees it
+    await ctx.db.insert("liveLogs", {
+      agent: "m2-content-engine", // Could be dynamic based on task
+      action: `Task ${args.status}: ${args.taskId}`,
+      type: args.status === "COMPLETED" ? "success" : args.status === "FAILED" ? "error" : "running",
+    });
+  },
+});
 // ==========================================
 // AGENT LIVE LOGS
 // ==========================================

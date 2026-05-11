@@ -562,6 +562,21 @@ export default defineSchema({
     status: v.optional(v.string()), // "idle" | "running" | "error"
   }),
 
+  agentTasks: defineTable({
+    title: v.string(),
+    status: v.union(
+      v.literal("PENDING"),
+      v.literal("IN_PROGRESS"),
+      v.literal("COMPLETED"),
+      v.literal("FAILED")
+    ),
+    assignedAgent: v.string(),
+    payload: v.any(), // JSON payload containing instructions or raw content
+    result: v.optional(v.any()), // JSON payload of the result
+    createdAt: v.number(), // Unix timestamp
+    updatedAt: v.number(),
+  }).index("by_status", ["status"]),
+
   // ============ M2 NEXUS AUTONOMY ============
   liveLogs: defineTable({
     agent: v.string(),

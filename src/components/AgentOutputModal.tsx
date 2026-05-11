@@ -25,10 +25,10 @@ export function AgentOutputModal({ agentName, output, onClose }: { agentName: st
       if (!data.id) throw new Error("No talk ID returned from D-ID");
       
       setTalkId(data.id);
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
       setStatus("error");
-      setError(err.message || "Failed to initiate avatar generation.");
+      setError(err instanceof Error ? err.message : "Failed to initiate avatar generation.");
     }
   };
 
