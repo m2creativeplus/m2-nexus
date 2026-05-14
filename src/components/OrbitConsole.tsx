@@ -1,7 +1,7 @@
 'use client';
 // @ts-nocheck
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -19,6 +19,7 @@ import clsx from 'clsx';
 
 export default function OrbitConsole() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as any;
+  const [isOrchestrating, setIsOrchestrating] = useState(false);
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -64,8 +65,29 @@ export default function OrbitConsole() {
                   Enter the name of a Person, Brand, or Institution to initiate the <span className="text-[#EAB308]">Orbit Intelligence Engine</span>.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                   {['Run Orbit Scan', 'Analyze Authority', 'Check Alignment', 'Generate Brief'].map((action) => (
-                     <div key={action} className="p-4 rounded-xl border border-zinc-800 bg-[#1e293b]/40 hover:bg-[#1e293b] hover:border-[#EAB308]/30 transition-all cursor-default group">
+                   <button 
+                     onClick={async () => {
+                       setIsOrchestrating(true);
+                       try {
+                         const { triggerQAOrchestration } = await import('../app/actions/orchestration');
+                         await triggerQAOrchestration("https://m2-nexus.vercel.app", "critical");
+                         alert("Orchestration Triggered: QA Pipeline Initialized via Inngest Event Bus.");
+                       } catch (e) {
+                         alert("Failed to trigger orchestration.");
+                       } finally {
+                         setIsOrchestrating(false);
+                       }
+                     }}
+                     disabled={isOrchestrating}
+                     className="p-4 rounded-xl border border-zinc-800 bg-[#1e293b]/40 hover:bg-[#1e293b] hover:border-[#EAB308]/30 transition-all cursor-pointer group flex items-center justify-center gap-2"
+                   >
+                     {isOrchestrating ? <Zap className="w-4 h-4 text-[#EAB308] animate-pulse" /> : <Command className="w-4 h-4 text-zinc-500 group-hover:text-[#EAB308]" />}
+                     <span className="text-sm font-medium text-zinc-400 group-hover:text-[#EAB308] transition-colors">
+                       {isOrchestrating ? "INITIALIZING KERNEL..." : "RUN OS QA ORCHESTRATION"}
+                     </span>
+                   </button>
+                   {['Analyze Authority', 'Check Alignment', 'Generate Brief'].map((action) => (
+                     <div key={action} className="p-4 rounded-xl border border-zinc-800 bg-[#1e293b]/40 hover:bg-[#1e293b] hover:border-[#EAB308]/30 transition-all cursor-default group flex items-center justify-center">
                        <span className="text-sm font-medium text-zinc-400 group-hover:text-[#EAB308] transition-colors">{action}</span>
                      </div>
                    ))}

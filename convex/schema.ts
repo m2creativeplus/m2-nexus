@@ -779,4 +779,19 @@ export default defineSchema({
     timestamp: v.number(),
   }),
 
+  // ============ SOVEREIGN DEPLOYMENT INTELLIGENCE (PIPELINE) ============
+  deploymentEvents: defineTable({
+    project: v.string(), // e.g., "m2creative-card", "m2-nexus"
+    event: v.string(), // e.g., "whatsapp_click", "qr_scan", "contact_save"
+    source: v.optional(v.string()), // e.g., "qr_campaign_2026"
+    country: v.optional(v.string()),
+    device: v.optional(v.string()),
+    metadata: v.optional(v.any()), // Extra payload for specific events
+    timestamp: v.string(), // ISO String
+  })
+  .index("by_project", ["project"])
+  .index("by_event", ["event"])
+  .index("by_source", ["source"])
+  .index("by_timestamp", ["timestamp"]),
+
 });

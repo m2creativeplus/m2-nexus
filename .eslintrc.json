@@ -3,6 +3,17 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "warn",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["@/components/lovable/*", "@/components/v0/*", "@/components/magicui/*", "@/components/aceternity/*"],
+            "message": "\n🚨 M2 GOVERNANCE VIOLATION 🚨\nDo not import raw scaffolded UI components directly into the codebase.\nAll reusable components must be registered and imported from the canonical @m2-dev-library or verified @/components/ui/ registry.\nFailure to comply causes component entropy.\n"
+          }
+        ]
+      }
+    ]
   }
 }
