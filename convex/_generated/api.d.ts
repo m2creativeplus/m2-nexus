@@ -17,6 +17,7 @@ import type * as contentItems from "../contentItems.js";
 import type * as core from "../core.js";
 import type * as dashboard from "../dashboard.js";
 import type * as dataFeeds from "../dataFeeds.js";
+import type * as deploymentIntelligence from "../deploymentIntelligence.js";
 import type * as events from "../events.js";
 import type * as examinations from "../examinations.js";
 import type * as expenses from "../expenses.js";
@@ -66,6 +67,7 @@ declare const fullApi: ApiFromModules<{
   core: typeof core;
   dashboard: typeof dashboard;
   dataFeeds: typeof dataFeeds;
+  deploymentIntelligence: typeof deploymentIntelligence;
   events: typeof events;
   examinations: typeof examinations;
   expenses: typeof expenses;
