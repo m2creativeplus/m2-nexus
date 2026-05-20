@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Loader2, Bot, Zap } from 'lucide-react';
 import M2Logo from './M2Logo';
 
-type AvatarStatus = 'idle' | 'generating' | 'ready';
+type AvatarStatus = 'idle' | 'generating' | 'ready' | 'unconfigured';
 type AvatarPersona = 'mahmoud' | 'm2-creative';
 
 interface AvatarSpeakerProps {
@@ -30,6 +30,8 @@ interface AvatarSpeakerProps {
   caption?: string;
   /** Optional poster image for the video preview */
   poster?: string;
+  /** Whether the Video AI integration is configured */
+  isConfigured?: boolean;
 }
 
 const PERSONA_CONFIG: Record<AvatarPersona, { accent: string; label: string; borderColor: string }> = {
@@ -44,19 +46,15 @@ export function AvatarSpeaker({
   status: externalStatus,
   caption: externalCaption,
   poster,
+  isConfigured = false,
 }: AvatarSpeakerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted,   setMuted]   = useState(false);
   
-  // Local state for internal management if not provided by parent
-  const [internalStatus, setInternalStatus] = useState<AvatarStatus>('ready');
-  const [internalVideoUrl, setInternalVideoUrl] = useState('/avatars/latest_briefing.mp4');
-  const [internalCaption, setInternalCaption] = useState('M2 Avatar System Initialized. Standing by for Nexus Intelligence updates.');
-
-  const status = externalStatus || internalStatus;
-  const videoUrl = externalVideoUrl || internalVideoUrl;
-  const caption = externalCaption || internalCaption;
+  const status = externalStatus || (isConfigured ? 'ready' : 'unconfigured');
+  const videoUrl = externalVideoUrl || '';
+  const caption = externalCaption || '';
 
   const cfg = PERSONA_CONFIG[persona];
 
@@ -122,7 +120,23 @@ export function AvatarSpeaker({
 
       {/* ── VIDEO AREA ──────────────────────────────────────── */}
       <div className="relative aspect-video bg-neutral-950">
-        {status === 'generating' ? (
+        {status === 'unconfigured' ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-8 text-center">
+            <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+              <Bot className="w-7 h-7 text-zinc-600" />
+            </div>
+            <div>
+              <p className="text-zinc-400 text-sm font-medium">Video AI Not Configured</p>
+              <p className="text-zinc-600 text-xs mt-1.5 leading-relaxed max-w-xs">
+                Connect a Video AI provider in{' '}
+                <a href="/settings" className="text-yellow-500/70 hover:text-yellow-500 underline underline-offset-2">
+                  Settings → External Integrations
+                </a>{' '}
+                to enable avatar briefings.
+              </p>
+            </div>
+          </div>
+        ) : status === 'generating' ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
             <motion.div
               animate={{ rotate: 360 }}

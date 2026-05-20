@@ -10,7 +10,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Loader2, RefreshCw } from 'lucide-react';
-import { generateAvatarVideo, checkAvatarStatus } from '@/app/actions/did';
+import { generateAvatarVideo, checkAvatarStatus } from '@/app/(system)/actions/did';
 
 interface AvatarControlPanelProps {
   onStatusChange: (status: 'idle' | 'generating' | 'ready') => void;

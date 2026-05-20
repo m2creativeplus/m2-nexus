@@ -794,4 +794,30 @@ export default defineSchema({
   .index("by_source", ["source"])
   .index("by_timestamp", ["timestamp"]),
 
+  tasks: defineTable({
+    type: v.string(), // "CODE", "AUDIT", "RESEARCH", "DEPLOY"
+    description: v.string(),
+    status: v.union(
+      v.literal("pending"), 
+      v.literal("in-progress"), 
+      v.literal("completed"), 
+      v.literal("failed"), 
+      v.literal("blocked")
+    ),
+    priority: v.number(), 
+    dependencies: v.array(v.id("tasks")),
+    input: v.optional(v.any()),
+    output: v.optional(v.any()),
+    error: v.optional(v.string()),
+    state: v.optional(v.any()), // Intermediate task memory
+    startedAt: v.optional(v.number()),
+    completedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  }).index("by_status", ["status"]),
+
+  executionState: defineTable({
+    key: v.string(),
+    value: v.any(),
+    updatedAt: v.number(),
+  }).index("by_key", ["key"]),
 });

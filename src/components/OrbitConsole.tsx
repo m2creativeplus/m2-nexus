@@ -69,7 +69,7 @@ export default function OrbitConsole() {
                      onClick={async () => {
                        setIsOrchestrating(true);
                        try {
-                         const { triggerQAOrchestration } = await import('../app/actions/orchestration');
+                         const { triggerQAOrchestration } = await import('@/app/(system)/actions/orchestration');
                          await triggerQAOrchestration("https://m2-nexus.vercel.app", "critical");
                          alert("Orchestration Triggered: QA Pipeline Initialized via Inngest Event Bus.");
                        } catch (e) {

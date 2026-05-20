@@ -15,27 +15,36 @@ export function Header() {
   }, []);
 
   return (
-    <header className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 transition-colors" style={{ borderColor: "var(--m2-border)", background: "rgba(15,23,42,0.8)", backdropFilter: "blur(20px)" }}>
+    <header className="flex items-center justify-between px-6 md:px-8 py-5 border-b sticky top-0 z-50 transition-colors bg-[#050505]/80 backdrop-blur-3xl border-white/10">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 flex items-center justify-center">
-          <M2Logo className="w-10 h-10 fill-[var(--m2-gold)]" fill="#D4AF37" />
-        </div>
-        <div>
-          <h1 className="text-xl font-bold tracking-tight gold-text" style={{ fontFamily: "var(--font-outfit), sans-serif" }}>M2 NEXUS</h1>
-          <p className="text-xs" style={{ color: "var(--m2-text-muted)" }}>Sovereign AI Dashboard · Gemini 2.0 Powered</p>
+        {/* Mobile Spacer (for floating menu button) */}
+        <div className="w-12 md:hidden shrink-0" />
+        
+        <div className="hidden sm:flex items-center gap-4">
+          <div className="w-10 h-10 flex items-center justify-center">
+            <M2Logo className="w-10 h-10 fill-[#D4AF37]" fill="#D4AF37" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-white font-outfit">M2 NEXUS</h1>
+            <p className="text-[10px] text-zinc-500 uppercase tracking-widest">Sovereign Intelligence OS</p>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-6">
-        <Link aria-label="Launch M2 Orbit AI Console" href="/orbit" className="px-4 py-1.5 rounded-full text-xs font-bold font-mono border border-[#EAB308]/30 text-[#EAB308] hover:bg-[#EAB308]/10 transition-colors shadow-[0_0_15px_rgba(234,179,8,0.1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EAB308] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
+      <div className="flex items-center gap-4 md:gap-6">
+        <Link 
+          aria-label="Launch M2 Orbit AI Console" 
+          href="/orbit" 
+          className="hidden xs:block px-4 py-1.5 rounded-full text-[10px] font-bold font-mono border border-[#D4AF37]/30 text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-colors shadow-[0_0_15px_rgba(212,175,55,0.1)]"
+        >
           [ LAUNCH M2 ORBIT ]
         </Link>
-        <div className="flex items-center gap-2 text-sm" style={{ color: "var(--m2-text-secondary)" }}>
-          <span className="w-2 h-2 rounded-full pulse-live" style={{ background: "var(--m2-green)" }} />
+        <div className="hidden md:flex items-center gap-2 text-xs text-zinc-400">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           System Online
         </div>
-        <div className="text-sm font-mono flex items-center gap-4" style={{ color: "var(--m2-gold-dim)" }}>
-          <span><Clock className="w-3.5 h-3.5 inline mr-1.5" />{time}</span>
-          <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 rounded-full border border-[var(--m2-gold)] shadow-[0_0_10px_rgba(234,179,8,0.2)]" } }} />
+        <div className="text-xs font-mono flex items-center gap-4 text-[#D4AF37]/70">
+          <span className="hidden sm:inline"><Clock className="w-3.5 h-3.5 inline mr-1.5" />{time}</span>
+          <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 rounded-full border border-[#D4AF37]/40" } }} />
         </div>
       </div>
     </header>

@@ -1,0 +1,17 @@
+{
+  "project": "M2 NEXUS",
+  "source_of_truth": "github",
+  "ui_generator": "v0",
+  "scaffold_generator": "lovable",
+  "deployment": "vercel",
+  "allowed_envs": [
+    "dev",
+    "preview",
+    "production"
+  ],
+  "rules": {
+    "no_direct_vercel_edits": true,
+    "no_ui_logic_in_v0_exports": true,
+    "single_repo_per_project": true
+  }
+}

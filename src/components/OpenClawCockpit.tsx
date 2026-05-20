@@ -34,7 +34,7 @@ export function OpenClawCockpit({ agentName, onClose }: { agentName?: string, on
         {/* Embedded Nerve Standalone UI */}
         <div className="flex-1 w-full bg-black relative">
           <iframe 
-            src="http://localhost:3080" 
+            src={process.env.NEXT_PUBLIC_NERVE_URL || "http://localhost:3080"} 
             className="w-full h-full border-0 absolute inset-0"
             title="OpenClaw Nerve Dashboard"
             allow="microphone"

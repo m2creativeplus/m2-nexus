@@ -80,16 +80,48 @@ export default function CrewAITelemetryDashboard() {
     probe(8000, "crewai");
   }, []);
 
-  // ─── Live event ticker ──────────────────────────────────────────────────
+  // ─── Sovereign Core Telemetry Integration ────────────────────────────
   useEffect(() => {
-    const interval = setInterval(() => {
-      const ev = LIVE_EVENTS[eventIdxRef.current % LIVE_EVENTS.length];
-      eventIdxRef.current++;
-      const now = new Date();
-      const ts = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
-      setLogs(prev => [{ ...ev, id: nextIdRef.current++, timestamp: ts }, ...prev].slice(0, 100));
-      setMetrics(prev => prev.map((m, i) => i === 1 ? { ...m, value: m.value + 1 } : m));
-    }, 8000);
+    const fetchTelemetry = async () => {
+      try {
+        const res = await fetch("/api/sovereign/telemetry");
+        const data = await res.json();
+        if (data.success && data.logs.length > 0) {
+          // Map Sovereign logs to LearningEntry format
+          const newLogs: LearningEntry[] = data.logs.map((log: any, idx: number) => ({
+            id: nextIdRef.current++,
+            type: log.status === "success" ? "win" : "error",
+            timestamp: log.timestamp.replace("T", " ").substring(0, 16),
+            description: `[${log.model}] ${log.task}`,
+            lesson: log.status === "success" 
+              ? `Execution completed in ${log.duration_ms}ms.` 
+              : `Failure detected: ${log.errors.join(", ")}`,
+            project: log.project
+          }));
+
+          setLogs(prev => {
+            // Merge and deduplicate (by timestamp + description)
+            const combined = [...newLogs, ...prev];
+            const unique = combined.filter((v, i, a) => 
+              a.findIndex(t => t.timestamp === v.timestamp && t.description === v.description) === i
+            );
+            return unique.slice(0, 100);
+          });
+
+          // Update metrics based on logs
+          setMetrics(prev => prev.map(m => {
+            if (m.label === "Automations Run") return { ...m, value: data.logs.length };
+            if (m.label === "Time Recovered") return { ...m, value: Math.round(data.logs.reduce((acc: number, l: any) => acc + l.duration_ms, 0) / 1000 / 60 / 60 * 10) / 10 };
+            return m;
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch sovereign telemetry:", err);
+      }
+    };
+
+    fetchTelemetry();
+    const interval = setInterval(fetchTelemetry, 5000); // Polling every 5 seconds
     return () => clearInterval(interval);
   }, []);
 

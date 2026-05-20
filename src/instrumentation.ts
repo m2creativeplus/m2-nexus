@@ -1,7 +1,5 @@
-export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    // @ts-ignore
-    await import('newrelic');
-    await import('./instrumentation.node');
-  }
+import { registerOTel } from '@vercel/otel';
+
+export function register() {
+  registerOTel({ serviceName: 'm2-nexus-sovereign-os' });
 }
